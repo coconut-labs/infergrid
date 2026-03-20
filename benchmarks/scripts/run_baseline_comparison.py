@@ -38,6 +38,7 @@ from profiling_utils import (
     check_engine_health,
     log_environment,
     prompts_to_requests,
+    compute_aggregate_stats,
 )
 
 logger = logging.getLogger(__name__)
@@ -109,6 +110,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Enable debug logging",
     )
+    parser.add_argument(
+        "--repeats",
+        type=int,
+        default=1,
+        help="Number of times to repeat each benchmark for statistical significance",
+    )
     return parser.parse_args()
 
 
@@ -174,6 +181,7 @@ async def benchmark_engine(
     requests: list[dict[str, Any]],
     num_warmup: int,
     output_dir: Path,
+    repeats: int = 1,
 ) -> dict[str, Any]:
     """Run a benchmark against a single engine at a specific concurrency.
 
@@ -185,6 +193,7 @@ async def benchmark_engine(
         requests: Pre-generated request dicts.
         num_warmup: Number of warmup requests.
         output_dir: Directory for output files.
+        repeats: Number of times to repeat the benchmark.
 
     Returns:
         Summary metrics dictionary.
@@ -199,32 +208,53 @@ async def benchmark_engine(
     # Warmup
     await warmup_engine(base_url, model, num_warmup)
 
-    # Benchmark
-    gpu_collector = GPUMetricsCollector(interval_ms=100)
-    client = AsyncBenchmarkClient(
-        base_url=base_url,
-        model_name=model,
-        concurrency_level=concurrency,
-        timeout_s=300,
-    )
+    run_results = []
+    for run_idx in range(repeats):
+        if repeats > 1:
+            logger.info("Run %d/%d at concurrency %d", run_idx + 1, repeats, concurrency)
 
-    with TimingContext(f"{engine_name}_c{concurrency}") as timer:
-        results = await client.run(requests, gpu_collector=gpu_collector)
+        # Benchmark
+        gpu_collector = GPUMetricsCollector(interval_ms=100)
+        client = AsyncBenchmarkClient(
+            base_url=base_url,
+            model_name=model,
+            concurrency_level=concurrency,
+            timeout_s=300,
+        )
 
-    # Save results
-    csv_path = output_dir / f"{engine_name}_c{concurrency}.csv"
-    results.to_csv(csv_path)
+        with TimingContext(f"{engine_name}_c{concurrency}_run{run_idx+1}") as timer:
+            results = await client.run(requests, gpu_collector=gpu_collector)
 
-    if results.gpu_metrics_df is not None and not results.gpu_metrics_df.empty:
-        gpu_path = output_dir / f"{engine_name}_c{concurrency}_gpu.csv"
-        results.gpu_metrics_df.to_csv(gpu_path, index=False)
+        file_suffix = f"c{concurrency}" if repeats == 1 else f"c{concurrency}_run{run_idx+1}"
 
-    summary = results.summary()
-    summary["engine"] = engine_name
-    summary["concurrency"] = concurrency
-    summary["wall_time_ms"] = timer.elapsed_ms
+        # Save results
+        csv_path = output_dir / f"{engine_name}_{file_suffix}.csv"
+        results.to_csv(csv_path)
 
-    return summary
+        if results.gpu_metrics_df is not None and not results.gpu_metrics_df.empty:
+            gpu_path = output_dir / f"{engine_name}_{file_suffix}_gpu.csv"
+            results.gpu_metrics_df.to_csv(gpu_path, index=False)
+
+        summary = results.summary()
+        summary["engine"] = engine_name
+        summary["concurrency"] = concurrency
+        summary["wall_time_ms"] = timer.elapsed_ms
+        
+        if repeats > 1:
+            summary_path = output_dir / f"{engine_name}_{file_suffix}_summary.json"
+            with open(summary_path, "w") as f:
+                json.dump(summary, f, indent=2)
+                
+        run_results.append(summary)
+
+    agg_summary = compute_aggregate_stats(run_results)
+    
+    if repeats > 1:
+        agg_path = output_dir / f"{engine_name}_c{concurrency}_stats.json"
+        with open(agg_path, "w") as f:
+            json.dump(agg_summary, f, indent=2)
+
+    return agg_summary
 
 
 def compute_comparison(
@@ -417,7 +447,7 @@ async def main() -> None:
     all_results: dict[str, dict[str, list[dict[str, Any]]]] = {}
 
     for workload_type in workload_types:
-        logger.info("\n{'='*60}")
+        logger.info(f"\n{'='*60}")
         logger.info("Workload: %s", workload_type)
         logger.info("=" * 60)
 
@@ -443,6 +473,7 @@ async def main() -> None:
                         requests=requests,
                         num_warmup=args.warmup,
                         output_dir=workload_dir,
+                        repeats=args.repeats,
                     )
                     summary["workload"] = workload_type
                     engine_summaries.append(summary)

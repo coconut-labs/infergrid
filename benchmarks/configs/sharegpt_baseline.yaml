@@ -1,5 +1,10 @@
 # Baseline benchmark configuration
 # Compares vanilla vLLM vs vanilla SGLang on ShareGPT workload
+#
+# NOTE: This is a reference spec for documentation. The profiling scripts
+# use their own CLI defaults. For the actual sweep, see:
+#   scripts/run_all_baselines.sh  (--concurrency flag)
+#   profiling/scripts/profile_vllm_scheduler.py  (--concurrency flag)
 
 benchmark:
   name: sharegpt_baseline
@@ -7,7 +12,7 @@ benchmark:
 
 dataset:
   name: sharegpt
-  num_prompts: 500
+  num_prompts: 200
   seed: 42
 
 engines:
@@ -26,7 +31,7 @@ engines:
       dtype: bfloat16
       mem_fraction_static: 0.8
 
-concurrency_levels: [1, 10, 50, 100, 500]
+concurrency_levels: [1, 8, 32, 64, 128, 256]
 
 metrics:
   - throughput_toks_per_sec

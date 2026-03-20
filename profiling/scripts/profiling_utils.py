@@ -7,6 +7,7 @@ and timing utilities used by all profiling and benchmark scripts.
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import platform
 import random
@@ -22,6 +23,54 @@ import numpy as np
 import pandas as pd
 
 logger = logging.getLogger(__name__)
+
+
+def count_tokens(text: str, model_id: str = "meta-llama/Llama-3.1-8B-Instruct") -> int:
+    """Count tokens using the model's actual tokenizer.
+    
+    Falls back to word-count approximation (×1.3) if tokenizer unavailable.
+    Caches the tokenizer after first load.
+    """
+    try:
+        from transformers import AutoTokenizer
+        if not hasattr(count_tokens, "_tokenizer"):
+            count_tokens._tokenizer = AutoTokenizer.from_pretrained(model_id)
+        return len(count_tokens._tokenizer.encode(text))
+    except ImportError:
+        # transformers not installed — use approximation
+        logging.getLogger(__name__).warning(
+            "transformers not installed, using word-count approximation for token counting"
+        )
+        return int(len(text.split()) * 1.3)
+
+
+def compute_aggregate_stats(run_results: list[dict[str, Any]]) -> dict[str, Any]:
+    """Compute aggregate statistics across multiple benchmark runs."""
+    if not run_results:
+        return {}
+
+    base = run_results[0].copy()
+    base["repeats"] = len(run_results)
+    
+    metrics = [
+        "throughput_tok_per_sec",
+        "ttft_p50_ms",
+        "ttft_p99_ms",
+        "tpot_p50_ms",
+        "gpu_utilization_mean",
+        "num_successful",
+    ]
+
+    for metric in metrics:
+        vals = [r.get(metric) for r in run_results if r.get(metric) is not None]
+        if vals:
+            base[f"{metric}_mean"] = float(np.mean(vals))
+            base[f"{metric}_std"] = float(np.std(vals))
+            # Override the base metric with the mean for compatibility with single-run code
+            base[metric] = base[f"{metric}_mean"]
+
+    base["runs"] = run_results
+    return base
 
 
 # ---------------------------------------------------------------------------
@@ -562,7 +611,7 @@ class AsyncBenchmarkClient:
                             ttft_ms=0.0,
                             tpot_ms=0.0,
                             total_latency_ms=(time.time() - start_time) * 1000,
-                            tokens_in=len(prompt.split()),
+                            tokens_in=count_tokens(prompt, self.model_name),
                             tokens_out=0,
                             error=f"HTTP {resp.status}: {error_body[:200]}",
                         )
@@ -599,7 +648,7 @@ class AsyncBenchmarkClient:
                     ttft_ms=0.0,
                     tpot_ms=0.0,
                     total_latency_ms=(time.time() - start_time) * 1000,
-                    tokens_in=len(prompt.split()),
+                    tokens_in=count_tokens(prompt, self.model_name),
                     tokens_out=0,
                     error="timeout",
                 )
@@ -610,7 +659,7 @@ class AsyncBenchmarkClient:
                     ttft_ms=0.0,
                     tpot_ms=0.0,
                     total_latency_ms=(time.time() - start_time) * 1000,
-                    tokens_in=len(prompt.split()),
+                    tokens_in=count_tokens(prompt, self.model_name),
                     tokens_out=0,
                     error=str(exc),
                 )
@@ -635,7 +684,7 @@ class AsyncBenchmarkClient:
                 ttft_ms=ttft_ms,
                 tpot_ms=tpot_ms,
                 total_latency_ms=total_latency_ms,
-                tokens_in=len(prompt.split()),  # Approximate
+                tokens_in=count_tokens(prompt, self.model_name),
                 tokens_out=tokens_out,
             )
 

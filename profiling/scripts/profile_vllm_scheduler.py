@@ -46,6 +46,7 @@ from profiling_utils import (
     check_engine_health,
     log_environment,
     prompts_to_requests,
+    compute_aggregate_stats,
 )
 
 logger = logging.getLogger(__name__)
@@ -116,6 +117,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Enable debug logging",
     )
+    parser.add_argument(
+        "--repeats",
+        type=int,
+        default=1,
+        help="Number of times to repeat each benchmark for statistical significance",
+    )
     return parser.parse_args()
 
 
@@ -152,6 +159,7 @@ async def run_external_profiling(
     concurrency_levels: list[int],
     requests: list[dict[str, Any]],
     output_dir: Path,
+    repeats: int = 1,
 ) -> dict[str, Any]:
     """Level A: External black-box profiling via the OpenAI-compatible API.
 
@@ -161,6 +169,7 @@ async def run_external_profiling(
         concurrency_levels: List of concurrency levels to sweep.
         requests: Pre-generated request dicts.
         output_dir: Directory for output files.
+        repeats: Number of times to run each concurrency level.
 
     Returns:
         Dictionary mapping concurrency level to summary metrics.
@@ -173,38 +182,60 @@ async def run_external_profiling(
     for concurrency in concurrency_levels:
         logger.info("=== External profiling: concurrency=%d ===", concurrency)
 
-        gpu_collector = GPUMetricsCollector(interval_ms=100)
-        client = AsyncBenchmarkClient(
-            base_url=base_url,
-            model_name=model,
-            concurrency_level=concurrency,
-            timeout_s=300,
-        )
+        run_results = []
+        for run_idx in range(repeats):
+            if repeats > 1:
+                logger.info("Run %d/%d at concurrency %d", run_idx + 1, repeats, concurrency)
 
-        with TimingContext(f"external_c{concurrency}") as timer:
-            results = await client.run(requests, gpu_collector=gpu_collector)
+            gpu_collector = GPUMetricsCollector(interval_ms=100)
+            client = AsyncBenchmarkClient(
+                base_url=base_url,
+                model_name=model,
+                concurrency_level=concurrency,
+                timeout_s=300,
+            )
 
-        # Save per-request metrics
-        results.to_csv(external_dir / f"requests_c{concurrency}.csv")
+            with TimingContext(f"external_c{concurrency}_run{run_idx+1}") as timer:
+                results = await client.run(requests, gpu_collector=gpu_collector)
 
-        # Save GPU metrics
-        if results.gpu_metrics_df is not None and not results.gpu_metrics_df.empty:
-            gpu_path = external_dir / f"gpu_metrics_c{concurrency}.csv"
-            results.gpu_metrics_df.to_csv(gpu_path, index=False)
+            file_suffix = f"c{concurrency}" if repeats == 1 else f"c{concurrency}_run{run_idx+1}"
 
-        summary = results.summary()
-        summary["concurrency"] = concurrency
-        summary["wall_time_ms"] = timer.elapsed_ms
-        all_summaries[str(concurrency)] = summary
+            # Save per-request metrics
+            results.to_csv(external_dir / f"requests_{file_suffix}.csv")
+
+            # Save GPU metrics
+            if results.gpu_metrics_df is not None and not results.gpu_metrics_df.empty:
+                gpu_path = external_dir / f"gpu_metrics_{file_suffix}.csv"
+                results.gpu_metrics_df.to_csv(gpu_path, index=False)
+
+            summary = results.summary()
+            summary["concurrency"] = concurrency
+            summary["wall_time_ms"] = timer.elapsed_ms
+            
+            if repeats > 1:
+                summary_path = external_dir / f"summary_{file_suffix}.json"
+                with open(summary_path, "w") as f:
+                    json.dump(summary, f, indent=2)
+            
+            run_results.append(summary)
+
+        agg_summary = compute_aggregate_stats(run_results)
+        
+        if repeats > 1:
+            agg_path = external_dir / f"summary_c{concurrency}_stats.json"
+            with open(agg_path, "w") as f:
+                json.dump(agg_summary, f, indent=2)
+
+        all_summaries[str(concurrency)] = agg_summary
 
         logger.info(
             "Concurrency %d: throughput=%.1f tok/s, TTFT_p50=%.1fms, "
             "TPOT_p50=%.1fms, GPU_util=%.1f%%",
             concurrency,
-            summary.get("throughput_tok_per_sec", 0),
-            summary.get("ttft_p50_ms", 0),
-            summary.get("tpot_p50_ms", 0),
-            summary.get("gpu_utilization_mean", 0),
+            agg_summary.get("throughput_tok_per_sec", 0),
+            agg_summary.get("ttft_p50_ms", 0),
+            agg_summary.get("tpot_p50_ms", 0),
+            agg_summary.get("gpu_utilization_mean", 0),
         )
 
     # Save combined summary
@@ -581,13 +612,13 @@ async def main() -> None:
     requests = generate_workload(args.workload, args.num_requests, args.seed)
     logger.info("Generated %d requests", len(requests))
 
-    # Level A: External profiling
     summaries = await run_external_profiling(
         base_url=args.base_url,
         model=args.model,
         concurrency_levels=concurrency_levels,
         requests=requests,
         output_dir=output_dir,
+        repeats=args.repeats,
     )
 
     # Print results table
