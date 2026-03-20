@@ -39,21 +39,28 @@ Three components communicating through a shared state object:
 - **Benchmarking:** ShareGPT dataset, custom synthetic workloads
 - **Testing:** pytest, benchmark reproducibility via Docker Compose
 
-## Current Phase: I_1.0.0.2 — Profiling & Baseline Reproduction
+## Current Phase: I_1.0.0.3 — Cloud Runner Automation & Real Baseline Collection
 
+Cloud runner scripts for automated A100 profiling. One command to set up
+a fresh GPU instance, collect all baselines, and package results.
+
+Key outputs:
+- Idempotent GPU environment setup script
+- Master orchestrator with 5-phase pipeline (checkpoint/resume capable)
+- Background GPU metrics collector (pynvml, 500ms polling)
+- Post-run summary generator
+
+### Cloud runner scripts
+- `scripts/setup_gpu_env.sh` — idempotent A100 instance setup
+- `scripts/run_all_baselines.sh` — master orchestrator (5 phases, signal handling)
+- `scripts/gpu_monitor.py` — background GPU metrics collector
+- `scripts/summarize_results.py` — post-run markdown summary generator
+
+### Previous Phase: I_1.0.0.2 (Completed)
 Profiling vLLM and SGLang scheduling overhead. Reproducing the published claim
 that scheduling consumes >50% of inference time on fast models and that vLLM
 trails SGLang by ~29% due to orchestration overhead.
 
-Key outputs:
-- Quantified scheduling overhead (flame graphs, cProfile data)
-- Head-to-head benchmark: ShareGPT + synthetic workloads across concurrency sweep
-- Identified intervention points for WorkloadRouter design
-- Baseline metrics: throughput (tok/s), TTFT, TPOT, GPU utilization
-- Analysis notebook with publication-quality visualizations
-- Findings document: `docs/phase1_findings.md`
-
-### Profiling scripts
 - `profiling/scripts/profiling_utils.py` — shared infrastructure (GPU collector, request generator, async client)
 - `profiling/scripts/profile_vllm_scheduler.py` — vLLM external + internal profiling
 - `profiling/scripts/profile_sglang_scheduler.py` — SGLang external + internal profiling

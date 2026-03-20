@@ -124,7 +124,7 @@ async def mock_server(aiohttp_server):
 
 
 @pytest.fixture
-def base_url(mock_server) -> str:
+def server_url(mock_server) -> str:
     """Get the base URL of the mock server."""
     return f"http://{mock_server.host}:{mock_server.port}"
 
@@ -133,10 +133,10 @@ class TestAsyncBenchmarkClient:
     """Tests for AsyncBenchmarkClient against a mock server."""
 
     @pytest.mark.asyncio
-    async def test_basic_benchmark(self, base_url: str) -> None:
+    async def test_basic_benchmark(self, server_url: str) -> None:
         """Test that the client can run a basic benchmark."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=2,
             timeout_s=30,
@@ -153,10 +153,10 @@ class TestAsyncBenchmarkClient:
         assert len(results.per_request_metrics) == 2
 
     @pytest.mark.asyncio
-    async def test_ttft_measurement(self, base_url: str) -> None:
+    async def test_ttft_measurement(self, server_url: str) -> None:
         """Test that TTFT is measured correctly (>0 for successful requests)."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=1,
             timeout_s=30,
@@ -171,10 +171,10 @@ class TestAsyncBenchmarkClient:
         assert metric.total_latency_ms > 0
 
     @pytest.mark.asyncio
-    async def test_tpot_measurement(self, base_url: str) -> None:
+    async def test_tpot_measurement(self, server_url: str) -> None:
         """Test that TPOT is measured for multi-token responses."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=1,
             timeout_s=30,
@@ -190,10 +190,10 @@ class TestAsyncBenchmarkClient:
             assert metric.tpot_ms > 0
 
     @pytest.mark.asyncio
-    async def test_concurrent_requests(self, base_url: str) -> None:
+    async def test_concurrent_requests(self, server_url: str) -> None:
         """Test handling of concurrent requests."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=4,
             timeout_s=30,
@@ -207,10 +207,10 @@ class TestAsyncBenchmarkClient:
         assert successful == 8
 
     @pytest.mark.asyncio
-    async def test_summary_computation(self, base_url: str) -> None:
+    async def test_summary_computation(self, server_url: str) -> None:
         """Test that summary statistics are computed correctly."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=2,
             timeout_s=30,
@@ -243,10 +243,10 @@ class TestAsyncBenchmarkClient:
         assert metric.error is not None
 
     @pytest.mark.asyncio
-    async def test_dataframe_export(self, base_url: str) -> None:
+    async def test_dataframe_export(self, server_url: str) -> None:
         """Test DataFrame export from results."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=1,
             timeout_s=30,
@@ -261,10 +261,10 @@ class TestAsyncBenchmarkClient:
         assert "tpot_ms" in df.columns
 
     @pytest.mark.asyncio
-    async def test_csv_export(self, base_url: str, tmp_path: Path) -> None:
+    async def test_csv_export(self, server_url: str, tmp_path: Path) -> None:
         """Test CSV file export."""
         client = AsyncBenchmarkClient(
-            base_url=base_url,
+            base_url=server_url,
             model_name="test-model",
             concurrency_level=1,
             timeout_s=30,

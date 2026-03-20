@@ -42,6 +42,26 @@ Phase 1: Profiling & Baselines — Reproducing scheduling overhead findings
 pip install -e ".[dev,profiling]"
 ```
 
+## Automated Baseline Collection (Recommended)
+
+The fastest way to reproduce all results on a GPU instance:
+
+```bash
+# 1. Set up the GPU environment (idempotent, safe to re-run)
+export HF_TOKEN=hf_...
+bash scripts/setup_gpu_env.sh
+
+# 2. Run all phases (~70-100 min on A100)
+bash scripts/run_all_baselines.sh
+
+# Or preview the plan first:
+bash scripts/run_all_baselines.sh --dry-run
+```
+
+This runs 5 phases: vLLM profiling → SGLang profiling → head-to-head comparison → py-spy flame graphs → package results tarball.
+
+Use `--resume` to continue from the last checkpoint if interrupted:
+
 ## Reproducing Baselines
 
 ### 1. Start inference engines
@@ -58,7 +78,7 @@ This starts both vLLM (port 8000) and SGLang (port 8001) servers.
 python profiling/scripts/profile_vllm_scheduler.py \
     --base-url http://localhost:8000 \
     --model meta-llama/Llama-3.1-8B-Instruct \
-    --concurrency 1,8,32,64,128 \
+    --concurrency 1,8,32,64,128,256 \
     --num-requests 200 \
     --workload sharegpt
 ```
@@ -71,7 +91,7 @@ Add `--profile-internal` to generate py-spy flame graphs (requires py-spy instal
 python profiling/scripts/profile_sglang_scheduler.py \
     --base-url http://localhost:8001 \
     --model meta-llama/Llama-3.1-8B-Instruct \
-    --concurrency 1,8,32,64,128 \
+    --concurrency 1,8,32,64,128,256 \
     --num-requests 200 \
     --workload sharegpt
 ```
@@ -82,7 +102,7 @@ python profiling/scripts/profile_sglang_scheduler.py \
 python benchmarks/scripts/run_baseline_comparison.py \
     --vllm-url http://localhost:8000 \
     --sglang-url http://localhost:8001 \
-    --concurrency 1,10,50,100 \
+    --concurrency 1,8,32,64,128,256 \
     --workload all
 ```
 
