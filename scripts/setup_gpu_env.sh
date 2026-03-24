@@ -200,6 +200,14 @@ else
     log_ok "Model downloaded successfully"
 fi
 
+# ---- Step 3.5: Pre-download ShareGPT dataset ----
+log_info "Pre-downloading ShareGPT dataset for benchmarks..."
+python3 -c "
+from datasets import load_dataset
+ds = load_dataset('anon8231489123/ShareGPT_Vicuna_unfiltered', split='train')
+print(f'ShareGPT dataset cached: {len(ds)} conversations')
+" || log_warn "ShareGPT download failed — benchmarks will use synthetic fallback"
+
 # Verify vLLM version
 log_info "Verifying vLLM Version >= $VLLM_MIN_VERSION"
 VLLM_ACTUAL=$(python3 -c "import vllm; print(vllm.__version__)" 2>/dev/null || echo "0.0.0")

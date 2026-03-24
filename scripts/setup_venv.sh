@@ -69,6 +69,41 @@ t = AutoTokenizer.from_pretrained('meta-llama/Llama-3.1-8B-Instruct', token='$HF
 print(f'Tokenizer loaded OK: {type(t).__name__}')
 " 2>/dev/null || echo "[WARN] Tokenizer test skipped (HF_TOKEN not set or model not cached)"
 
+# Step 9b: Verify ALL profiling dependencies are importable
+echo "[INFO] Verifying all profiling dependencies..."
+python3 -c "
+import sys
+failures = []
+for mod_name, pip_name in [
+    ('pandas', 'pandas'),
+    ('numpy', 'numpy'),
+    ('aiohttp', 'aiohttp'),
+    ('yaml', 'pyyaml'),
+    ('datasets', 'datasets'),
+    ('pynvml', 'nvidia-ml-py'),
+    ('matplotlib', 'matplotlib'),
+    ('pytest', 'pytest'),
+]:
+    try:
+        __import__(mod_name)
+    except ImportError:
+        failures.append(f'{mod_name} (pip install {pip_name})')
+
+if failures:
+    print(f'[ERROR] Missing packages after install:')
+    for f in failures:
+        print(f'  - {f}')
+    sys.exit(1)
+else:
+    print('[OK]    All profiling dependencies importable')
+"
+
+if [[ $? -ne 0 ]]; then
+    echo "[ERROR] Dependency verification failed. Your venv may have conflicts."
+    echo "[ERROR] Try: pip install pandas numpy aiohttp pyyaml datasets nvidia-ml-py matplotlib --force-reinstall"
+    exit 1
+fi
+
 echo ""
 echo "[OK]    ============================================"
 echo "[OK]    Virtual environment ready!"

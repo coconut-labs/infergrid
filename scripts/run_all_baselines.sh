@@ -212,6 +212,13 @@ check_gpu() {
 }
 
 start_vllm() {
+    # Kill any stale server on our port from a prior run
+    if lsof -ti:$VLLM_PORT &>/dev/null; then
+        log_warn "Found existing process on port $VLLM_PORT — killing it"
+        lsof -ti:$VLLM_PORT | xargs kill -9 2>/dev/null || true
+        sleep 3
+    fi
+
     log_info "Starting vLLM server on port $VLLM_PORT..."
     python3 -m vllm.entrypoints.openai.api_server \
         --model "$MODEL_ID" \
@@ -229,6 +236,12 @@ start_vllm() {
     log_info "Waiting for vLLM to load model (up to ${STARTUP_TIMEOUT}s)..."
     for i in $(seq 1 $STARTUP_TIMEOUT); do
         if curl -s "http://localhost:$VLLM_PORT/v1/models" &>/dev/null; then
+            # Verify OUR server is the one responding (not a zombie from a prior run)
+            RESPONDING_PID=$(lsof -ti:$VLLM_PORT 2>/dev/null | head -1)
+            if [[ -n "$RESPONDING_PID" ]] && [[ "$RESPONDING_PID" != "$ENGINE_PID" ]]; then
+                log_error "Port $VLLM_PORT responded but PID $RESPONDING_PID != launched PID $ENGINE_PID — stale server detected"
+                return 1
+            fi
             log_ok "vLLM server ready (${i}s)"
             return 0
         fi
@@ -268,6 +281,13 @@ start_sglang() {
         fi
     fi
 
+    # Kill any stale server on our port from a prior run
+    if lsof -ti:$SGLANG_PORT &>/dev/null; then
+        log_warn "Found existing process on port $SGLANG_PORT — killing it"
+        lsof -ti:$SGLANG_PORT | xargs kill -9 2>/dev/null || true
+        sleep 3
+    fi
+
     log_info "Starting SGLang server on port $SGLANG_PORT..."
     python3 -m sglang.launch_server \
         --model-path "$MODEL_ID" \
@@ -284,6 +304,12 @@ start_sglang() {
     log_info "Waiting for SGLang to load model (up to ${STARTUP_TIMEOUT}s)..."
     for i in $(seq 1 $STARTUP_TIMEOUT); do
         if curl -s "http://localhost:$SGLANG_PORT/v1/models" &>/dev/null; then
+            # Verify OUR server is the one responding (not a zombie from a prior run)
+            RESPONDING_PID=$(lsof -ti:$SGLANG_PORT 2>/dev/null | head -1)
+            if [[ -n "$RESPONDING_PID" ]] && [[ "$RESPONDING_PID" != "$ENGINE_PID" ]]; then
+                log_error "Port $SGLANG_PORT responded but PID $RESPONDING_PID != launched PID $ENGINE_PID — stale server detected"
+                return 1
+            fi
             log_ok "SGLang server ready (${i}s)"
             return 0
         fi
@@ -367,6 +393,32 @@ fi
 
 # Preflight
 check_gpu
+
+# ---------------------------------------------------------------------------
+# Preflight: verify all profiling dependencies are importable
+# ---------------------------------------------------------------------------
+
+log_info "Checking profiling dependencies..."
+
+MISSING_DEPS=()
+
+python3 -c "import pandas" 2>/dev/null || MISSING_DEPS+=("pandas")
+python3 -c "import numpy" 2>/dev/null || MISSING_DEPS+=("numpy")
+python3 -c "import aiohttp" 2>/dev/null || MISSING_DEPS+=("aiohttp")
+python3 -c "import yaml" 2>/dev/null || MISSING_DEPS+=("pyyaml")
+python3 -c "import datasets" 2>/dev/null || MISSING_DEPS+=("datasets")
+python3 -c "import pynvml; pynvml.nvmlInit(); pynvml.nvmlShutdown()" 2>/dev/null || MISSING_DEPS+=("nvidia-ml-py (pynvml)")
+python3 -c "import matplotlib" 2>/dev/null || MISSING_DEPS+=("matplotlib")
+
+if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
+    log_error "Missing dependencies: ${MISSING_DEPS[*]}"
+    log_error "Run: pip install pandas numpy aiohttp pyyaml datasets nvidia-ml-py matplotlib"
+    log_error "Or re-run: source scripts/setup_venv.sh"
+    exit 1
+fi
+
+log_ok "All profiling dependencies verified"
+
 mkdir -p "$RESULTS_DIR"
 
 if [[ -f "$MODEL_CONFIG" ]]; then
@@ -424,21 +476,25 @@ if phase_done 2 && [[ "$RESUME" == "true" ]]; then
 else
     log_phase "Phase 2/5: SGLang Profiling ($(estimate_time 2))"
 
-    start_sglang || exit 1
-    start_gpu_monitor "phase2_sglang"
+    if start_sglang; then
+        start_gpu_monitor "phase2_sglang"
 
-    python3 "$PROJECT_ROOT/profiling/scripts/profile_sglang_scheduler.py" \
-        --base-url "http://localhost:$SGLANG_PORT" \
-        --model "$MODEL_ID" \
-        --concurrency "$CONCURRENCY" \
-        --num-requests "$NUM_REQUESTS" \
-        --repeats "$REPEATS" \
-        --workload "$WORKLOAD" \
-        --output-dir "$RESULTS_DIR/profiling/sglang" \
-        --seed "$SEED"
+        python3 "$PROJECT_ROOT/profiling/scripts/profile_sglang_scheduler.py" \
+            --base-url "http://localhost:$SGLANG_PORT" \
+            --model "$MODEL_ID" \
+            --concurrency "$CONCURRENCY" \
+            --num-requests "$NUM_REQUESTS" \
+            --repeats "$REPEATS" \
+            --workload "$WORKLOAD" \
+            --output-dir "$RESULTS_DIR/profiling/sglang" \
+            --seed "$SEED"
 
-    stop_gpu_monitor
-    stop_engine
+        stop_gpu_monitor
+        stop_engine
+    else
+        log_warn "SGLang unavailable — Phase 2 skipped. vLLM-only results will be collected."
+        echo "sglang_skipped=true" >> "$RESULTS_DIR/run_metadata.json"
+    fi
     mark_phase_done 2
 fi
 
@@ -479,22 +535,25 @@ else
     stop_engine
 
     # Run SGLang with identical workloads (same seed → same requests)
-    start_sglang || exit 1
-    start_gpu_monitor "phase3_h2h_sglang"
+    if [[ "$SKIP_SGLANG" != "true" ]] && start_sglang; then
+        start_gpu_monitor "phase3_h2h_sglang"
 
-    python3 "$PROJECT_ROOT/benchmarks/scripts/run_baseline_comparison.py" \
-        --vllm-url "http://localhost:99999" \
-        --sglang-url "http://localhost:$SGLANG_PORT" \
-        --model "$MODEL_ID" \
-        --concurrency "$CONCURRENCY" \
-        --num-requests "$NUM_REQUESTS" \
-        --repeats "$REPEATS" \
-        --workload all \
-        --output-dir "$H2H_DIR" \
-        --seed "$SEED"
+        python3 "$PROJECT_ROOT/benchmarks/scripts/run_baseline_comparison.py" \
+            --vllm-url "http://localhost:99999" \
+            --sglang-url "http://localhost:$SGLANG_PORT" \
+            --model "$MODEL_ID" \
+            --concurrency "$CONCURRENCY" \
+            --num-requests "$NUM_REQUESTS" \
+            --repeats "$REPEATS" \
+            --workload all \
+            --output-dir "$H2H_DIR" \
+            --seed "$SEED"
 
-    stop_gpu_monitor
-    stop_engine
+        stop_gpu_monitor
+        stop_engine
+    else
+        log_warn "SGLang unavailable — Phase 3 head-to-head will be vLLM-only."
+    fi
 
     # Both runs wrote CSVs to the same dir (vllm_c32.csv, sglang_c32.csv etc)
     # The second run's comparison_summary.json will have both engine data
@@ -533,21 +592,23 @@ else
 
         stop_engine
 
-        # SGLang flame graph
-        start_sglang || exit 1
+        # SGLang flame graph (skip if unavailable)
+        if [[ "$SKIP_SGLANG" != "true" ]] && start_sglang; then
+            python3 "$PROJECT_ROOT/profiling/scripts/profile_sglang_scheduler.py" \
+                --base-url "http://localhost:$SGLANG_PORT" \
+                --model "$MODEL_ID" \
+                --concurrency "32" \
+                --num-requests 100 \
+                --workload "$WORKLOAD" \
+                --output-dir "$RESULTS_DIR/profiling/sglang" \
+                --profile-internal \
+                --duration "$PYSPY_DURATION" \
+                --seed "$SEED"
 
-        python3 "$PROJECT_ROOT/profiling/scripts/profile_sglang_scheduler.py" \
-            --base-url "http://localhost:$SGLANG_PORT" \
-            --model "$MODEL_ID" \
-            --concurrency "32" \
-            --num-requests 100 \
-            --workload "$WORKLOAD" \
-            --output-dir "$RESULTS_DIR/profiling/sglang" \
-            --profile-internal \
-            --duration "$PYSPY_DURATION" \
-            --seed "$SEED"
-
-        stop_engine
+            stop_engine
+        else
+            log_warn "SGLang unavailable — skipping SGLang flame graphs."
+        fi
     fi
 
     mark_phase_done 4

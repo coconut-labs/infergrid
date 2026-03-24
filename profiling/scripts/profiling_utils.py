@@ -179,7 +179,11 @@ class GPUMetricsCollector:
                 self._gpu_indices = list(range(device_count))
             pynvml.nvmlShutdown()
         except Exception as exc:
-            logger.warning("pynvml not available, GPU metrics will be empty: %s", exc)
+            logger.error(
+                "pynvml NOT available — GPU metrics WILL BE MISSING from results. "
+                "Install with: pip install nvidia-ml-py>=12.0. Error: %s", exc
+            )
+            self._nvml_available = False
             self._gpu_indices = self._gpu_indices or []
 
     def start(self) -> None:
@@ -349,12 +353,14 @@ class RequestGenerator:
             logger.info("Loaded %d ShareGPT conversations", len(self._sharegpt_data))
             return self._sharegpt_data
         except Exception as exc:
-            logger.warning(
-                "Could not load ShareGPT dataset: %s. Using synthetic fallback.", exc
+            logger.error(
+                "Could not load ShareGPT dataset: %s. "
+                "USING SYNTHETIC FALLBACK — results will NOT reflect real workload distributions. "
+                "Install with: pip install datasets", exc
             )
-            # Fallback: generate plausible prompts
+            # Fallback: generate plausible prompts with variable length
             self._sharegpt_data = [
-                {"conversations": [{"from": "human", "value": f"Tell me about topic {i} in detail."}]}
+                {"conversations": [{"from": "human", "value": f"Tell me about topic {i} in detail. " * self._rng.randint(1, 20)}]}
                 for i in range(1000)
             ]
             return self._sharegpt_data
