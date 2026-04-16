@@ -238,8 +238,10 @@ def _cmd_status(args: argparse.Namespace) -> None:
     url = f"http://localhost:{args.port}/infergrid/status"
     try:
         data = asyncio.run(_fetch_json(url))
-    except Exception as exc:
-        print(f"Error connecting to InferGrid at port {args.port}: {exc}")
+    except Exception:
+        logger.error(
+            "Error connecting to InferGrid at port %d", args.port, exc_info=True,
+        )
         sys.exit(1)
 
     print(json.dumps(data, indent=2))
@@ -250,8 +252,10 @@ def _cmd_models(args: argparse.Namespace) -> None:
     url = f"http://localhost:{args.port}/v1/models"
     try:
         data = asyncio.run(_fetch_json(url))
-    except Exception as exc:
-        print(f"Error connecting to InferGrid at port {args.port}: {exc}")
+    except Exception:
+        logger.error(
+            "Error connecting to InferGrid at port %d", args.port, exc_info=True,
+        )
         sys.exit(1)
 
     models = data.get("data", [])

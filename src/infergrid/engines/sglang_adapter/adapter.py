@@ -12,15 +12,7 @@ Usage:
 
 from __future__ import annotations
 
-import asyncio
-import logging
-from typing import Any, AsyncIterator
-
-import aiohttp
-
 from infergrid.engines.base import EngineAdapter
-
-logger = logging.getLogger(__name__)
 
 
 class SGLangAdapter(EngineAdapter):
@@ -28,6 +20,9 @@ class SGLangAdapter(EngineAdapter):
 
     Launches ``python -m sglang.launch_server`` and health-checks
     via ``/v1/models``.
+
+    All lifecycle logic (start, stop, health_check, forward_request)
+    is inherited from :class:`EngineAdapter`.
 
     Args:
         model_id: HuggingFace model identifier.
@@ -39,26 +34,7 @@ class SGLangAdapter(EngineAdapter):
         extra_args: Additional CLI arguments passed to sglang.
     """
 
-    def __init__(
-        self,
-        model_id: str,
-        port: int,
-        gpu_memory_utilization: float = 0.85,
-        tensor_parallel_size: int = 1,
-        dtype: str = "auto",
-        max_model_len: int = 8192,
-        extra_args: list[str] | None = None,
-    ) -> None:
-        super().__init__(
-            model_id=model_id,
-            port=port,
-            gpu_memory_utilization=gpu_memory_utilization,
-            tensor_parallel_size=tensor_parallel_size,
-            extra_args=extra_args,
-        )
-        self.dtype = dtype
-        self.max_model_len = max_model_len
-        self._process: asyncio.subprocess.Process | None = None
+    engine_name = "SGLang"
 
     def _build_cmd(self) -> list[str]:
         """Build the SGLang server launch command.
@@ -78,143 +54,3 @@ class SGLangAdapter(EngineAdapter):
             cmd.extend(["--dtype", self.dtype])
         cmd.extend(self.extra_args)
         return cmd
-
-    async def start(self, timeout_s: int = 300) -> None:
-        """Start the SGLang server subprocess.
-
-        Args:
-            timeout_s: Maximum seconds to wait for the server to be ready.
-
-        Raises:
-            TimeoutError: Server did not become healthy in time.
-            RuntimeError: Server process exited before becoming healthy.
-        """
-        cmd = self._build_cmd()
-        logger.info("Starting SGLang server: %s", " ".join(cmd))
-
-        self._process = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
-
-        deadline = asyncio.get_running_loop().time() + timeout_s
-        while asyncio.get_running_loop().time() < deadline:
-            if self._process.returncode is not None:
-                stderr = ""
-                if self._process.stderr:
-                    stderr_bytes = await self._process.stderr.read()
-                    stderr = stderr_bytes.decode(errors="replace")[-2000:]
-                raise RuntimeError(
-                    f"SGLang process exited with code {self._process.returncode}: "
-                    f"{stderr}"
-                )
-
-            if await self.health_check():
-                self._healthy = True
-                logger.info(
-                    "SGLang server ready on port %d for model %s",
-                    self.port, self.model_id,
-                )
-                return
-
-            await asyncio.sleep(2.0)
-
-        await self.stop()
-        raise TimeoutError(
-            f"SGLang server did not become healthy within {timeout_s}s"
-        )
-
-    async def stop(self) -> None:
-        """Stop the SGLang server subprocess."""
-        if self._process is None:
-            return
-
-        logger.info("Stopping SGLang server on port %d", self.port)
-        try:
-            self._process.terminate()
-            try:
-                await asyncio.wait_for(self._process.wait(), timeout=10.0)
-            except asyncio.TimeoutError:
-                logger.warning("SGLang process did not exit, killing")
-                self._process.kill()
-                await self._process.wait()
-        except ProcessLookupError:
-            pass
-
-        self._process = None
-        self._healthy = False
-
-    async def health_check(self) -> bool:
-        """Probe the /v1/models endpoint.
-
-        Returns:
-            True if the server responds with HTTP 200.
-        """
-        url = f"{self.base_url}/v1/models"
-        try:
-            timeout = aiohttp.ClientTimeout(total=5)
-            async with aiohttp.ClientSession(timeout=timeout) as session:
-                async with session.get(url) as resp:
-                    healthy = resp.status == 200
-                    self._healthy = healthy
-                    return healthy
-        except Exception:
-            self._healthy = False
-            return False
-
-    async def forward_request(
-        self,
-        path: str,
-        payload: dict[str, Any],
-        stream: bool = False,
-    ) -> dict[str, Any] | AsyncIterator[bytes]:
-        """Forward an OpenAI-compatible request to the SGLang server.
-
-        Args:
-            path: API path (e.g. "/v1/chat/completions").
-            payload: JSON request body.
-            stream: If True, return an async iterator of SSE chunks.
-
-        Returns:
-            JSON response dict, or async byte iterator for streaming.
-
-        Raises:
-            aiohttp.ClientError: On connection or HTTP errors.
-        """
-        url = f"{self.base_url}{path}"
-        if stream:
-            payload["stream"] = True
-
-        timeout = aiohttp.ClientTimeout(total=300)
-
-        if stream:
-            return self._stream_response(url, payload, timeout)
-        else:
-            async with aiohttp.ClientSession(timeout=timeout) as session:
-                async with session.post(url, json=payload) as resp:
-                    return await resp.json()
-
-    async def _stream_response(
-        self,
-        url: str,
-        payload: dict[str, Any],
-        timeout: aiohttp.ClientTimeout,
-    ) -> AsyncIterator[bytes]:
-        """Stream SSE chunks from the engine.
-
-        Creates and owns its own ClientSession to guarantee cleanup
-        even if the caller abandons iteration.
-
-        Args:
-            url: Full request URL.
-            payload: JSON body.
-            timeout: Client timeout configuration.
-
-        Yields:
-            Raw SSE bytes from the engine.
-        """
-        async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.post(url, json=payload) as resp:
-                async for chunk in resp.content.iter_any():
-                    yield chunk

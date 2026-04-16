@@ -49,20 +49,20 @@ class TenantRecord:
         self.budget = budget
         self.usage = TenantUsage()
         self._semaphore = asyncio.Semaphore(budget.max_concurrent_requests)
+        self._available = budget.max_concurrent_requests
         self._lock = asyncio.Lock()
 
     async def try_acquire(self) -> bool:
         """Try to acquire a request slot without blocking.
 
         Checks both the concurrency semaphore and the sliding-window
-        rate limit.  The check and acquire are done under the same lock
-        to avoid a TOCTOU race on the semaphore counter.
+        rate limit.
 
         Returns:
             True if the request is allowed, False if it should be rejected.
         """
+        # Check rate limit first (cheap)
         async with self._lock:
-            # Check rate limit (cheap)
             now = time.monotonic()
             window_start = now - 60.0
             # Prune old timestamps
@@ -73,13 +73,13 @@ class TenantRecord:
             if len(self.usage._request_timestamps) >= self.budget.rate_limit_rpm:
                 return False
 
-            # Check concurrency limit -- read + acquire under same lock
-            if self._semaphore._value <= 0:  # type: ignore[attr-defined]
-                return False
-            # Safe: we hold _lock so no other task can race between
-            # the check and the acquire.
-            await self._semaphore.acquire()
+        # Try concurrency limit (non-blocking)
+        if self._available <= 0:
+            return False
 
+        self._available -= 1
+        await self._semaphore.acquire()
+        async with self._lock:
             self.usage._request_timestamps.append(time.monotonic())
             self.usage.active_requests += 1
         return True
@@ -87,6 +87,7 @@ class TenantRecord:
     async def release(self) -> None:
         """Release a request slot after completion."""
         self._semaphore.release()
+        self._available += 1
         async with self._lock:
             self.usage.active_requests = max(0, self.usage.active_requests - 1)
 
