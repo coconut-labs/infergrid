@@ -23,6 +23,10 @@ Thumbs.db
 # Profiling results (generated data)
 profiling/results/
 benchmarks/results/
+*.tar.gz
+
+# Checkpoints
+.checkpoints/
 
 # Jupyter
 .ipynb_checkpoints/
