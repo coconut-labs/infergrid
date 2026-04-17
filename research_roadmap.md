@@ -1,67 +1,63 @@
 # Research Roadmap: InferGrid
 
-## PAPER 1: Adaptive Inference Orchestration — Closing the 81% Efficiency Gap in LLM Serving
+> **Status update (April 2026):** Phase 1 profiling is complete. Several original hypotheses were refuted by data — see below. The thesis has been updated to reflect measured reality. See [Phase 1 Findings](docs/phase1_findings.md) for full results.
 
-### The Problem
+## Revised Thesis: Middleware-Level Admission Control and Multi-Model Lifecycle for LLM Inference
 
-Current LLM inference systems waste compute at three distinct layers:
+### What the data showed (Phase 1, April 2026)
 
-**Layer 1 — Scheduling overhead.** vLLM's CPU-side scheduling consumes >50% of total
-inference time on fast models (WukLab, 2024). Even with identical compute kernels
-(FlashInfer), vLLM trails SGLang by 29% purely due to orchestration overhead.
+| Original Claim | Measured Reality | Status |
+|----------------|-----------------|--------|
+| vLLM trails SGLang by 29% | <5% throughput gap (engines converged) | **Refuted** |
+| 81.6% compound GPU waste | GPU utilization 95-99% across all configs | **Refuted** |
+| Middleware scheduling reduces TTFT 50-70% | HTTP proxy cannot modify engine-internal scheduling | **Refuted** |
+| Scheduling cliff at high concurrency | c=128→c=256: +2% throughput, +1434% TTFT | **Confirmed** |
+| SGLang better at saturation | SGLang 2.2x better TTFT at c=256 vs vLLM | **Confirmed (new finding)** |
+| Cliff is hardware-independent | Same pattern on A100 SXM and H100 SXM | **Confirmed** |
 
-**Layer 2 — KV cache mismanagement.** A 70B model at 128K context requires ~40GB of KV
-cache per request. No system provides unified compression, eviction, offloading across
-GPU/CPU/SSD, and cross-request sharing as a single managed resource.
+### Updated Problem Statement
 
-**Layer 3 — Static allocation.** GPU clusters allocate whole devices to single workloads.
-Kubernetes treats GPUs as indivisible integers. An inference task needing 4GB gets an
-80GB A100 (95% waste per allocation).
+The scheduling cliff is real, hardware-independent, and unmanaged by any existing tool. At concurrency >128 on an 80GB GPU, inference engines enter a regime where doubling load yields marginal throughput (+2%) at massive latency cost (+1434% TTFT). No existing system prevents requests from entering this regime.
 
-**The compound waste:** 81.6% total efficiency loss from physical GPU to effective compute.
+Separately, no lightweight tool provides intelligent multi-model lifecycle management (load, evict, hot-swap based on traffic patterns) on bare metal without Kubernetes.
 
-### System Design
+### System Design (unchanged)
 
 Three components, one runtime:
 
-1. **WorkloadRouter** — Length-aware, model-aware, cost-aware request scheduler
-2. **CacheManager** — Tiered KV cache (GPU HBM → CPU DRAM → NVMe SSD)
-3. **TenantManager** — Safe multi-tenancy with software-level resource budgets
+1. **WorkloadRouter** — Admission control + frequency-based model lifecycle (not LRU)
+2. **CacheManager** — KV cache lifecycle tracking (metadata layer; planned LMCache integration for cross-tier offloading)
+3. **TenantManager** — Per-tenant resource budgets with request isolation
 
-### Experiments
+### Revised Experiments
 
-- Benchmark 1: ShareGPT (real conversation workloads)
-- Benchmark 2: Length-heterogeneous synthetic workload
-- Benchmark 3: Multi-tenant isolation
-- Benchmark 4: KV cache efficiency
+- Benchmark 1: Admission control ON vs OFF at scheduling cliff (c=128, c=256)
+- Benchmark 2: Multi-model serving (InferGrid vs manual 2x vLLM vs Ollama)
+- Benchmark 3: Model switch latency and eviction policy effectiveness
+- Benchmark 4: InferGrid proxy overhead measurement
 
-### Timeline
+### Timeline (revised)
 
-| Phase | Activity | Duration |
-|-------|----------|----------|
-| Phase 1 | Deep-dive vLLM/SGLang, reproduce baselines | Weeks 1-3 |
-| Phase 2 | Build WorkloadRouter | Weeks 4-7 |
-| Phase 3 | Build CacheManager | Weeks 8-11 |
-| Phase 4 | Build TenantManager | Weeks 12-14 |
-| Phase 5 | Integration, ablation, benchmarks | Weeks 15-17 |
-| Phase 6 | Paper writing, polish, submit | Weeks 18-19 |
+| Phase | Activity | Status |
+|-------|----------|--------|
+| Phase 1 | Profile vLLM/SGLang on A100/H100 | **Complete** |
+| Phase 2 | Build WorkloadRouter + admission control | **Complete** |
+| Phase 3 | Multi-model GPU benchmark | **Next** |
+| Phase 4 | arXiv preprint | Weeks 3-4 |
+| Phase 5 | OSS launch (HN, Reddit) | Week 4 |
 
-### Target Venue
+### Target
 
-Primary: MLSys 2026. Fallback: arXiv preprint + open-source release.
+Primary: arXiv preprint + open-source launch. Fallback: MLSys 2027 submission.
 
 ### Baselines to Beat
 
-- Vanilla vLLM (latest stable)
-- Vanilla SGLang (latest stable)
-- TensorRT-LLM
-- CascadeInfer (length-aware scheduling only)
+- Manual multi-instance vLLM (2x vLLM with --gpu-memory-utilization 0.4)
+- Ollama multi-model serving (LRU eviction)
+- Direct engine (vLLM/SGLang) without admission control
 
 ### Key References
 
-- WukLab scheduling overhead study
-- vLLM v0.6.0 performance blog
-- CascadeInfer paper (arXiv:2512.19179)
-- SGLang paper
-- PagedAttention paper
-- GPU Efficiency Funnel (81.6% waste)
+- Phase 1 profiling data: `results/` directory
+- Gap analysis: `docs/inference_orchestration_gaps_report.md`
+- Strategic analysis: `docs/strategic_analysis.md`
