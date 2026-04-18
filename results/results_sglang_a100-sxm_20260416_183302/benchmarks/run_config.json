@@ -1,0 +1,19 @@
+{
+  "vllm_url": "http://localhost:99999",
+  "sglang_url": "http://localhost:30000",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "concurrency": "1,8,32,64,128,256",
+  "num_requests": 200,
+  "workload": "all",
+  "warmup": 10,
+  "seed": 42,
+  "environment": {
+    "python_version": "3.11.10 (main, Sep  7 2024, 18:35:41) [GCC 11.4.0]",
+    "platform": "Linux-6.8.0-100-generic-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "nvidia_driver": "580.126.16",
+    "gpu_count": "1",
+    "gpu_0_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_0_memory_mb": "81920"
+  }
+}

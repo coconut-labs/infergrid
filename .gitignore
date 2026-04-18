@@ -33,3 +33,6 @@ benchmarks/results/
 
 # pytest
 .pytest_cache/
+
+# Claude Code agent state
+.claude/
