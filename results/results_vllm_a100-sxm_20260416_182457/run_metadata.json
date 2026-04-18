@@ -1,0 +1,13 @@
+{
+    "engine": "vllm",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "gpu_label": "a100-sxm",
+    "concurrency": "1,8,32,64,128,256",
+    "num_requests": 200,
+    "repeats": 2,
+    "seed": 42,
+    "timestamp": "2026-04-16T18:25:13Z",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "driver": "570.195.03",
+    "gpu_memory": "81920 MiB"
+}
