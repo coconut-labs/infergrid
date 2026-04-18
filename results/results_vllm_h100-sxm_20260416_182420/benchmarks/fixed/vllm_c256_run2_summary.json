@@ -1,0 +1,22 @@
+{
+  "num_requests": 200,
+  "num_successful": 200,
+  "num_failed": 0,
+  "ttft_p50_ms": 1823.907971382141,
+  "ttft_p95_ms": 3301.3394117355347,
+  "ttft_p99_ms": 3341.0218453407288,
+  "total_latency_p50_ms": 4386.726021766663,
+  "total_latency_p95_ms": 5841.3206577301025,
+  "total_latency_p99_ms": 5870.016257762909,
+  "tpot_p50_ms": 10.039151883592792,
+  "tpot_p95_ms": 10.10768217198989,
+  "tpot_p99_ms": 10.116565760444193,
+  "throughput_tok_per_sec": 8699.473258435712,
+  "gpu_utilization_mean": 94.0701754385965,
+  "gpu_utilization_p50": 100.0,
+  "engine": "vllm",
+  "concurrency": 256,
+  "wall_time_ms": 5896.611576899886,
+  "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+  "model_short_name": "Llama-3.1-8B-Instruct"
+}

@@ -1,0 +1,13 @@
+{
+    "engine": "vllm",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "gpu_label": "h100-sxm",
+    "concurrency": "1,8,32,64,128,256",
+    "num_requests": 200,
+    "repeats": 2,
+    "seed": 42,
+    "timestamp": "2026-04-16T18:24:35Z",
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "driver": "580.126.09",
+    "gpu_memory": "81559 MiB"
+}
