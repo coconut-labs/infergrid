@@ -33,3 +33,6 @@ benchmarks/results/
 
 # pytest
 .pytest_cache/
+
+# Local agent state
+.claude/
