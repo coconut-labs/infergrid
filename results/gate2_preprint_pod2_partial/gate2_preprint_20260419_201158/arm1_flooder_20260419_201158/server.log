@@ -1,0 +1,1314 @@
+2026-04-19 20:18:54,470 [infergrid.router.admission] INFO: AdmissionController initialized: max_concurrent=256, queue_size=2048
+2026-04-19 20:18:54,470 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8002 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:18:54,470 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log
+2026-04-19 20:19:14,499 [infergrid.router.router] ERROR: Failed to pre-load model meta-llama/Llama-3.1-8B-Instruct: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108]     raise ValueError(
+(EngineCore pid=1432) ERROR 04-19 20:19:10 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=1432) Process EngineCore:
+(EngineCore pid=1432) Traceback (most recent call last):
+(EngineCore pid=1432)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=1432)     self.run()
+(EngineCore pid=1432)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=1432)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=1432)     raise e
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=1432)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=1432)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1432)     return func(*args, **kwargs)
+(EngineCore pid=1432)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=1432)     super().__init__(
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=1432)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=1432)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1432)     return func(*args, **kwargs)
+(EngineCore pid=1432)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=1432)     self._init_executor()
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1432)     self.driver_worker.init_device()
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1432)     self.worker.init_device()  # type: ignore
+(EngineCore pid=1432)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1432)     return func(*args, **kwargs)
+(EngineCore pid=1432)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1432)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1432)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1432)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1432)     raise ValueError(
+(EngineCore pid=1432) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:19:10.446845468 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=1228) Traceback (most recent call last):
+(APIServer pid=1228)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=1228)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=1228)     uvloop.run(run_server(args))
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=1228)     return runner.run(wrapper())
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=1228)     return self._loop.run_until_complete(task)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=1228)     return await main
+(APIServer pid=1228)            ^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=1228)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=1228)     async with build_async_engine_client(
+(APIServer pid=1228)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1228)     return await anext(self.gen)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=1228)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=1228)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1228)     return await anext(self.gen)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=1228)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=1228)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=1228)     return cls(
+(APIServer pid=1228)            ^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=1228)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=1228)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1228)     return func(*args, **kwargs)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=1228)     return AsyncMPClient(*client_args)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1228)     return func(*args, **kwargs)
+(APIServer pid=1228)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=1228)     super().__init__(
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=1228)     with launch_core_engines(
+(APIServer pid=1228)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=1228)     next(self.gen)
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=1228)     wait_for_engine_startup(
+(APIServer pid=1228)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=1228)     raise RuntimeError(
+(APIServer pid=1228) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:19:14,499 [infergrid.router.router] INFO: WorkloadRouter started with 0 models, 8 queue workers
+2026-04-19 20:19:14,499 [infergrid] INFO: InferGrid serving on http://0.0.0.0:8000 with 1 model(s)
+2026-04-19 20:19:14,499 [infergrid] INFO:   Models: ['meta-llama/Llama-3.1-8B-Instruct']
+2026-04-19 20:19:14,500 [infergrid] INFO:   GPU budget: 92%
+2026-04-19 20:19:19,330 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:19:19 +0000] "GET /health HTTP/1.1" 200 175 "-" "curl/7.81.0"
+2026-04-19 20:19:19,336 [infergrid.router.router] INFO: req_id=r629959336 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:19:19,336 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8003 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:19:19,336 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8003.log
+2026-04-19 20:19:39,414 [infergrid.router.router] ERROR: req_id=r629959336 EXIT 500 unhandled: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8003.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     raise ValueError(
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=1886) Process EngineCore:
+(EngineCore pid=1886) Traceback (most recent call last):
+(EngineCore pid=1886)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=1886)     self.run()
+(EngineCore pid=1886)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=1886)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=1886)     raise e
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=1886)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=1886)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=1886)     super().__init__(
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=1886)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=1886)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=1886)     self._init_executor()
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1886)     self.driver_worker.init_device()
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1886)     self.worker.init_device()  # type: ignore
+(EngineCore pid=1886)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1886)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1886)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1886)     raise ValueError(
+(EngineCore pid=1886) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:19:36.568024104 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=1672) Traceback (most recent call last):
+(APIServer pid=1672)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=1672)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=1672)     uvloop.run(run_server(args))
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=1672)     return runner.run(wrapper())
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=1672)     return self._loop.run_until_complete(task)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=1672)     return await main
+(APIServer pid=1672)            ^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=1672)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=1672)     async with build_async_engine_client(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1672)     return await anext(self.gen)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=1672)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1672)     return await anext(self.gen)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=1672)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=1672)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=1672)     return cls(
+(APIServer pid=1672)            ^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=1672)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=1672)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1672)     return func(*args, **kwargs)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=1672)     return AsyncMPClient(*client_args)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1672)     return func(*args, **kwargs)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=1672)     super().__init__(
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=1672)     with launch_core_engines(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=1672)     next(self.gen)
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=1672)     wait_for_engine_startup(
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=1672)     raise RuntimeError(
+(APIServer pid=1672) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 730, in handle_request
+    result = await self.route_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 457, in route_request
+    state = await self.ensure_model_loaded(model_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 377, in ensure_model_loaded
+    return await self.load_model(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 293, in load_model
+    await adapter.start(timeout_s=self.config.engine_start_timeout_s)
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 176, in start
+    raise RuntimeError(
+RuntimeError: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8003.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108]     raise ValueError(
+(EngineCore pid=1886) ERROR 04-19 20:19:35 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=1886) Process EngineCore:
+(EngineCore pid=1886) Traceback (most recent call last):
+(EngineCore pid=1886)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=1886)     self.run()
+(EngineCore pid=1886)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=1886)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=1886)     raise e
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=1886)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=1886)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=1886)     super().__init__(
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=1886)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=1886)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=1886)     self._init_executor()
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=1886)     self.driver_worker.init_device()
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=1886)     self.worker.init_device()  # type: ignore
+(EngineCore pid=1886)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1886)     return func(*args, **kwargs)
+(EngineCore pid=1886)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=1886)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=1886)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1886)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=1886)     raise ValueError(
+(EngineCore pid=1886) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:19:36.568024104 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=1672) Traceback (most recent call last):
+(APIServer pid=1672)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=1672)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=1672)     uvloop.run(run_server(args))
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=1672)     return runner.run(wrapper())
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=1672)     return self._loop.run_until_complete(task)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=1672)     return await main
+(APIServer pid=1672)            ^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=1672)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=1672)     async with build_async_engine_client(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1672)     return await anext(self.gen)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=1672)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=1672)     return await anext(self.gen)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=1672)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=1672)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=1672)     return cls(
+(APIServer pid=1672)            ^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=1672)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=1672)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1672)     return func(*args, **kwargs)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=1672)     return AsyncMPClient(*client_args)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=1672)     return func(*args, **kwargs)
+(APIServer pid=1672)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=1672)     super().__init__(
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=1672)     with launch_core_engines(
+(APIServer pid=1672)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=1672)     next(self.gen)
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=1672)     wait_for_engine_startup(
+(APIServer pid=1672)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=1672)     raise RuntimeError(
+(APIServer pid=1672) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:19:39,417 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:19:19 +0000] "POST /v1/completions HTTP/1.1" 500 10528 "-" "curl/7.81.0"
+2026-04-19 20:19:49,430 [infergrid.router.router] INFO: req_id=r629989430 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:19:49,430 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8004 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:19:49,431 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8004.log
+2026-04-19 20:20:11,528 [infergrid.router.router] ERROR: req_id=r629989430 EXIT 500 unhandled: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8004.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     raise ValueError(
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108] ValueError: Free memory on device cuda:0 (10.44/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2321) Process EngineCore:
+(EngineCore pid=2321) Traceback (most recent call last):
+(EngineCore pid=2321)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2321)     self.run()
+(EngineCore pid=2321)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2321)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2321)     raise e
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2321)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2321)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2321)     super().__init__(
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2321)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2321)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2321)     self._init_executor()
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2321)     self.driver_worker.init_device()
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2321)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2321)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2321)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2321)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2321)     raise ValueError(
+(EngineCore pid=2321) ValueError: Free memory on device cuda:0 (10.44/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:20:07.110850034 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2120) Traceback (most recent call last):
+(APIServer pid=2120)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2120)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2120)     uvloop.run(run_server(args))
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2120)     return runner.run(wrapper())
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2120)     return self._loop.run_until_complete(task)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2120)     return await main
+(APIServer pid=2120)            ^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2120)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2120)     async with build_async_engine_client(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2120)     return await anext(self.gen)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2120)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2120)     return await anext(self.gen)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2120)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2120)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2120)     return cls(
+(APIServer pid=2120)            ^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2120)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2120)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2120)     return func(*args, **kwargs)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2120)     return AsyncMPClient(*client_args)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2120)     return func(*args, **kwargs)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2120)     super().__init__(
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2120)     with launch_core_engines(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2120)     next(self.gen)
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2120)     wait_for_engine_startup(
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2120)     raise RuntimeError(
+(APIServer pid=2120) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 730, in handle_request
+    result = await self.route_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 457, in route_request
+    state = await self.ensure_model_loaded(model_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 377, in ensure_model_loaded
+    return await self.load_model(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 293, in load_model
+    await adapter.start(timeout_s=self.config.engine_start_timeout_s)
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 176, in start
+    raise RuntimeError(
+RuntimeError: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8004.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108]     raise ValueError(
+(EngineCore pid=2321) ERROR 04-19 20:20:07 [core.py:1108] ValueError: Free memory on device cuda:0 (10.44/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2321) Process EngineCore:
+(EngineCore pid=2321) Traceback (most recent call last):
+(EngineCore pid=2321)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2321)     self.run()
+(EngineCore pid=2321)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2321)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2321)     raise e
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2321)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2321)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2321)     super().__init__(
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2321)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2321)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2321)     self._init_executor()
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2321)     self.driver_worker.init_device()
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2321)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2321)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2321)     return func(*args, **kwargs)
+(EngineCore pid=2321)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2321)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2321)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2321)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2321)     raise ValueError(
+(EngineCore pid=2321) ValueError: Free memory on device cuda:0 (10.44/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:20:07.110850034 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2120) Traceback (most recent call last):
+(APIServer pid=2120)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2120)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2120)     uvloop.run(run_server(args))
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2120)     return runner.run(wrapper())
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2120)     return self._loop.run_until_complete(task)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2120)     return await main
+(APIServer pid=2120)            ^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2120)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2120)     async with build_async_engine_client(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2120)     return await anext(self.gen)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2120)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2120)     return await anext(self.gen)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2120)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2120)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2120)     return cls(
+(APIServer pid=2120)            ^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2120)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2120)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2120)     return func(*args, **kwargs)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2120)     return AsyncMPClient(*client_args)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2120)     return func(*args, **kwargs)
+(APIServer pid=2120)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2120)     super().__init__(
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2120)     with launch_core_engines(
+(APIServer pid=2120)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2120)     next(self.gen)
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2120)     wait_for_engine_startup(
+(APIServer pid=2120)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2120)     raise RuntimeError(
+(APIServer pid=2120) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:20:11,530 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:19:49 +0000] "POST /v1/completions HTTP/1.1" 500 10528 "-" "curl/7.81.0"
+2026-04-19 20:20:21,545 [infergrid.router.router] INFO: req_id=r630021545 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:20:21,546 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8005 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:20:21,546 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8005.log
+2026-04-19 20:20:41,583 [infergrid.router.router] ERROR: req_id=r630021545 EXIT 500 unhandled: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8005.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     raise ValueError(
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2756) Process EngineCore:
+(EngineCore pid=2756) Traceback (most recent call last):
+(EngineCore pid=2756)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2756)     self.run()
+(EngineCore pid=2756)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2756)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2756)     raise e
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2756)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2756)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2756)     super().__init__(
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2756)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2756)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2756)     self._init_executor()
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2756)     self.driver_worker.init_device()
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2756)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2756)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2756)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2756)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2756)     raise ValueError(
+(EngineCore pid=2756) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:20:38.924147887 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2555) Traceback (most recent call last):
+(APIServer pid=2555)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2555)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2555)     uvloop.run(run_server(args))
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2555)     return runner.run(wrapper())
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2555)     return self._loop.run_until_complete(task)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2555)     return await main
+(APIServer pid=2555)            ^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2555)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2555)     async with build_async_engine_client(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2555)     return await anext(self.gen)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2555)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2555)     return await anext(self.gen)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2555)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2555)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2555)     return cls(
+(APIServer pid=2555)            ^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2555)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2555)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2555)     return func(*args, **kwargs)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2555)     return AsyncMPClient(*client_args)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2555)     return func(*args, **kwargs)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2555)     super().__init__(
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2555)     with launch_core_engines(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2555)     next(self.gen)
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2555)     wait_for_engine_startup(
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2555)     raise RuntimeError(
+(APIServer pid=2555) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 730, in handle_request
+    result = await self.route_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 457, in route_request
+    state = await self.ensure_model_loaded(model_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 377, in ensure_model_loaded
+    return await self.load_model(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 293, in load_model
+    await adapter.start(timeout_s=self.config.engine_start_timeout_s)
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 176, in start
+    raise RuntimeError(
+RuntimeError: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8005.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108]     raise ValueError(
+(EngineCore pid=2756) ERROR 04-19 20:20:37 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2756) Process EngineCore:
+(EngineCore pid=2756) Traceback (most recent call last):
+(EngineCore pid=2756)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2756)     self.run()
+(EngineCore pid=2756)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2756)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2756)     raise e
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2756)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2756)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2756)     super().__init__(
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2756)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2756)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2756)     self._init_executor()
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2756)     self.driver_worker.init_device()
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2756)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2756)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2756)     return func(*args, **kwargs)
+(EngineCore pid=2756)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2756)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2756)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2756)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2756)     raise ValueError(
+(EngineCore pid=2756) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:20:38.924147887 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2555) Traceback (most recent call last):
+(APIServer pid=2555)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2555)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2555)     uvloop.run(run_server(args))
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2555)     return runner.run(wrapper())
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2555)     return self._loop.run_until_complete(task)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2555)     return await main
+(APIServer pid=2555)            ^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2555)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2555)     async with build_async_engine_client(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2555)     return await anext(self.gen)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2555)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2555)     return await anext(self.gen)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2555)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2555)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2555)     return cls(
+(APIServer pid=2555)            ^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2555)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2555)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2555)     return func(*args, **kwargs)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2555)     return AsyncMPClient(*client_args)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2555)     return func(*args, **kwargs)
+(APIServer pid=2555)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2555)     super().__init__(
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2555)     with launch_core_engines(
+(APIServer pid=2555)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2555)     next(self.gen)
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2555)     wait_for_engine_startup(
+(APIServer pid=2555)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2555)     raise RuntimeError(
+(APIServer pid=2555) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:20:41,584 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:20:21 +0000] "POST /v1/completions HTTP/1.1" 500 10528 "-" "curl/7.81.0"
+2026-04-19 20:20:51,600 [infergrid.router.router] INFO: req_id=r630051599 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:20:51,600 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8006 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:20:51,600 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8006.log
+2026-04-19 20:21:11,719 [infergrid.router.router] ERROR: req_id=r630051599 EXIT 500 unhandled: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8006.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     raise ValueError(
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=3219) Process EngineCore:
+(EngineCore pid=3219) Traceback (most recent call last):
+(EngineCore pid=3219)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=3219)     self.run()
+(EngineCore pid=3219)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=3219)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=3219)     raise e
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=3219)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=3219)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=3219)     super().__init__(
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=3219)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=3219)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=3219)     self._init_executor()
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3219)     self.driver_worker.init_device()
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3219)     self.worker.init_device()  # type: ignore
+(EngineCore pid=3219)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3219)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3219)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3219)     raise ValueError(
+(EngineCore pid=3219) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:21:08.787759791 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=3003) Traceback (most recent call last):
+(APIServer pid=3003)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=3003)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=3003)     uvloop.run(run_server(args))
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=3003)     return runner.run(wrapper())
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=3003)     return self._loop.run_until_complete(task)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=3003)     return await main
+(APIServer pid=3003)            ^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=3003)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=3003)     async with build_async_engine_client(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3003)     return await anext(self.gen)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=3003)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3003)     return await anext(self.gen)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=3003)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=3003)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=3003)     return cls(
+(APIServer pid=3003)            ^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=3003)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=3003)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3003)     return func(*args, **kwargs)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=3003)     return AsyncMPClient(*client_args)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3003)     return func(*args, **kwargs)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=3003)     super().__init__(
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=3003)     with launch_core_engines(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=3003)     next(self.gen)
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=3003)     wait_for_engine_startup(
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=3003)     raise RuntimeError(
+(APIServer pid=3003) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 730, in handle_request
+    result = await self.route_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 457, in route_request
+    state = await self.ensure_model_loaded(model_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 377, in ensure_model_loaded
+    return await self.load_model(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 293, in load_model
+    await adapter.start(timeout_s=self.config.engine_start_timeout_s)
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 176, in start
+    raise RuntimeError(
+RuntimeError: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8006.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108]     raise ValueError(
+(EngineCore pid=3219) ERROR 04-19 20:21:07 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=3219) Process EngineCore:
+(EngineCore pid=3219) Traceback (most recent call last):
+(EngineCore pid=3219)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=3219)     self.run()
+(EngineCore pid=3219)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=3219)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=3219)     raise e
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=3219)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=3219)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=3219)     super().__init__(
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=3219)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=3219)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=3219)     self._init_executor()
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3219)     self.driver_worker.init_device()
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3219)     self.worker.init_device()  # type: ignore
+(EngineCore pid=3219)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3219)     return func(*args, **kwargs)
+(EngineCore pid=3219)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3219)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3219)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3219)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3219)     raise ValueError(
+(EngineCore pid=3219) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:21:08.787759791 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=3003) Traceback (most recent call last):
+(APIServer pid=3003)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=3003)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=3003)     uvloop.run(run_server(args))
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=3003)     return runner.run(wrapper())
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=3003)     return self._loop.run_until_complete(task)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=3003)     return await main
+(APIServer pid=3003)            ^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=3003)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=3003)     async with build_async_engine_client(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3003)     return await anext(self.gen)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=3003)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3003)     return await anext(self.gen)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=3003)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=3003)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=3003)     return cls(
+(APIServer pid=3003)            ^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=3003)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=3003)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3003)     return func(*args, **kwargs)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=3003)     return AsyncMPClient(*client_args)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3003)     return func(*args, **kwargs)
+(APIServer pid=3003)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=3003)     super().__init__(
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=3003)     with launch_core_engines(
+(APIServer pid=3003)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=3003)     next(self.gen)
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=3003)     wait_for_engine_startup(
+(APIServer pid=3003)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=3003)     raise RuntimeError(
+(APIServer pid=3003) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:21:11,721 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:20:51 +0000] "POST /v1/completions HTTP/1.1" 500 10528 "-" "curl/7.81.0"
+2026-04-19 20:21:21,737 [infergrid.router.router] INFO: req_id=r630081737 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:21:21,737 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8007 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:21:21,738 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8007.log
+2026-04-19 20:21:41,819 [infergrid.router.router] ERROR: req_id=r630081737 EXIT 500 unhandled: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8007.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     raise ValueError(
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=3654) Process EngineCore:
+(EngineCore pid=3654) Traceback (most recent call last):
+(EngineCore pid=3654)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=3654)     self.run()
+(EngineCore pid=3654)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=3654)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=3654)     raise e
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=3654)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=3654)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=3654)     super().__init__(
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=3654)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=3654)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=3654)     self._init_executor()
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3654)     self.driver_worker.init_device()
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3654)     self.worker.init_device()  # type: ignore
+(EngineCore pid=3654)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3654)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3654)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3654)     raise ValueError(
+(EngineCore pid=3654) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:21:38.709667484 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=3453) Traceback (most recent call last):
+(APIServer pid=3453)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=3453)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=3453)     uvloop.run(run_server(args))
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=3453)     return runner.run(wrapper())
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=3453)     return self._loop.run_until_complete(task)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=3453)     return await main
+(APIServer pid=3453)            ^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=3453)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=3453)     async with build_async_engine_client(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3453)     return await anext(self.gen)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=3453)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3453)     return await anext(self.gen)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=3453)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=3453)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=3453)     return cls(
+(APIServer pid=3453)            ^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=3453)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=3453)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3453)     return func(*args, **kwargs)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=3453)     return AsyncMPClient(*client_args)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3453)     return func(*args, **kwargs)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=3453)     super().__init__(
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=3453)     with launch_core_engines(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=3453)     next(self.gen)
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=3453)     wait_for_engine_startup(
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=3453)     raise RuntimeError(
+(APIServer pid=3453) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 730, in handle_request
+    result = await self.route_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 457, in route_request
+    state = await self.ensure_model_loaded(model_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 377, in ensure_model_loaded
+    return await self.load_model(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 293, in load_model
+    await adapter.start(timeout_s=self.config.engine_start_timeout_s)
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 176, in start
+    raise RuntimeError(
+RuntimeError: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8007.log. Last 10KB:
+kages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108]     raise ValueError(
+(EngineCore pid=3654) ERROR 04-19 20:21:37 [core.py:1108] ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=3654) Process EngineCore:
+(EngineCore pid=3654) Traceback (most recent call last):
+(EngineCore pid=3654)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=3654)     self.run()
+(EngineCore pid=3654)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=3654)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=3654)     raise e
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=3654)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=3654)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=3654)     super().__init__(
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=3654)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=3654)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=3654)     self._init_executor()
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=3654)     self.driver_worker.init_device()
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=3654)     self.worker.init_device()  # type: ignore
+(EngineCore pid=3654)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=3654)     return func(*args, **kwargs)
+(EngineCore pid=3654)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=3654)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=3654)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=3654)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=3654)     raise ValueError(
+(EngineCore pid=3654) ValueError: Free memory on device cuda:0 (10.45/79.25 GiB) on startup is less than desired GPU memory utilization (0.85, 67.37 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 20:21:38.709667484 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=3453) Traceback (most recent call last):
+(APIServer pid=3453)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=3453)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=3453)     uvloop.run(run_server(args))
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=3453)     return runner.run(wrapper())
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=3453)     return self._loop.run_until_complete(task)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=3453)     return await main
+(APIServer pid=3453)            ^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=3453)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=3453)     async with build_async_engine_client(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3453)     return await anext(self.gen)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=3453)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=3453)     return await anext(self.gen)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=3453)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=3453)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=3453)     return cls(
+(APIServer pid=3453)            ^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=3453)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=3453)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3453)     return func(*args, **kwargs)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=3453)     return AsyncMPClient(*client_args)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=3453)     return func(*args, **kwargs)
+(APIServer pid=3453)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=3453)     super().__init__(
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=3453)     with launch_core_engines(
+(APIServer pid=3453)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=3453)     next(self.gen)
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=3453)     wait_for_engine_startup(
+(APIServer pid=3453)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=3453)     raise RuntimeError(
+(APIServer pid=3453) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 20:21:41,820 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:21:21 +0000] "POST /v1/completions HTTP/1.1" 500 10528 "-" "curl/7.81.0"

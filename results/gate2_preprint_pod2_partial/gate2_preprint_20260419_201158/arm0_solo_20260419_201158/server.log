@@ -1,0 +1,998 @@
+2026-04-19 20:12:06,897 [infergrid.router.admission] INFO: AdmissionController initialized: max_concurrent=256, queue_size=2048
+2026-04-19 20:12:06,897 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8002 --gpu-memory-utilization 0.85 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 4096
+2026-04-19 20:12:06,897 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log
+2026-04-19 20:13:17,085 [infergrid.engines.base] INFO: vLLM server ready on port 8002 for model meta-llama/Llama-3.1-8B-Instruct
+2026-04-19 20:13:17,085 [infergrid.router.router] INFO: Loaded model meta-llama/Llama-3.1-8B-Instruct on port 8002
+2026-04-19 20:13:17,085 [infergrid.router.router] INFO: WorkloadRouter started with 1 models, 8 queue workers
+2026-04-19 20:13:17,085 [infergrid] INFO: InferGrid serving on http://0.0.0.0:8000 with 1 model(s)
+2026-04-19 20:13:17,085 [infergrid] INFO:   Models: ['meta-llama/Llama-3.1-8B-Instruct']
+2026-04-19 20:13:17,086 [infergrid] INFO:   GPU budget: 92%
+2026-04-19 20:13:21,985 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:21 +0000] "GET /health HTTP/1.1" 200 175 "-" "curl/7.81.0"
+2026-04-19 20:13:21,993 [infergrid.router.router] INFO: req_id=r629601993 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=warmup stream=False path=/v1/completions
+2026-04-19 20:13:22,832 [infergrid.router.router] INFO: req_id=r629601993 EXIT 200 json_complete
+2026-04-19 20:13:22,833 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:21 +0000] "POST /v1/completions HTTP/1.1" 200 704 "-" "curl/7.81.0"
+2026-04-19 20:13:28,002 [infergrid.router.router] INFO: req_id=r629608002 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:28,336 [infergrid.router.router] INFO: req_id=r629608336 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:28,753 [infergrid.router.router] INFO: req_id=r629608002 EXIT 200 stream_complete
+2026-04-19 20:13:28,753 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:28 +0000] "POST /v1/completions HTTP/1.1" 200 18383 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:29,083 [infergrid.router.router] INFO: req_id=r629608336 EXIT 200 stream_complete
+2026-04-19 20:13:29,083 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:28 +0000] "POST /v1/completions HTTP/1.1" 200 18426 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:31,544 [infergrid.router.router] INFO: req_id=r629611544 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:32,268 [infergrid.router.router] INFO: req_id=r629611544 EXIT 200 stream_complete
+2026-04-19 20:13:32,268 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:31 +0000] "POST /v1/completions HTTP/1.1" 200 18438 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:32,658 [infergrid.router.router] INFO: req_id=r629612658 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:33,263 [infergrid.router.router] INFO: req_id=r629613263 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:33,517 [infergrid.router.router] INFO: req_id=r629612658 EXIT 200 stream_complete
+2026-04-19 20:13:33,518 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:32 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:33,991 [infergrid.router.router] INFO: req_id=r629613263 EXIT 200 stream_complete
+2026-04-19 20:13:33,992 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:33 +0000] "POST /v1/completions HTTP/1.1" 200 18371 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:34,203 [infergrid.router.router] INFO: req_id=r629614203 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:34,919 [infergrid.router.router] INFO: req_id=r629614203 EXIT 200 stream_complete
+2026-04-19 20:13:34,919 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:34 +0000] "POST /v1/completions HTTP/1.1" 200 18392 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:35,065 [infergrid.router.router] INFO: req_id=r629615065 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:35,566 [infergrid.router.router] INFO: req_id=r629615566 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:35,786 [infergrid.router.router] INFO: req_id=r629615065 EXIT 200 stream_complete
+2026-04-19 20:13:35,786 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:35 +0000] "POST /v1/completions HTTP/1.1" 200 18399 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:36,294 [infergrid.router.router] INFO: req_id=r629615566 EXIT 200 stream_complete
+2026-04-19 20:13:36,294 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:35 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:37,472 [infergrid.router.router] INFO: req_id=r629617471 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:37,943 [infergrid.router.router] INFO: req_id=r629617943 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:38,120 [infergrid.router.router] INFO: req_id=r629618120 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:38,195 [infergrid.router.router] INFO: req_id=r629617471 EXIT 200 stream_complete
+2026-04-19 20:13:38,195 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:37 +0000] "POST /v1/completions HTTP/1.1" 200 18419 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:38,257 [infergrid.router.router] INFO: req_id=r629618257 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:38,693 [infergrid.router.router] INFO: req_id=r629617943 EXIT 200 stream_complete
+2026-04-19 20:13:38,694 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:37 +0000] "POST /v1/completions HTTP/1.1" 200 18402 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:38,873 [infergrid.router.router] INFO: req_id=r629618120 EXIT 200 stream_complete
+2026-04-19 20:13:38,873 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:38 +0000] "POST /v1/completions HTTP/1.1" 200 18415 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:39,005 [infergrid.router.router] INFO: req_id=r629618257 EXIT 200 stream_complete
+2026-04-19 20:13:39,005 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:38 +0000] "POST /v1/completions HTTP/1.1" 200 18413 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:39,167 [infergrid.router.router] INFO: req_id=r629619167 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:39,880 [infergrid.router.router] INFO: req_id=r629619167 EXIT 200 stream_complete
+2026-04-19 20:13:39,880 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:39 +0000] "POST /v1/completions HTTP/1.1" 200 18348 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:40,025 [infergrid.router.router] INFO: req_id=r629620025 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:40,091 [infergrid.router.router] INFO: req_id=r629620091 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:40,299 [infergrid.router.router] INFO: req_id=r629620299 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:40,759 [infergrid.router.router] INFO: req_id=r629620025 EXIT 200 stream_complete
+2026-04-19 20:13:40,759 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:40 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:40,832 [infergrid.router.router] INFO: req_id=r629620091 EXIT 200 stream_complete
+2026-04-19 20:13:40,832 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:40 +0000] "POST /v1/completions HTTP/1.1" 200 18397 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:41,041 [infergrid.router.router] INFO: req_id=r629620299 EXIT 200 stream_complete
+2026-04-19 20:13:41,041 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:40 +0000] "POST /v1/completions HTTP/1.1" 200 18359 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:42,128 [infergrid.router.router] INFO: req_id=r629622128 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:42,450 [infergrid.router.router] INFO: req_id=r629622450 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:42,850 [infergrid.router.router] INFO: req_id=r629622128 EXIT 200 stream_complete
+2026-04-19 20:13:42,850 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:42 +0000] "POST /v1/completions HTTP/1.1" 200 18372 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:43,191 [infergrid.router.router] INFO: req_id=r629622450 EXIT 200 stream_complete
+2026-04-19 20:13:43,191 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:42 +0000] "POST /v1/completions HTTP/1.1" 200 18382 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:43,192 [infergrid.router.router] INFO: req_id=r629623192 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:43,906 [infergrid.router.router] INFO: req_id=r629623192 EXIT 200 stream_complete
+2026-04-19 20:13:43,906 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:43 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:47,639 [infergrid.router.router] INFO: req_id=r629627639 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:47,737 [infergrid.router.router] INFO: req_id=r629627737 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:48,370 [infergrid.router.router] INFO: req_id=r629627639 EXIT 200 stream_complete
+2026-04-19 20:13:48,370 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:47 +0000] "POST /v1/completions HTTP/1.1" 200 18358 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:48,480 [infergrid.router.router] INFO: req_id=r629627737 EXIT 200 stream_complete
+2026-04-19 20:13:48,480 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:47 +0000] "POST /v1/completions HTTP/1.1" 200 18388 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:49,287 [infergrid.router.router] INFO: req_id=r629629286 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:49,686 [infergrid.router.router] INFO: req_id=r629629686 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:49,869 [infergrid.router.router] INFO: req_id=r629629869 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:50,008 [infergrid.router.router] INFO: req_id=r629629286 EXIT 200 stream_complete
+2026-04-19 20:13:50,008 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:49 +0000] "POST /v1/completions HTTP/1.1" 200 18460 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:50,434 [infergrid.router.router] INFO: req_id=r629629686 EXIT 200 stream_complete
+2026-04-19 20:13:50,434 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:49 +0000] "POST /v1/completions HTTP/1.1" 200 18401 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:50,611 [infergrid.router.router] INFO: req_id=r629629869 EXIT 200 stream_complete
+2026-04-19 20:13:50,612 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:49 +0000] "POST /v1/completions HTTP/1.1" 200 18399 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:51,389 [infergrid.router.router] INFO: req_id=r629631389 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:52,103 [infergrid.router.router] INFO: req_id=r629631389 EXIT 200 stream_complete
+2026-04-19 20:13:52,103 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:51 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:53,481 [infergrid.router.router] INFO: req_id=r629633481 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:53,941 [infergrid.router.router] INFO: req_id=r629633941 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:54,199 [infergrid.router.router] INFO: req_id=r629633481 EXIT 200 stream_complete
+2026-04-19 20:13:54,200 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:53 +0000] "POST /v1/completions HTTP/1.1" 200 18330 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:54,678 [infergrid.router.router] INFO: req_id=r629633941 EXIT 200 stream_complete
+2026-04-19 20:13:54,678 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:53 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:55,056 [infergrid.router.router] INFO: req_id=r629635056 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:55,778 [infergrid.router.router] INFO: req_id=r629635056 EXIT 200 stream_complete
+2026-04-19 20:13:55,779 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:55 +0000] "POST /v1/completions HTTP/1.1" 200 18404 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:58,539 [infergrid.router.router] INFO: req_id=r629638539 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:58,893 [infergrid.router.router] INFO: req_id=r629638893 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:13:59,271 [infergrid.router.router] INFO: req_id=r629638539 EXIT 200 stream_complete
+2026-04-19 20:13:59,271 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:58 +0000] "POST /v1/completions HTTP/1.1" 200 18415 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:13:59,625 [infergrid.router.router] INFO: req_id=r629638893 EXIT 200 stream_complete
+2026-04-19 20:13:59,625 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:13:58 +0000] "POST /v1/completions HTTP/1.1" 200 18462 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:00,150 [infergrid.router.router] INFO: req_id=r629640150 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:00,791 [infergrid.router.router] INFO: req_id=r629640791 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:00,868 [infergrid.router.router] INFO: req_id=r629640150 EXIT 200 stream_complete
+2026-04-19 20:14:00,868 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:00 +0000] "POST /v1/completions HTTP/1.1" 200 18362 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:01,519 [infergrid.router.router] INFO: req_id=r629640791 EXIT 200 stream_complete
+2026-04-19 20:14:01,519 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:00 +0000] "POST /v1/completions HTTP/1.1" 200 18440 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:01,712 [infergrid.router.router] INFO: req_id=r629641712 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:02,156 [infergrid.router.router] INFO: req_id=r629642156 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:02,433 [infergrid.router.router] INFO: req_id=r629641712 EXIT 200 stream_complete
+2026-04-19 20:14:02,434 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:01 +0000] "POST /v1/completions HTTP/1.1" 200 18388 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:02,896 [infergrid.router.router] INFO: req_id=r629642156 EXIT 200 stream_complete
+2026-04-19 20:14:02,896 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:02 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:04,225 [infergrid.router.router] INFO: req_id=r629644225 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:04,939 [infergrid.router.router] INFO: req_id=r629644225 EXIT 200 stream_complete
+2026-04-19 20:14:04,940 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:04 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:05,086 [infergrid.router.router] INFO: req_id=r629645086 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:05,200 [infergrid.router.router] INFO: req_id=r629645200 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:05,786 [infergrid.router.router] INFO: req_id=r629645786 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:05,809 [infergrid.router.router] INFO: req_id=r629645086 EXIT 200 stream_complete
+2026-04-19 20:14:05,809 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:05 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:05,943 [infergrid.router.router] INFO: req_id=r629645200 EXIT 200 stream_complete
+2026-04-19 20:14:05,943 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:05 +0000] "POST /v1/completions HTTP/1.1" 200 18378 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:05,944 [infergrid.router.router] INFO: req_id=r629645944 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:06,527 [infergrid.router.router] INFO: req_id=r629645786 EXIT 200 stream_complete
+2026-04-19 20:14:06,527 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:05 +0000] "POST /v1/completions HTTP/1.1" 200 18382 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:06,681 [infergrid.router.router] INFO: req_id=r629645944 EXIT 200 stream_complete
+2026-04-19 20:14:06,681 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:05 +0000] "POST /v1/completions HTTP/1.1" 200 18393 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:08,285 [infergrid.router.router] INFO: req_id=r629648285 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:08,422 [infergrid.router.router] INFO: req_id=r629648422 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:09,010 [infergrid.router.router] INFO: req_id=r629648285 EXIT 200 stream_complete
+2026-04-19 20:14:09,011 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:08 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:09,158 [infergrid.router.router] INFO: req_id=r629648422 EXIT 200 stream_complete
+2026-04-19 20:14:09,159 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:08 +0000] "POST /v1/completions HTTP/1.1" 200 18361 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:12,954 [infergrid.router.router] INFO: req_id=r629652954 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:13,080 [infergrid.router.router] INFO: req_id=r629653080 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:13,379 [infergrid.router.router] INFO: req_id=r629653379 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:13,690 [infergrid.router.router] INFO: req_id=r629652954 EXIT 200 stream_complete
+2026-04-19 20:14:13,690 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:12 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:13,824 [infergrid.router.router] INFO: req_id=r629653080 EXIT 200 stream_complete
+2026-04-19 20:14:13,824 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:13 +0000] "POST /v1/completions HTTP/1.1" 200 18372 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:14,122 [infergrid.router.router] INFO: req_id=r629653379 EXIT 200 stream_complete
+2026-04-19 20:14:14,122 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:13 +0000] "POST /v1/completions HTTP/1.1" 200 18414 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:15,238 [infergrid.router.router] INFO: req_id=r629655238 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:15,329 [infergrid.router.router] INFO: req_id=r629655329 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:15,428 [infergrid.router.router] INFO: req_id=r629655428 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:15,983 [infergrid.router.router] INFO: req_id=r629655238 EXIT 200 stream_complete
+2026-04-19 20:14:15,984 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:15 +0000] "POST /v1/completions HTTP/1.1" 200 18429 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:16,072 [infergrid.router.router] INFO: req_id=r629655329 EXIT 200 stream_complete
+2026-04-19 20:14:16,072 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:15 +0000] "POST /v1/completions HTTP/1.1" 200 18367 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:16,171 [infergrid.router.router] INFO: req_id=r629655428 EXIT 200 stream_complete
+2026-04-19 20:14:16,171 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:15 +0000] "POST /v1/completions HTTP/1.1" 200 18322 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:17,311 [infergrid.router.router] INFO: req_id=r629657311 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:17,527 [infergrid.router.router] INFO: req_id=r629657527 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:17,830 [infergrid.router.router] INFO: req_id=r629657830 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:18,037 [infergrid.router.router] INFO: req_id=r629657311 EXIT 200 stream_complete
+2026-04-19 20:14:18,038 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:17 +0000] "POST /v1/completions HTTP/1.1" 200 18408 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:18,272 [infergrid.router.router] INFO: req_id=r629657527 EXIT 200 stream_complete
+2026-04-19 20:14:18,273 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:17 +0000] "POST /v1/completions HTTP/1.1" 200 18413 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:18,570 [infergrid.router.router] INFO: req_id=r629657830 EXIT 200 stream_complete
+2026-04-19 20:14:18,570 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:17 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:20,268 [infergrid.router.router] INFO: req_id=r629660268 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:20,776 [infergrid.router.router] INFO: req_id=r629660776 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:20,981 [infergrid.router.router] INFO: req_id=r629660981 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:20,985 [infergrid.router.router] INFO: req_id=r629660268 EXIT 200 stream_complete
+2026-04-19 20:14:20,985 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:20 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:21,512 [infergrid.router.router] INFO: req_id=r629660776 EXIT 200 stream_complete
+2026-04-19 20:14:21,512 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:20 +0000] "POST /v1/completions HTTP/1.1" 200 18376 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:21,721 [infergrid.router.router] INFO: req_id=r629660981 EXIT 200 stream_complete
+2026-04-19 20:14:21,721 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:20 +0000] "POST /v1/completions HTTP/1.1" 200 18409 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:22,512 [infergrid.router.router] INFO: req_id=r629662512 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:23,228 [infergrid.router.router] INFO: req_id=r629662512 EXIT 200 stream_complete
+2026-04-19 20:14:23,228 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:22 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:23,740 [infergrid.router.router] INFO: req_id=r629663740 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:24,456 [infergrid.router.router] INFO: req_id=r629663740 EXIT 200 stream_complete
+2026-04-19 20:14:24,456 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:23 +0000] "POST /v1/completions HTTP/1.1" 200 18374 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:24,848 [infergrid.router.router] INFO: req_id=r629664848 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:25,099 [infergrid.router.router] INFO: req_id=r629665099 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:25,576 [infergrid.router.router] INFO: req_id=r629664848 EXIT 200 stream_complete
+2026-04-19 20:14:25,576 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:24 +0000] "POST /v1/completions HTTP/1.1" 200 18346 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:25,829 [infergrid.router.router] INFO: req_id=r629665099 EXIT 200 stream_complete
+2026-04-19 20:14:25,829 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:25 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:26,600 [infergrid.router.router] INFO: req_id=r629666600 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:27,314 [infergrid.router.router] INFO: req_id=r629666600 EXIT 200 stream_complete
+2026-04-19 20:14:27,315 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:26 +0000] "POST /v1/completions HTTP/1.1" 200 18412 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:28,331 [infergrid.router.router] INFO: req_id=r629668331 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:28,586 [infergrid.router.router] INFO: req_id=r629668586 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:29,055 [infergrid.router.router] INFO: req_id=r629668331 EXIT 200 stream_complete
+2026-04-19 20:14:29,055 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:28 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:29,283 [infergrid.router.router] INFO: req_id=r629669283 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:29,312 [infergrid.router.router] INFO: req_id=r629669312 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:29,320 [infergrid.router.router] INFO: req_id=r629668586 EXIT 200 stream_complete
+2026-04-19 20:14:29,320 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:28 +0000] "POST /v1/completions HTTP/1.1" 200 18401 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:30,027 [infergrid.router.router] INFO: req_id=r629669283 EXIT 200 stream_complete
+2026-04-19 20:14:30,027 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:29 +0000] "POST /v1/completions HTTP/1.1" 200 18422 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:30,049 [infergrid.router.router] INFO: req_id=r629669312 EXIT 200 stream_complete
+2026-04-19 20:14:30,049 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:29 +0000] "POST /v1/completions HTTP/1.1" 200 18397 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:30,177 [infergrid.router.router] INFO: req_id=r629670177 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:30,426 [infergrid.router.router] INFO: req_id=r629670426 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:30,898 [infergrid.router.router] INFO: req_id=r629670177 EXIT 200 stream_complete
+2026-04-19 20:14:30,898 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:30 +0000] "POST /v1/completions HTTP/1.1" 200 18363 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:31,165 [infergrid.router.router] INFO: req_id=r629670426 EXIT 200 stream_complete
+2026-04-19 20:14:31,165 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:30 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:31,872 [infergrid.router.router] INFO: req_id=r629671872 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:32,159 [infergrid.router.router] INFO: req_id=r629672159 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:32,600 [infergrid.router.router] INFO: req_id=r629671872 EXIT 200 stream_complete
+2026-04-19 20:14:32,600 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:31 +0000] "POST /v1/completions HTTP/1.1" 200 18310 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:32,898 [infergrid.router.router] INFO: req_id=r629672159 EXIT 200 stream_complete
+2026-04-19 20:14:32,898 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:32 +0000] "POST /v1/completions HTTP/1.1" 200 18389 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:33,361 [infergrid.router.router] INFO: req_id=r629673361 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:34,075 [infergrid.router.router] INFO: req_id=r629673361 EXIT 200 stream_complete
+2026-04-19 20:14:34,076 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:33 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:34,198 [infergrid.router.router] INFO: req_id=r629674198 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:34,423 [infergrid.router.router] INFO: req_id=r629674423 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:34,535 [infergrid.router.router] INFO: req_id=r629674535 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:34,924 [infergrid.router.router] INFO: req_id=r629674198 EXIT 200 stream_complete
+2026-04-19 20:14:34,924 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:34 +0000] "POST /v1/completions HTTP/1.1" 200 18397 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:35,007 [infergrid.router.router] INFO: req_id=r629675007 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:35,172 [infergrid.router.router] INFO: req_id=r629674423 EXIT 200 stream_complete
+2026-04-19 20:14:35,172 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:34 +0000] "POST /v1/completions HTTP/1.1" 200 18419 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:35,284 [infergrid.router.router] INFO: req_id=r629674535 EXIT 200 stream_complete
+2026-04-19 20:14:35,284 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:34 +0000] "POST /v1/completions HTTP/1.1" 200 18379 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:35,383 [infergrid.router.router] INFO: req_id=r629675383 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:35,742 [infergrid.router.router] INFO: req_id=r629675007 EXIT 200 stream_complete
+2026-04-19 20:14:35,742 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:35 +0000] "POST /v1/completions HTTP/1.1" 200 18468 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:36,119 [infergrid.router.router] INFO: req_id=r629675383 EXIT 200 stream_complete
+2026-04-19 20:14:36,119 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:35 +0000] "POST /v1/completions HTTP/1.1" 200 18444 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:36,164 [infergrid.router.router] INFO: req_id=r629676164 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:36,877 [infergrid.router.router] INFO: req_id=r629676164 EXIT 200 stream_complete
+2026-04-19 20:14:36,878 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:36 +0000] "POST /v1/completions HTTP/1.1" 200 18440 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:37,345 [infergrid.router.router] INFO: req_id=r629677345 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:37,615 [infergrid.router.router] INFO: req_id=r629677614 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:37,928 [infergrid.router.router] INFO: req_id=r629677928 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:38,069 [infergrid.router.router] INFO: req_id=r629677345 EXIT 200 stream_complete
+2026-04-19 20:14:38,069 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:37 +0000] "POST /v1/completions HTTP/1.1" 200 18343 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:38,362 [infergrid.router.router] INFO: req_id=r629677614 EXIT 200 stream_complete
+2026-04-19 20:14:38,362 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:37 +0000] "POST /v1/completions HTTP/1.1" 200 18393 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:38,659 [infergrid.router.router] INFO: req_id=r629677928 EXIT 200 stream_complete
+2026-04-19 20:14:38,659 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:37 +0000] "POST /v1/completions HTTP/1.1" 200 18338 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:39,745 [infergrid.router.router] INFO: req_id=r629679745 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:40,403 [infergrid.router.router] INFO: req_id=r629680403 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:40,466 [infergrid.router.router] INFO: req_id=r629679745 EXIT 200 stream_complete
+2026-04-19 20:14:40,466 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:39 +0000] "POST /v1/completions HTTP/1.1" 200 18345 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:40,559 [infergrid.router.router] INFO: req_id=r629680559 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:40,568 [infergrid.router.router] INFO: req_id=r629680568 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:41,145 [infergrid.router.router] INFO: req_id=r629680403 EXIT 200 stream_complete
+2026-04-19 20:14:41,145 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:40 +0000] "POST /v1/completions HTTP/1.1" 200 18429 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:41,213 [infergrid.router.router] INFO: req_id=r629681213 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:41,313 [infergrid.router.router] INFO: req_id=r629680568 EXIT 200 stream_complete
+2026-04-19 20:14:41,314 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:40 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:41,314 [infergrid.router.router] INFO: req_id=r629680559 EXIT 200 stream_complete
+2026-04-19 20:14:41,314 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:40 +0000] "POST /v1/completions HTTP/1.1" 200 18373 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:41,551 [infergrid.router.router] INFO: req_id=r629681550 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:41,907 [infergrid.router.router] INFO: req_id=r629681907 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:41,949 [infergrid.router.router] INFO: req_id=r629681213 EXIT 200 stream_complete
+2026-04-19 20:14:41,949 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:41 +0000] "POST /v1/completions HTTP/1.1" 200 18344 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:42,296 [infergrid.router.router] INFO: req_id=r629681550 EXIT 200 stream_complete
+2026-04-19 20:14:42,296 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:41 +0000] "POST /v1/completions HTTP/1.1" 200 18424 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:42,638 [infergrid.router.router] INFO: req_id=r629681907 EXIT 200 stream_complete
+2026-04-19 20:14:42,639 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:41 +0000] "POST /v1/completions HTTP/1.1" 200 18368 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:45,691 [infergrid.router.router] INFO: req_id=r629685691 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:46,414 [infergrid.router.router] INFO: req_id=r629685691 EXIT 200 stream_complete
+2026-04-19 20:14:46,415 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:45 +0000] "POST /v1/completions HTTP/1.1" 200 18366 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:48,126 [infergrid.router.router] INFO: req_id=r629688126 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:48,841 [infergrid.router.router] INFO: req_id=r629688126 EXIT 200 stream_complete
+2026-04-19 20:14:48,841 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:48 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:49,995 [infergrid.router.router] INFO: req_id=r629689995 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:50,710 [infergrid.router.router] INFO: req_id=r629689995 EXIT 200 stream_complete
+2026-04-19 20:14:50,710 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:49 +0000] "POST /v1/completions HTTP/1.1" 200 18392 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:51,283 [infergrid.router.router] INFO: req_id=r629691283 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:51,524 [infergrid.router.router] INFO: req_id=r629691524 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:52,004 [infergrid.router.router] INFO: req_id=r629691283 EXIT 200 stream_complete
+2026-04-19 20:14:52,004 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:51 +0000] "POST /v1/completions HTTP/1.1" 200 18383 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:52,258 [infergrid.router.router] INFO: req_id=r629691524 EXIT 200 stream_complete
+2026-04-19 20:14:52,258 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:51 +0000] "POST /v1/completions HTTP/1.1" 200 18441 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:52,458 [infergrid.router.router] INFO: req_id=r629692458 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:53,174 [infergrid.router.router] INFO: req_id=r629692458 EXIT 200 stream_complete
+2026-04-19 20:14:53,174 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:52 +0000] "POST /v1/completions HTTP/1.1" 200 18356 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:53,498 [infergrid.router.router] INFO: req_id=r629693498 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:54,211 [infergrid.router.router] INFO: req_id=r629693498 EXIT 200 stream_complete
+2026-04-19 20:14:54,212 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:53 +0000] "POST /v1/completions HTTP/1.1" 200 18369 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:55,849 [infergrid.router.router] INFO: req_id=r629695849 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:56,059 [infergrid.router.router] INFO: req_id=r629696059 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:56,576 [infergrid.router.router] INFO: req_id=r629695849 EXIT 200 stream_complete
+2026-04-19 20:14:56,576 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:55 +0000] "POST /v1/completions HTTP/1.1" 200 18346 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:56,797 [infergrid.router.router] INFO: req_id=r629696059 EXIT 200 stream_complete
+2026-04-19 20:14:56,797 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:56 +0000] "POST /v1/completions HTTP/1.1" 200 18314 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:57,001 [infergrid.router.router] INFO: req_id=r629697001 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:57,299 [infergrid.router.router] INFO: req_id=r629697299 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:14:57,719 [infergrid.router.router] INFO: req_id=r629697001 EXIT 200 stream_complete
+2026-04-19 20:14:57,719 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:57 +0000] "POST /v1/completions HTTP/1.1" 200 18362 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:14:58,040 [infergrid.router.router] INFO: req_id=r629697299 EXIT 200 stream_complete
+2026-04-19 20:14:58,040 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:14:57 +0000] "POST /v1/completions HTTP/1.1" 200 18402 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:03,535 [infergrid.router.router] INFO: req_id=r629703535 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:03,888 [infergrid.router.router] INFO: req_id=r629703888 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:04,267 [infergrid.router.router] INFO: req_id=r629703535 EXIT 200 stream_complete
+2026-04-19 20:15:04,267 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:03 +0000] "POST /v1/completions HTTP/1.1" 200 18364 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:04,502 [infergrid.router.router] INFO: req_id=r629704502 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:04,622 [infergrid.router.router] INFO: req_id=r629703888 EXIT 200 stream_complete
+2026-04-19 20:15:04,622 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:03 +0000] "POST /v1/completions HTTP/1.1" 200 18441 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:05,195 [infergrid.router.router] INFO: req_id=r629705195 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:05,230 [infergrid.router.router] INFO: req_id=r629704502 EXIT 200 stream_complete
+2026-04-19 20:15:05,230 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:04 +0000] "POST /v1/completions HTTP/1.1" 200 18340 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:05,925 [infergrid.router.router] INFO: req_id=r629705195 EXIT 200 stream_complete
+2026-04-19 20:15:05,925 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:05 +0000] "POST /v1/completions HTTP/1.1" 200 18434 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:06,829 [infergrid.router.router] INFO: req_id=r629706829 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:07,235 [infergrid.router.router] INFO: req_id=r629707235 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:07,550 [infergrid.router.router] INFO: req_id=r629706829 EXIT 200 stream_complete
+2026-04-19 20:15:07,550 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:06 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:07,969 [infergrid.router.router] INFO: req_id=r629707235 EXIT 200 stream_complete
+2026-04-19 20:15:07,969 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:07 +0000] "POST /v1/completions HTTP/1.1" 200 18403 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:08,767 [infergrid.router.router] INFO: req_id=r629708767 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:09,163 [infergrid.router.router] INFO: req_id=r629709163 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:09,433 [infergrid.router.router] INFO: req_id=r629709433 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:09,487 [infergrid.router.router] INFO: req_id=r629708767 EXIT 200 stream_complete
+2026-04-19 20:15:09,487 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:08 +0000] "POST /v1/completions HTTP/1.1" 200 18424 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:09,634 [infergrid.router.router] INFO: req_id=r629709634 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:09,904 [infergrid.router.router] INFO: req_id=r629709163 EXIT 200 stream_complete
+2026-04-19 20:15:09,905 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:09 +0000] "POST /v1/completions HTTP/1.1" 200 18344 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:10,174 [infergrid.router.router] INFO: req_id=r629709433 EXIT 200 stream_complete
+2026-04-19 20:15:10,174 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:09 +0000] "POST /v1/completions HTTP/1.1" 200 18388 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:10,372 [infergrid.router.router] INFO: req_id=r629709634 EXIT 200 stream_complete
+2026-04-19 20:15:10,372 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:09 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:14,904 [infergrid.router.router] INFO: req_id=r629714904 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:14,905 [infergrid.router.router] ERROR: req_id=r629714904 EXIT 500 unhandled: Server disconnected
+Traceback (most recent call last):
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 747, in handle_request
+    async for chunk in result:
+  File "/workspace/infergrid/src/infergrid/router/router.py", line 565, in _stream_with_admission
+    async for chunk in inner:
+  File "/workspace/infergrid/src/infergrid/engines/base.py", line 355, in _stream_response
+    async with session.post(url, json=payload) as resp:
+  File "/usr/local/lib/python3.11/dist-packages/aiohttp/client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+                           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/aiohttp/client.py", line 788, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/aiohttp/client.py", line 766, in _connect_and_send_request
+    await resp.start(conn)
+  File "/usr/local/lib/python3.11/dist-packages/aiohttp/client_reqrep.py", line 539, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/aiohttp/streams.py", line 707, in read
+    await self._waiter
+aiohttp.client_exceptions.ServerDisconnectedError: Server disconnected
+2026-04-19 20:15:14,908 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:14 +0000] "POST /v1/completions HTTP/1.1" 500 226 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:16,668 [infergrid.router.router] INFO: req_id=r629716668 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:17,390 [infergrid.router.router] INFO: req_id=r629716668 EXIT 200 stream_complete
+2026-04-19 20:15:17,391 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:16 +0000] "POST /v1/completions HTTP/1.1" 200 18398 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:17,419 [infergrid.router.router] INFO: req_id=r629717419 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:18,132 [infergrid.router.router] INFO: req_id=r629717419 EXIT 200 stream_complete
+2026-04-19 20:15:18,133 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:17 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:20,387 [infergrid.router.router] INFO: req_id=r629720387 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:21,109 [infergrid.router.router] INFO: req_id=r629720387 EXIT 200 stream_complete
+2026-04-19 20:15:21,109 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:20 +0000] "POST /v1/completions HTTP/1.1" 200 18326 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:22,558 [infergrid.router.router] INFO: req_id=r629722558 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:22,800 [infergrid.router.router] INFO: req_id=r629722800 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:23,282 [infergrid.router.router] INFO: req_id=r629722558 EXIT 200 stream_complete
+2026-04-19 20:15:23,282 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:22 +0000] "POST /v1/completions HTTP/1.1" 200 18440 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:23,534 [infergrid.router.router] INFO: req_id=r629722800 EXIT 200 stream_complete
+2026-04-19 20:15:23,534 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:22 +0000] "POST /v1/completions HTTP/1.1" 200 18418 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:23,964 [infergrid.router.router] INFO: req_id=r629723964 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:24,268 [infergrid.router.router] INFO: req_id=r629724268 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:24,683 [infergrid.router.router] INFO: req_id=r629723964 EXIT 200 stream_complete
+2026-04-19 20:15:24,683 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:23 +0000] "POST /v1/completions HTTP/1.1" 200 18336 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:24,760 [infergrid.router.router] INFO: req_id=r629724760 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:25,007 [infergrid.router.router] INFO: req_id=r629724268 EXIT 200 stream_complete
+2026-04-19 20:15:25,007 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:24 +0000] "POST /v1/completions HTTP/1.1" 200 18389 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:25,492 [infergrid.router.router] INFO: req_id=r629724760 EXIT 200 stream_complete
+2026-04-19 20:15:25,492 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:24 +0000] "POST /v1/completions HTTP/1.1" 200 18430 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:29,716 [infergrid.router.router] INFO: req_id=r629729716 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:30,440 [infergrid.router.router] INFO: req_id=r629729716 EXIT 200 stream_complete
+2026-04-19 20:15:30,440 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:29 +0000] "POST /v1/completions HTTP/1.1" 200 18409 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:31,559 [infergrid.router.router] INFO: req_id=r629731559 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:31,703 [infergrid.router.router] INFO: req_id=r629731703 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:32,073 [infergrid.router.router] INFO: req_id=r629732073 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:32,173 [infergrid.router.router] INFO: req_id=r629732173 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:32,230 [infergrid.router.router] INFO: req_id=r629732230 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:32,287 [infergrid.router.router] INFO: req_id=r629731559 EXIT 200 stream_complete
+2026-04-19 20:15:32,287 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:31 +0000] "POST /v1/completions HTTP/1.1" 200 18423 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:32,446 [infergrid.router.router] INFO: req_id=r629731703 EXIT 200 stream_complete
+2026-04-19 20:15:32,446 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:31 +0000] "POST /v1/completions HTTP/1.1" 200 18381 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:32,822 [infergrid.router.router] INFO: req_id=r629732073 EXIT 200 stream_complete
+2026-04-19 20:15:32,822 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:32 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:32,922 [infergrid.router.router] INFO: req_id=r629732173 EXIT 200 stream_complete
+2026-04-19 20:15:32,922 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:32 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:32,977 [infergrid.router.router] INFO: req_id=r629732230 EXIT 200 stream_complete
+2026-04-19 20:15:32,977 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:32 +0000] "POST /v1/completions HTTP/1.1" 200 18399 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:33,229 [infergrid.router.router] INFO: req_id=r629733229 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:33,943 [infergrid.router.router] INFO: req_id=r629733229 EXIT 200 stream_complete
+2026-04-19 20:15:33,943 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:33 +0000] "POST /v1/completions HTTP/1.1" 200 18424 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:34,012 [infergrid.router.router] INFO: req_id=r629734012 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:34,022 [infergrid.router.router] INFO: req_id=r629734022 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:34,680 [infergrid.router.router] INFO: req_id=r629734680 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:34,739 [infergrid.router.router] INFO: req_id=r629734012 EXIT 200 stream_complete
+2026-04-19 20:15:34,739 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:34 +0000] "POST /v1/completions HTTP/1.1" 200 18416 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:34,764 [infergrid.router.router] INFO: req_id=r629734022 EXIT 200 stream_complete
+2026-04-19 20:15:34,764 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:34 +0000] "POST /v1/completions HTTP/1.1" 200 18380 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:35,019 [infergrid.router.router] INFO: req_id=r629735019 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:35,418 [infergrid.router.router] INFO: req_id=r629734680 EXIT 200 stream_complete
+2026-04-19 20:15:35,418 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:34 +0000] "POST /v1/completions HTTP/1.1" 200 18410 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:35,614 [infergrid.router.router] INFO: req_id=r629735614 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:35,764 [infergrid.router.router] INFO: req_id=r629735019 EXIT 200 stream_complete
+2026-04-19 20:15:35,764 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:35 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:36,347 [infergrid.router.router] INFO: req_id=r629735614 EXIT 200 stream_complete
+2026-04-19 20:15:36,347 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:35 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:36,759 [infergrid.router.router] INFO: req_id=r629736759 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:37,410 [infergrid.router.router] INFO: req_id=r629737410 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:37,475 [infergrid.router.router] INFO: req_id=r629736759 EXIT 200 stream_complete
+2026-04-19 20:15:37,475 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:36 +0000] "POST /v1/completions HTTP/1.1" 200 18403 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:37,857 [infergrid.router.router] INFO: req_id=r629737857 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:38,142 [infergrid.router.router] INFO: req_id=r629737410 EXIT 200 stream_complete
+2026-04-19 20:15:38,142 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:37 +0000] "POST /v1/completions HTTP/1.1" 200 18435 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:38,163 [infergrid.router.router] INFO: req_id=r629738163 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:38,259 [infergrid.router.router] INFO: req_id=r629738259 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:38,465 [infergrid.router.router] INFO: req_id=r629738465 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:38,606 [infergrid.router.router] INFO: req_id=r629737857 EXIT 200 stream_complete
+2026-04-19 20:15:38,606 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:37 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:38,695 [infergrid.router.router] INFO: req_id=r629738695 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:38,913 [infergrid.router.router] INFO: req_id=r629738163 EXIT 200 stream_complete
+2026-04-19 20:15:38,914 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:38 +0000] "POST /v1/completions HTTP/1.1" 200 18373 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:39,004 [infergrid.router.router] INFO: req_id=r629738259 EXIT 200 stream_complete
+2026-04-19 20:15:39,004 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:38 +0000] "POST /v1/completions HTTP/1.1" 200 18435 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:39,217 [infergrid.router.router] INFO: req_id=r629738465 EXIT 200 stream_complete
+2026-04-19 20:15:39,217 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:38 +0000] "POST /v1/completions HTTP/1.1" 200 18438 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:39,231 [infergrid.router.router] INFO: req_id=r629739231 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:39,243 [infergrid.router.router] INFO: req_id=r629739243 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:39,445 [infergrid.router.router] INFO: req_id=r629738695 EXIT 200 stream_complete
+2026-04-19 20:15:39,445 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:38 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:39,491 [infergrid.router.router] INFO: req_id=r629739491 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:39,979 [infergrid.router.router] INFO: req_id=r629739231 EXIT 200 stream_complete
+2026-04-19 20:15:39,979 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:39 +0000] "POST /v1/completions HTTP/1.1" 200 18381 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:39,990 [infergrid.router.router] INFO: req_id=r629739243 EXIT 200 stream_complete
+2026-04-19 20:15:39,990 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:39 +0000] "POST /v1/completions HTTP/1.1" 200 18412 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:40,232 [infergrid.router.router] INFO: req_id=r629739491 EXIT 200 stream_complete
+2026-04-19 20:15:40,233 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:39 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:42,132 [infergrid.router.router] INFO: req_id=r629742132 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:42,411 [infergrid.router.router] INFO: req_id=r629742411 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:42,455 [infergrid.router.router] INFO: req_id=r629742455 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:42,558 [infergrid.router.router] INFO: req_id=r629742558 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:42,632 [infergrid.router.router] INFO: req_id=r629742632 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:42,875 [infergrid.router.router] INFO: req_id=r629742132 EXIT 200 stream_complete
+2026-04-19 20:15:42,875 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18335 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:42,933 [infergrid.router.router] INFO: req_id=r629742933 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:43,163 [infergrid.router.router] INFO: req_id=r629742411 EXIT 200 stream_complete
+2026-04-19 20:15:43,163 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18358 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:43,206 [infergrid.router.router] INFO: req_id=r629742455 EXIT 200 stream_complete
+2026-04-19 20:15:43,206 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18413 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:43,309 [infergrid.router.router] INFO: req_id=r629742558 EXIT 200 stream_complete
+2026-04-19 20:15:43,309 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:43,387 [infergrid.router.router] INFO: req_id=r629742632 EXIT 200 stream_complete
+2026-04-19 20:15:43,387 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:43,674 [infergrid.router.router] INFO: req_id=r629742933 EXIT 200 stream_complete
+2026-04-19 20:15:43,674 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:42 +0000] "POST /v1/completions HTTP/1.1" 200 18394 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:43,869 [infergrid.router.router] INFO: req_id=r629743869 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:44,585 [infergrid.router.router] INFO: req_id=r629743869 EXIT 200 stream_complete
+2026-04-19 20:15:44,585 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:43 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:44,851 [infergrid.router.router] INFO: req_id=r629744851 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:45,527 [infergrid.router.router] INFO: req_id=r629745527 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:45,568 [infergrid.router.router] INFO: req_id=r629744851 EXIT 200 stream_complete
+2026-04-19 20:15:45,568 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:44 +0000] "POST /v1/completions HTTP/1.1" 200 18473 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:46,250 [infergrid.router.router] INFO: req_id=r629745527 EXIT 200 stream_complete
+2026-04-19 20:15:46,251 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:45 +0000] "POST /v1/completions HTTP/1.1" 200 18388 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:48,465 [infergrid.router.router] INFO: req_id=r629748465 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:49,186 [infergrid.router.router] INFO: req_id=r629748465 EXIT 200 stream_complete
+2026-04-19 20:15:49,187 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:48 +0000] "POST /v1/completions HTTP/1.1" 200 18411 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:49,556 [infergrid.router.router] INFO: req_id=r629749556 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:50,023 [infergrid.router.router] INFO: req_id=r629750023 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:50,272 [infergrid.router.router] INFO: req_id=r629749556 EXIT 200 stream_complete
+2026-04-19 20:15:50,272 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:49 +0000] "POST /v1/completions HTTP/1.1" 200 18400 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:50,607 [infergrid.router.router] INFO: req_id=r629750607 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:50,765 [infergrid.router.router] INFO: req_id=r629750023 EXIT 200 stream_complete
+2026-04-19 20:15:50,765 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:50 +0000] "POST /v1/completions HTTP/1.1" 200 18347 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:51,333 [infergrid.router.router] INFO: req_id=r629750607 EXIT 200 stream_complete
+2026-04-19 20:15:51,333 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:50 +0000] "POST /v1/completions HTTP/1.1" 200 18372 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:52,357 [infergrid.router.router] INFO: req_id=r629752357 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:52,933 [infergrid.router.router] INFO: req_id=r629752933 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:53,073 [infergrid.router.router] INFO: req_id=r629752357 EXIT 200 stream_complete
+2026-04-19 20:15:53,074 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:52 +0000] "POST /v1/completions HTTP/1.1" 200 18373 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:53,659 [infergrid.router.router] INFO: req_id=r629752933 EXIT 200 stream_complete
+2026-04-19 20:15:53,659 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:52 +0000] "POST /v1/completions HTTP/1.1" 200 18420 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:54,395 [infergrid.router.router] INFO: req_id=r629754395 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:54,474 [infergrid.router.router] INFO: req_id=r629754474 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:55,094 [infergrid.router.router] INFO: req_id=r629755094 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:55,114 [infergrid.router.router] INFO: req_id=r629755114 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:55,124 [infergrid.router.router] INFO: req_id=r629754395 EXIT 200 stream_complete
+2026-04-19 20:15:55,124 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:54 +0000] "POST /v1/completions HTTP/1.1" 200 18409 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:55,214 [infergrid.router.router] INFO: req_id=r629754474 EXIT 200 stream_complete
+2026-04-19 20:15:55,214 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:54 +0000] "POST /v1/completions HTTP/1.1" 200 18407 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:55,831 [infergrid.router.router] INFO: req_id=r629755094 EXIT 200 stream_complete
+2026-04-19 20:15:55,831 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:55 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:55,860 [infergrid.router.router] INFO: req_id=r629755114 EXIT 200 stream_complete
+2026-04-19 20:15:55,860 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:55 +0000] "POST /v1/completions HTTP/1.1" 200 18371 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:58,567 [infergrid.router.router] INFO: req_id=r629758567 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:58,832 [infergrid.router.router] INFO: req_id=r629758832 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:59,112 [infergrid.router.router] INFO: req_id=r629759112 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:59,221 [infergrid.router.router] INFO: req_id=r629759221 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:59,299 [infergrid.router.router] INFO: req_id=r629758567 EXIT 200 stream_complete
+2026-04-19 20:15:59,299 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:58 +0000] "POST /v1/completions HTTP/1.1" 200 18419 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:59,361 [infergrid.router.router] INFO: req_id=r629759361 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:15:59,584 [infergrid.router.router] INFO: req_id=r629758832 EXIT 200 stream_complete
+2026-04-19 20:15:59,585 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:58 +0000] "POST /v1/completions HTTP/1.1" 200 18382 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:59,869 [infergrid.router.router] INFO: req_id=r629759112 EXIT 200 stream_complete
+2026-04-19 20:15:59,869 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:59 +0000] "POST /v1/completions HTTP/1.1" 200 18479 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:15:59,970 [infergrid.router.router] INFO: req_id=r629759221 EXIT 200 stream_complete
+2026-04-19 20:15:59,970 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:59 +0000] "POST /v1/completions HTTP/1.1" 200 18398 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:00,102 [infergrid.router.router] INFO: req_id=r629759361 EXIT 200 stream_complete
+2026-04-19 20:16:00,102 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:15:59 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:00,428 [infergrid.router.router] INFO: req_id=r629760428 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:00,466 [infergrid.router.router] INFO: req_id=r629760466 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:00,693 [infergrid.router.router] INFO: req_id=r629760693 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:01,161 [infergrid.router.router] INFO: req_id=r629760428 EXIT 200 stream_complete
+2026-04-19 20:16:01,161 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:00 +0000] "POST /v1/completions HTTP/1.1" 200 18346 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:01,216 [infergrid.router.router] INFO: req_id=r629760466 EXIT 200 stream_complete
+2026-04-19 20:16:01,216 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:00 +0000] "POST /v1/completions HTTP/1.1" 200 18429 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:01,437 [infergrid.router.router] INFO: req_id=r629760693 EXIT 200 stream_complete
+2026-04-19 20:16:01,437 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:00 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:01,511 [infergrid.router.router] INFO: req_id=r629761511 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:02,224 [infergrid.router.router] INFO: req_id=r629761511 EXIT 200 stream_complete
+2026-04-19 20:16:02,224 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:01 +0000] "POST /v1/completions HTTP/1.1" 200 18407 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:03,177 [infergrid.router.router] INFO: req_id=r629763177 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:03,618 [infergrid.router.router] INFO: req_id=r629763618 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:03,894 [infergrid.router.router] INFO: req_id=r629763177 EXIT 200 stream_complete
+2026-04-19 20:16:03,894 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:03 +0000] "POST /v1/completions HTTP/1.1" 200 18359 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:04,088 [infergrid.router.router] INFO: req_id=r629764088 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:04,351 [infergrid.router.router] INFO: req_id=r629763618 EXIT 200 stream_complete
+2026-04-19 20:16:04,351 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:03 +0000] "POST /v1/completions HTTP/1.1" 200 18418 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:04,824 [infergrid.router.router] INFO: req_id=r629764088 EXIT 200 stream_complete
+2026-04-19 20:16:04,824 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:04 +0000] "POST /v1/completions HTTP/1.1" 200 18410 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:04,872 [infergrid.router.router] INFO: req_id=r629764872 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:05,585 [infergrid.router.router] INFO: req_id=r629764872 EXIT 200 stream_complete
+2026-04-19 20:16:05,585 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:04 +0000] "POST /v1/completions HTTP/1.1" 200 18389 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:06,158 [infergrid.router.router] INFO: req_id=r629766158 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:06,187 [infergrid.router.router] INFO: req_id=r629766187 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:06,248 [infergrid.router.router] INFO: req_id=r629766248 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:06,565 [infergrid.router.router] INFO: req_id=r629766565 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:06,592 [infergrid.router.router] INFO: req_id=r629766592 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:06,893 [infergrid.router.router] INFO: req_id=r629766158 EXIT 200 stream_complete
+2026-04-19 20:16:06,893 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:06,939 [infergrid.router.router] INFO: req_id=r629766187 EXIT 200 stream_complete
+2026-04-19 20:16:06,939 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18368 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:06,961 [infergrid.router.router] INFO: req_id=r629766961 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:07,008 [infergrid.router.router] INFO: req_id=r629766248 EXIT 200 stream_complete
+2026-04-19 20:16:07,008 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:07,315 [infergrid.router.router] INFO: req_id=r629766565 EXIT 200 stream_complete
+2026-04-19 20:16:07,315 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18375 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:07,348 [infergrid.router.router] INFO: req_id=r629766592 EXIT 200 stream_complete
+2026-04-19 20:16:07,348 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18427 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:07,701 [infergrid.router.router] INFO: req_id=r629766961 EXIT 200 stream_complete
+2026-04-19 20:16:07,701 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:06 +0000] "POST /v1/completions HTTP/1.1" 200 18423 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:09,766 [infergrid.router.router] INFO: req_id=r629769766 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:10,127 [infergrid.router.router] INFO: req_id=r629770127 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:10,495 [infergrid.router.router] INFO: req_id=r629769766 EXIT 200 stream_complete
+2026-04-19 20:16:10,495 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:09 +0000] "POST /v1/completions HTTP/1.1" 200 18376 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:10,860 [infergrid.router.router] INFO: req_id=r629770127 EXIT 200 stream_complete
+2026-04-19 20:16:10,860 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:10 +0000] "POST /v1/completions HTTP/1.1" 200 18348 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:11,533 [infergrid.router.router] INFO: req_id=r629771533 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:11,968 [infergrid.router.router] INFO: req_id=r629771968 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:12,255 [infergrid.router.router] INFO: req_id=r629771533 EXIT 200 stream_complete
+2026-04-19 20:16:12,255 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:11 +0000] "POST /v1/completions HTTP/1.1" 200 18412 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:12,704 [infergrid.router.router] INFO: req_id=r629771968 EXIT 200 stream_complete
+2026-04-19 20:16:12,704 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:11 +0000] "POST /v1/completions HTTP/1.1" 200 18346 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:12,751 [infergrid.router.router] INFO: req_id=r629772751 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:13,153 [infergrid.router.router] INFO: req_id=r629773153 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:13,474 [infergrid.router.router] INFO: req_id=r629772751 EXIT 200 stream_complete
+2026-04-19 20:16:13,474 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:12 +0000] "POST /v1/completions HTTP/1.1" 200 18447 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:13,485 [infergrid.router.router] INFO: req_id=r629773485 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:13,889 [infergrid.router.router] INFO: req_id=r629773153 EXIT 200 stream_complete
+2026-04-19 20:16:13,889 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:13 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:14,170 [infergrid.router.router] INFO: req_id=r629774170 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:14,221 [infergrid.router.router] INFO: req_id=r629773485 EXIT 200 stream_complete
+2026-04-19 20:16:14,221 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:13 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:14,893 [infergrid.router.router] INFO: req_id=r629774170 EXIT 200 stream_complete
+2026-04-19 20:16:14,893 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:14 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:16,435 [infergrid.router.router] INFO: req_id=r629776435 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:16,987 [infergrid.router.router] INFO: req_id=r629776987 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:17,155 [infergrid.router.router] INFO: req_id=r629776435 EXIT 200 stream_complete
+2026-04-19 20:16:17,156 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:16 +0000] "POST /v1/completions HTTP/1.1" 200 18406 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:17,178 [infergrid.router.router] INFO: req_id=r629777178 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:17,478 [infergrid.router.router] INFO: req_id=r629777478 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:17,586 [infergrid.router.router] INFO: req_id=r629777586 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:17,727 [infergrid.router.router] INFO: req_id=r629776987 EXIT 200 stream_complete
+2026-04-19 20:16:17,727 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:16 +0000] "POST /v1/completions HTTP/1.1" 200 18407 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:17,920 [infergrid.router.router] INFO: req_id=r629777178 EXIT 200 stream_complete
+2026-04-19 20:16:17,920 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:17 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:17,973 [infergrid.router.router] INFO: req_id=r629777973 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:18,227 [infergrid.router.router] INFO: req_id=r629777478 EXIT 200 stream_complete
+2026-04-19 20:16:18,227 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:17 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:18,328 [infergrid.router.router] INFO: req_id=r629777586 EXIT 200 stream_complete
+2026-04-19 20:16:18,328 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:17 +0000] "POST /v1/completions HTTP/1.1" 200 18465 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:18,714 [infergrid.router.router] INFO: req_id=r629777973 EXIT 200 stream_complete
+2026-04-19 20:16:18,715 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:17 +0000] "POST /v1/completions HTTP/1.1" 200 18381 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:19,568 [infergrid.router.router] INFO: req_id=r629779568 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:20,283 [infergrid.router.router] INFO: req_id=r629779568 EXIT 200 stream_complete
+2026-04-19 20:16:20,283 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:19 +0000] "POST /v1/completions HTTP/1.1" 200 18366 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:20,972 [infergrid.router.router] INFO: req_id=r629780972 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:21,690 [infergrid.router.router] INFO: req_id=r629780972 EXIT 200 stream_complete
+2026-04-19 20:16:21,690 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:20 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:22,292 [infergrid.router.router] INFO: req_id=r629782292 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:23,006 [infergrid.router.router] INFO: req_id=r629782292 EXIT 200 stream_complete
+2026-04-19 20:16:23,006 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:22 +0000] "POST /v1/completions HTTP/1.1" 200 18374 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:23,812 [infergrid.router.router] INFO: req_id=r629783812 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:23,832 [infergrid.router.router] INFO: req_id=r629783832 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:24,019 [infergrid.router.router] INFO: req_id=r629784019 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:24,542 [infergrid.router.router] INFO: req_id=r629783812 EXIT 200 stream_complete
+2026-04-19 20:16:24,542 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:23 +0000] "POST /v1/completions HTTP/1.1" 200 18390 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:24,575 [infergrid.router.router] INFO: req_id=r629783832 EXIT 200 stream_complete
+2026-04-19 20:16:24,575 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:23 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:24,763 [infergrid.router.router] INFO: req_id=r629784019 EXIT 200 stream_complete
+2026-04-19 20:16:24,763 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:24 +0000] "POST /v1/completions HTTP/1.1" 200 18297 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:25,389 [infergrid.router.router] INFO: req_id=r629785389 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:25,562 [infergrid.router.router] INFO: req_id=r629785562 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:26,112 [infergrid.router.router] INFO: req_id=r629785389 EXIT 200 stream_complete
+2026-04-19 20:16:26,112 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:25 +0000] "POST /v1/completions HTTP/1.1" 200 18426 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:26,299 [infergrid.router.router] INFO: req_id=r629785562 EXIT 200 stream_complete
+2026-04-19 20:16:26,299 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:25 +0000] "POST /v1/completions HTTP/1.1" 200 18393 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:28,090 [infergrid.router.router] INFO: req_id=r629788090 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:28,406 [infergrid.router.router] INFO: req_id=r629788406 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:28,817 [infergrid.router.router] INFO: req_id=r629788090 EXIT 200 stream_complete
+2026-04-19 20:16:28,817 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:28 +0000] "POST /v1/completions HTTP/1.1" 200 18396 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:29,137 [infergrid.router.router] INFO: req_id=r629788406 EXIT 200 stream_complete
+2026-04-19 20:16:29,137 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:28 +0000] "POST /v1/completions HTTP/1.1" 200 18367 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:29,219 [infergrid.router.router] INFO: req_id=r629789219 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:29,932 [infergrid.router.router] INFO: req_id=r629789219 EXIT 200 stream_complete
+2026-04-19 20:16:29,932 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:29 +0000] "POST /v1/completions HTTP/1.1" 200 18340 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:30,174 [infergrid.router.router] INFO: req_id=r629790174 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:30,886 [infergrid.router.router] INFO: req_id=r629790174 EXIT 200 stream_complete
+2026-04-19 20:16:30,886 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:30 +0000] "POST /v1/completions HTTP/1.1" 200 18374 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:31,006 [infergrid.router.router] INFO: req_id=r629791006 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:31,069 [infergrid.router.router] INFO: req_id=r629791069 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:31,730 [infergrid.router.router] INFO: req_id=r629791006 EXIT 200 stream_complete
+2026-04-19 20:16:31,730 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:31 +0000] "POST /v1/completions HTTP/1.1" 200 18422 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:31,807 [infergrid.router.router] INFO: req_id=r629791069 EXIT 200 stream_complete
+2026-04-19 20:16:31,807 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:31 +0000] "POST /v1/completions HTTP/1.1" 200 18339 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:33,288 [infergrid.router.router] INFO: req_id=r629793288 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:33,892 [infergrid.router.router] INFO: req_id=r629793892 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:34,005 [infergrid.router.router] INFO: req_id=r629793288 EXIT 200 stream_complete
+2026-04-19 20:16:34,005 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:33 +0000] "POST /v1/completions HTTP/1.1" 200 18399 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:34,187 [infergrid.router.router] INFO: req_id=r629794187 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:34,217 [infergrid.router.router] INFO: req_id=r629794217 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:34,527 [infergrid.router.router] INFO: req_id=r629794527 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:34,635 [infergrid.router.router] INFO: req_id=r629793892 EXIT 200 stream_complete
+2026-04-19 20:16:34,635 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:33 +0000] "POST /v1/completions HTTP/1.1" 200 18408 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:34,942 [infergrid.router.router] INFO: req_id=r629794187 EXIT 200 stream_complete
+2026-04-19 20:16:34,942 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:34 +0000] "POST /v1/completions HTTP/1.1" 200 18346 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:34,964 [infergrid.router.router] INFO: req_id=r629794217 EXIT 200 stream_complete
+2026-04-19 20:16:34,964 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:34 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:35,273 [infergrid.router.router] INFO: req_id=r629794527 EXIT 200 stream_complete
+2026-04-19 20:16:35,273 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:34 +0000] "POST /v1/completions HTTP/1.1" 200 18354 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:35,380 [infergrid.router.router] INFO: req_id=r629795380 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:36,093 [infergrid.router.router] INFO: req_id=r629795380 EXIT 200 stream_complete
+2026-04-19 20:16:36,093 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:35 +0000] "POST /v1/completions HTTP/1.1" 200 18376 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:38,098 [infergrid.router.router] INFO: req_id=r629798097 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:38,579 [infergrid.router.router] INFO: req_id=r629798579 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:38,825 [infergrid.router.router] INFO: req_id=r629798097 EXIT 200 stream_complete
+2026-04-19 20:16:38,826 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:38 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:39,310 [infergrid.router.router] INFO: req_id=r629798579 EXIT 200 stream_complete
+2026-04-19 20:16:39,310 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:38 +0000] "POST /v1/completions HTTP/1.1" 200 18415 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:39,327 [infergrid.router.router] INFO: req_id=r629799327 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:40,040 [infergrid.router.router] INFO: req_id=r629799327 EXIT 200 stream_complete
+2026-04-19 20:16:40,040 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:39 +0000] "POST /v1/completions HTTP/1.1" 200 18460 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:40,729 [infergrid.router.router] INFO: req_id=r629800729 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:41,194 [infergrid.router.router] INFO: req_id=r629801194 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:41,447 [infergrid.router.router] INFO: req_id=r629800729 EXIT 200 stream_complete
+2026-04-19 20:16:41,448 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:40 +0000] "POST /v1/completions HTTP/1.1" 200 18399 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:41,921 [infergrid.router.router] INFO: req_id=r629801194 EXIT 200 stream_complete
+2026-04-19 20:16:41,921 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:41 +0000] "POST /v1/completions HTTP/1.1" 200 18391 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:42,317 [infergrid.router.router] INFO: req_id=r629802317 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:43,030 [infergrid.router.router] INFO: req_id=r629802317 EXIT 200 stream_complete
+2026-04-19 20:16:43,030 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:42 +0000] "POST /v1/completions HTTP/1.1" 200 18382 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:43,426 [infergrid.router.router] INFO: req_id=r629803426 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:44,142 [infergrid.router.router] INFO: req_id=r629803426 EXIT 200 stream_complete
+2026-04-19 20:16:44,142 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:43 +0000] "POST /v1/completions HTTP/1.1" 200 18379 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:44,323 [infergrid.router.router] INFO: req_id=r629804323 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:44,489 [infergrid.router.router] INFO: req_id=r629804489 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:45,028 [infergrid.router.router] INFO: req_id=r629805028 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:45,045 [infergrid.router.router] INFO: req_id=r629804323 EXIT 200 stream_complete
+2026-04-19 20:16:45,045 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:44 +0000] "POST /v1/completions HTTP/1.1" 200 18409 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:45,224 [infergrid.router.router] INFO: req_id=r629804489 EXIT 200 stream_complete
+2026-04-19 20:16:45,224 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:44 +0000] "POST /v1/completions HTTP/1.1" 200 18391 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:45,344 [infergrid.router.router] INFO: req_id=r629805344 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:45,508 [infergrid.router.router] INFO: req_id=r629805508 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:45,775 [infergrid.router.router] INFO: req_id=r629805028 EXIT 200 stream_complete
+2026-04-19 20:16:45,775 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:45 +0000] "POST /v1/completions HTTP/1.1" 200 18452 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:46,089 [infergrid.router.router] INFO: req_id=r629805344 EXIT 200 stream_complete
+2026-04-19 20:16:46,089 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:45 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:46,243 [infergrid.router.router] INFO: req_id=r629805508 EXIT 200 stream_complete
+2026-04-19 20:16:46,243 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:45 +0000] "POST /v1/completions HTTP/1.1" 200 18404 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:46,411 [infergrid.router.router] INFO: req_id=r629806411 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:46,790 [infergrid.router.router] INFO: req_id=r629806790 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:46,956 [infergrid.router.router] INFO: req_id=r629806956 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:47,131 [infergrid.router.router] INFO: req_id=r629806411 EXIT 200 stream_complete
+2026-04-19 20:16:47,131 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:46 +0000] "POST /v1/completions HTTP/1.1" 200 18428 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:47,535 [infergrid.router.router] INFO: req_id=r629806790 EXIT 200 stream_complete
+2026-04-19 20:16:47,536 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:46 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:47,700 [infergrid.router.router] INFO: req_id=r629806956 EXIT 200 stream_complete
+2026-04-19 20:16:47,700 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:46 +0000] "POST /v1/completions HTTP/1.1" 200 18303 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:49,233 [infergrid.router.router] INFO: req_id=r629809233 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:49,330 [infergrid.router.router] INFO: req_id=r629809330 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:49,961 [infergrid.router.router] INFO: req_id=r629809233 EXIT 200 stream_complete
+2026-04-19 20:16:49,962 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:49 +0000] "POST /v1/completions HTTP/1.1" 200 18431 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:50,070 [infergrid.router.router] INFO: req_id=r629809330 EXIT 200 stream_complete
+2026-04-19 20:16:50,071 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:49 +0000] "POST /v1/completions HTTP/1.1" 200 18392 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:50,554 [infergrid.router.router] INFO: req_id=r629810554 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:51,033 [infergrid.router.router] INFO: req_id=r629811033 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:51,273 [infergrid.router.router] INFO: req_id=r629810554 EXIT 200 stream_complete
+2026-04-19 20:16:51,273 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:50 +0000] "POST /v1/completions HTTP/1.1" 200 18363 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:51,769 [infergrid.router.router] INFO: req_id=r629811033 EXIT 200 stream_complete
+2026-04-19 20:16:51,769 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:51 +0000] "POST /v1/completions HTTP/1.1" 200 18380 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:51,777 [infergrid.router.router] INFO: req_id=r629811777 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:51,999 [infergrid.router.router] INFO: req_id=r629811999 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:52,497 [infergrid.router.router] INFO: req_id=r629811777 EXIT 200 stream_complete
+2026-04-19 20:16:52,497 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:51 +0000] "POST /v1/completions HTTP/1.1" 200 18312 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:52,728 [infergrid.router.router] INFO: req_id=r629811999 EXIT 200 stream_complete
+2026-04-19 20:16:52,729 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:51 +0000] "POST /v1/completions HTTP/1.1" 200 18390 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:54,083 [infergrid.router.router] INFO: req_id=r629814083 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:54,796 [infergrid.router.router] INFO: req_id=r629814083 EXIT 200 stream_complete
+2026-04-19 20:16:54,796 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:54 +0000] "POST /v1/completions HTTP/1.1" 200 18349 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:55,078 [infergrid.router.router] INFO: req_id=r629815078 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:55,339 [infergrid.router.router] INFO: req_id=r629815339 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:55,679 [infergrid.router.router] INFO: req_id=r629815679 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:55,802 [infergrid.router.router] INFO: req_id=r629815078 EXIT 200 stream_complete
+2026-04-19 20:16:55,803 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:55 +0000] "POST /v1/completions HTTP/1.1" 200 18457 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:56,083 [infergrid.router.router] INFO: req_id=r629815339 EXIT 200 stream_complete
+2026-04-19 20:16:56,083 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:55 +0000] "POST /v1/completions HTTP/1.1" 200 18390 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:56,414 [infergrid.router.router] INFO: req_id=r629815679 EXIT 200 stream_complete
+2026-04-19 20:16:56,415 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:55 +0000] "POST /v1/completions HTTP/1.1" 200 18366 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:57,777 [infergrid.router.router] INFO: req_id=r629817777 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:57,909 [infergrid.router.router] INFO: req_id=r629817909 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:57,941 [infergrid.router.router] INFO: req_id=r629817941 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:58,178 [infergrid.router.router] INFO: req_id=r629818178 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:58,508 [infergrid.router.router] INFO: req_id=r629817777 EXIT 200 stream_complete
+2026-04-19 20:16:58,509 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:57 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:58,658 [infergrid.router.router] INFO: req_id=r629817909 EXIT 200 stream_complete
+2026-04-19 20:16:58,658 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:57 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:58,673 [infergrid.router.router] INFO: req_id=r629818673 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:16:58,689 [infergrid.router.router] INFO: req_id=r629817941 EXIT 200 stream_complete
+2026-04-19 20:16:58,689 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:57 +0000] "POST /v1/completions HTTP/1.1" 200 18421 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:58,924 [infergrid.router.router] INFO: req_id=r629818178 EXIT 200 stream_complete
+2026-04-19 20:16:58,924 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:58 +0000] "POST /v1/completions HTTP/1.1" 200 18374 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:16:59,409 [infergrid.router.router] INFO: req_id=r629818673 EXIT 200 stream_complete
+2026-04-19 20:16:59,410 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:16:58 +0000] "POST /v1/completions HTTP/1.1" 200 18365 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:00,025 [infergrid.router.router] INFO: req_id=r629820025 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:00,739 [infergrid.router.router] INFO: req_id=r629820025 EXIT 200 stream_complete
+2026-04-19 20:17:00,739 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:00 +0000] "POST /v1/completions HTTP/1.1" 200 18418 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:02,474 [infergrid.router.router] INFO: req_id=r629822474 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:02,506 [infergrid.router.router] INFO: req_id=r629822506 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:03,198 [infergrid.router.router] INFO: req_id=r629822474 EXIT 200 stream_complete
+2026-04-19 20:17:03,198 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:02 +0000] "POST /v1/completions HTTP/1.1" 200 18378 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:03,242 [infergrid.router.router] INFO: req_id=r629822506 EXIT 200 stream_complete
+2026-04-19 20:17:03,242 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:02 +0000] "POST /v1/completions HTTP/1.1" 200 18342 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:04,313 [infergrid.router.router] INFO: req_id=r629824313 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:05,027 [infergrid.router.router] INFO: req_id=r629824313 EXIT 200 stream_complete
+2026-04-19 20:17:05,027 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:04 +0000] "POST /v1/completions HTTP/1.1" 200 18340 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:05,440 [infergrid.router.router] INFO: req_id=r629825440 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:06,156 [infergrid.router.router] INFO: req_id=r629825440 EXIT 200 stream_complete
+2026-04-19 20:17:06,157 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:05 +0000] "POST /v1/completions HTTP/1.1" 200 18351 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:08,063 [infergrid.router.router] INFO: req_id=r629828063 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:08,786 [infergrid.router.router] INFO: req_id=r629828063 EXIT 200 stream_complete
+2026-04-19 20:17:08,786 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:08 +0000] "POST /v1/completions HTTP/1.1" 200 18376 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:09,720 [infergrid.router.router] INFO: req_id=r629829720 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:10,436 [infergrid.router.router] INFO: req_id=r629829720 EXIT 200 stream_complete
+2026-04-19 20:17:10,436 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:09 +0000] "POST /v1/completions HTTP/1.1" 200 18405 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:13,843 [infergrid.router.router] INFO: req_id=r629833843 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:13,970 [infergrid.router.router] INFO: req_id=r629833970 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:14,582 [infergrid.router.router] INFO: req_id=r629833843 EXIT 200 stream_complete
+2026-04-19 20:17:14,582 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:13 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:14,712 [infergrid.router.router] INFO: req_id=r629833970 EXIT 200 stream_complete
+2026-04-19 20:17:14,713 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:13 +0000] "POST /v1/completions HTTP/1.1" 200 18362 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:15,623 [infergrid.router.router] INFO: req_id=r629835623 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:15,724 [infergrid.router.router] INFO: req_id=r629835724 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:16,120 [infergrid.router.router] INFO: req_id=r629836120 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:16,350 [infergrid.router.router] INFO: req_id=r629835623 EXIT 200 stream_complete
+2026-04-19 20:17:16,350 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:15 +0000] "POST /v1/completions HTTP/1.1" 200 18383 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:16,468 [infergrid.router.router] INFO: req_id=r629835724 EXIT 200 stream_complete
+2026-04-19 20:17:16,469 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:15 +0000] "POST /v1/completions HTTP/1.1" 200 18336 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:16,860 [infergrid.router.router] INFO: req_id=r629836120 EXIT 200 stream_complete
+2026-04-19 20:17:16,860 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:16 +0000] "POST /v1/completions HTTP/1.1" 200 18391 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:17,099 [infergrid.router.router] INFO: req_id=r629837099 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:17,814 [infergrid.router.router] INFO: req_id=r629837099 EXIT 200 stream_complete
+2026-04-19 20:17:17,814 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:17 +0000] "POST /v1/completions HTTP/1.1" 200 18415 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:18,172 [infergrid.router.router] INFO: req_id=r629838172 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:18,745 [infergrid.router.router] INFO: req_id=r629838744 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:18,889 [infergrid.router.router] INFO: req_id=r629838172 EXIT 200 stream_complete
+2026-04-19 20:17:18,889 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:18 +0000] "POST /v1/completions HTTP/1.1" 200 18417 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:19,021 [infergrid.router.router] INFO: req_id=r629839021 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:19,480 [infergrid.router.router] INFO: req_id=r629838744 EXIT 200 stream_complete
+2026-04-19 20:17:19,481 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:18 +0000] "POST /v1/completions HTTP/1.1" 200 18355 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:19,759 [infergrid.router.router] INFO: req_id=r629839021 EXIT 200 stream_complete
+2026-04-19 20:17:19,759 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:19 +0000] "POST /v1/completions HTTP/1.1" 200 18407 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:19,970 [infergrid.router.router] INFO: req_id=r629839970 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:20,683 [infergrid.router.router] INFO: req_id=r629839970 EXIT 200 stream_complete
+2026-04-19 20:17:20,683 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:19 +0000] "POST /v1/completions HTTP/1.1" 200 18412 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:20,811 [infergrid.router.router] INFO: req_id=r629840811 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:21,526 [infergrid.router.router] INFO: req_id=r629840811 EXIT 200 stream_complete
+2026-04-19 20:17:21,526 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:20 +0000] "POST /v1/completions HTTP/1.1" 200 18403 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:22,227 [infergrid.router.router] INFO: req_id=r629842227 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:22,462 [infergrid.router.router] INFO: req_id=r629842462 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:22,810 [infergrid.router.router] INFO: req_id=r629842810 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:22,950 [infergrid.router.router] INFO: req_id=r629842227 EXIT 200 stream_complete
+2026-04-19 20:17:22,950 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:22 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:23,207 [infergrid.router.router] INFO: req_id=r629842462 EXIT 200 stream_complete
+2026-04-19 20:17:23,207 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:22 +0000] "POST /v1/completions HTTP/1.1" 200 18363 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:23,419 [infergrid.router.router] INFO: req_id=r629843419 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:23,558 [infergrid.router.router] INFO: req_id=r629842810 EXIT 200 stream_complete
+2026-04-19 20:17:23,558 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:22 +0000] "POST /v1/completions HTTP/1.1" 200 18419 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:24,145 [infergrid.router.router] INFO: req_id=r629843419 EXIT 200 stream_complete
+2026-04-19 20:17:24,146 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:23 +0000] "POST /v1/completions HTTP/1.1" 200 18426 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:24,769 [infergrid.router.router] INFO: req_id=r629844769 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:25,482 [infergrid.router.router] INFO: req_id=r629844769 EXIT 200 stream_complete
+2026-04-19 20:17:25,482 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:24 +0000] "POST /v1/completions HTTP/1.1" 200 18430 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:27,030 [infergrid.router.router] INFO: req_id=r629847030 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:27,059 [infergrid.router.router] INFO: req_id=r629847059 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:27,761 [infergrid.router.router] INFO: req_id=r629847030 EXIT 200 stream_complete
+2026-04-19 20:17:27,761 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:27 +0000] "POST /v1/completions HTTP/1.1" 200 18438 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:27,802 [infergrid.router.router] INFO: req_id=r629847059 EXIT 200 stream_complete
+2026-04-19 20:17:27,802 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:27 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:28,115 [infergrid.router.router] INFO: req_id=r629848115 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:28,634 [infergrid.router.router] INFO: req_id=r629848634 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:28,833 [infergrid.router.router] INFO: req_id=r629848115 EXIT 200 stream_complete
+2026-04-19 20:17:28,833 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:28 +0000] "POST /v1/completions HTTP/1.1" 200 18403 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:29,287 [infergrid.router.router] INFO: req_id=r629849287 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:29,364 [infergrid.router.router] INFO: req_id=r629848634 EXIT 200 stream_complete
+2026-04-19 20:17:29,364 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:28 +0000] "POST /v1/completions HTTP/1.1" 200 18366 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:29,919 [infergrid.router.router] INFO: req_id=r629849919 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:30,015 [infergrid.router.router] INFO: req_id=r629849287 EXIT 200 stream_complete
+2026-04-19 20:17:30,015 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:29 +0000] "POST /v1/completions HTTP/1.1" 200 18430 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:30,045 [infergrid.router.router] INFO: req_id=r629850045 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:30,579 [infergrid.router.router] INFO: req_id=r629850579 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:30,655 [infergrid.router.router] INFO: req_id=r629849919 EXIT 200 stream_complete
+2026-04-19 20:17:30,655 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:29 +0000] "POST /v1/completions HTTP/1.1" 200 18355 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:30,788 [infergrid.router.router] INFO: req_id=r629850045 EXIT 200 stream_complete
+2026-04-19 20:17:30,788 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:30 +0000] "POST /v1/completions HTTP/1.1" 200 18378 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:31,307 [infergrid.router.router] INFO: req_id=r629850579 EXIT 200 stream_complete
+2026-04-19 20:17:31,307 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:30 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:31,399 [infergrid.router.router] INFO: req_id=r629851399 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:31,715 [infergrid.router.router] INFO: req_id=r629851715 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:31,973 [infergrid.router.router] INFO: req_id=r629851973 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:32,122 [infergrid.router.router] INFO: req_id=r629851399 EXIT 200 stream_complete
+2026-04-19 20:17:32,122 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:31 +0000] "POST /v1/completions HTTP/1.1" 200 18444 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:32,459 [infergrid.router.router] INFO: req_id=r629851715 EXIT 200 stream_complete
+2026-04-19 20:17:32,459 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:31 +0000] "POST /v1/completions HTTP/1.1" 200 18451 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:32,713 [infergrid.router.router] INFO: req_id=r629851973 EXIT 200 stream_complete
+2026-04-19 20:17:32,713 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:31 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:33,287 [infergrid.router.router] INFO: req_id=r629853287 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:34,001 [infergrid.router.router] INFO: req_id=r629853287 EXIT 200 stream_complete
+2026-04-19 20:17:34,001 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:33 +0000] "POST /v1/completions HTTP/1.1" 200 18423 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:34,580 [infergrid.router.router] INFO: req_id=r629854580 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:34,686 [infergrid.router.router] INFO: req_id=r629854686 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:35,302 [infergrid.router.router] INFO: req_id=r629854580 EXIT 200 stream_complete
+2026-04-19 20:17:35,302 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:34 +0000] "POST /v1/completions HTTP/1.1" 200 18385 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:35,424 [infergrid.router.router] INFO: req_id=r629854686 EXIT 200 stream_complete
+2026-04-19 20:17:35,424 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:34 +0000] "POST /v1/completions HTTP/1.1" 200 18374 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:37,501 [infergrid.router.router] INFO: req_id=r629857501 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:38,222 [infergrid.router.router] INFO: req_id=r629857501 EXIT 200 stream_complete
+2026-04-19 20:17:38,222 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:37 +0000] "POST /v1/completions HTTP/1.1" 200 18465 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:38,522 [infergrid.router.router] INFO: req_id=r629858522 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:39,234 [infergrid.router.router] INFO: req_id=r629858522 EXIT 200 stream_complete
+2026-04-19 20:17:39,234 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:38 +0000] "POST /v1/completions HTTP/1.1" 200 18476 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:39,289 [infergrid.router.router] INFO: req_id=r629859289 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:40,001 [infergrid.router.router] INFO: req_id=r629859289 EXIT 200 stream_complete
+2026-04-19 20:17:40,002 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:39 +0000] "POST /v1/completions HTTP/1.1" 200 18391 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:42,326 [infergrid.router.router] INFO: req_id=r629862326 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:43,047 [infergrid.router.router] INFO: req_id=r629862326 EXIT 200 stream_complete
+2026-04-19 20:17:43,047 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:42 +0000] "POST /v1/completions HTTP/1.1" 200 18373 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:47,315 [infergrid.router.router] INFO: req_id=r629867315 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:48,038 [infergrid.router.router] INFO: req_id=r629867315 EXIT 200 stream_complete
+2026-04-19 20:17:48,038 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:47 +0000] "POST /v1/completions HTTP/1.1" 200 18451 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:48,459 [infergrid.router.router] INFO: req_id=r629868459 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:48,461 [infergrid.router.router] INFO: req_id=r629868461 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:49,187 [infergrid.router.router] INFO: req_id=r629868459 EXIT 200 stream_complete
+2026-04-19 20:17:49,187 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:48 +0000] "POST /v1/completions HTTP/1.1" 200 18398 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:49,198 [infergrid.router.router] INFO: req_id=r629868461 EXIT 200 stream_complete
+2026-04-19 20:17:49,198 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:48 +0000] "POST /v1/completions HTTP/1.1" 200 18370 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:50,962 [infergrid.router.router] INFO: req_id=r629870962 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:51,676 [infergrid.router.router] INFO: req_id=r629870962 EXIT 200 stream_complete
+2026-04-19 20:17:51,676 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:50 +0000] "POST /v1/completions HTTP/1.1" 200 18318 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:51,682 [infergrid.router.router] INFO: req_id=r629871682 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:52,395 [infergrid.router.router] INFO: req_id=r629871682 EXIT 200 stream_complete
+2026-04-19 20:17:52,396 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:51 +0000] "POST /v1/completions HTTP/1.1" 200 18424 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:53,865 [infergrid.router.router] INFO: req_id=r629873865 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:54,472 [infergrid.router.router] INFO: req_id=r629874472 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:54,579 [infergrid.router.router] INFO: req_id=r629873865 EXIT 200 stream_complete
+2026-04-19 20:17:54,579 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:53 +0000] "POST /v1/completions HTTP/1.1" 200 18411 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:54,635 [infergrid.router.router] INFO: req_id=r629874635 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:55,205 [infergrid.router.router] INFO: req_id=r629874472 EXIT 200 stream_complete
+2026-04-19 20:17:55,205 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:54 +0000] "POST /v1/completions HTTP/1.1" 200 18439 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:55,371 [infergrid.router.router] INFO: req_id=r629874635 EXIT 200 stream_complete
+2026-04-19 20:17:55,371 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:54 +0000] "POST /v1/completions HTTP/1.1" 200 18396 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:55,378 [infergrid.router.router] INFO: req_id=r629875378 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:55,572 [infergrid.router.router] INFO: req_id=r629875572 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:56,099 [infergrid.router.router] INFO: req_id=r629875378 EXIT 200 stream_complete
+2026-04-19 20:17:56,099 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:55 +0000] "POST /v1/completions HTTP/1.1" 200 18418 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:56,308 [infergrid.router.router] INFO: req_id=r629875572 EXIT 200 stream_complete
+2026-04-19 20:17:56,308 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:55 +0000] "POST /v1/completions HTTP/1.1" 200 18351 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:58,969 [infergrid.router.router] INFO: req_id=r629878969 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:59,162 [infergrid.router.router] INFO: req_id=r629879162 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:59,470 [infergrid.router.router] INFO: req_id=r629879470 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:59,707 [infergrid.router.router] INFO: req_id=r629878969 EXIT 200 stream_complete
+2026-04-19 20:17:59,707 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:58 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:17:59,841 [infergrid.router.router] INFO: req_id=r629879841 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:17:59,905 [infergrid.router.router] INFO: req_id=r629879162 EXIT 200 stream_complete
+2026-04-19 20:17:59,905 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:59 +0000] "POST /v1/completions HTTP/1.1" 200 18339 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:00,219 [infergrid.router.router] INFO: req_id=r629879470 EXIT 200 stream_complete
+2026-04-19 20:18:00,219 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:59 +0000] "POST /v1/completions HTTP/1.1" 200 18416 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:00,446 [infergrid.router.router] INFO: req_id=r629880446 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:00,574 [infergrid.router.router] INFO: req_id=r629879841 EXIT 200 stream_complete
+2026-04-19 20:18:00,574 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:17:59 +0000] "POST /v1/completions HTTP/1.1" 200 18384 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:00,878 [infergrid.router.router] INFO: req_id=r629880878 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:00,880 [infergrid.router.router] INFO: req_id=r629880880 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:01,190 [infergrid.router.router] INFO: req_id=r629880446 EXIT 200 stream_complete
+2026-04-19 20:18:01,190 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:00 +0000] "POST /v1/completions HTTP/1.1" 200 18380 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:01,628 [infergrid.router.router] INFO: req_id=r629880878 EXIT 200 stream_complete
+2026-04-19 20:18:01,628 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:00 +0000] "POST /v1/completions HTTP/1.1" 200 18413 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:01,628 [infergrid.router.router] INFO: req_id=r629880880 EXIT 200 stream_complete
+2026-04-19 20:18:01,628 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:00 +0000] "POST /v1/completions HTTP/1.1" 200 18336 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:02,085 [infergrid.router.router] INFO: req_id=r629882085 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:02,391 [infergrid.router.router] INFO: req_id=r629882391 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:02,804 [infergrid.router.router] INFO: req_id=r629882085 EXIT 200 stream_complete
+2026-04-19 20:18:02,805 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:02 +0000] "POST /v1/completions HTTP/1.1" 200 18340 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:03,124 [infergrid.router.router] INFO: req_id=r629882391 EXIT 200 stream_complete
+2026-04-19 20:18:03,124 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:02 +0000] "POST /v1/completions HTTP/1.1" 200 18382 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:03,482 [infergrid.router.router] INFO: req_id=r629883482 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:04,196 [infergrid.router.router] INFO: req_id=r629883482 EXIT 200 stream_complete
+2026-04-19 20:18:04,196 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:03 +0000] "POST /v1/completions HTTP/1.1" 200 18387 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:04,826 [infergrid.router.router] INFO: req_id=r629884826 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:05,541 [infergrid.router.router] INFO: req_id=r629884826 EXIT 200 stream_complete
+2026-04-19 20:18:05,542 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:04 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:07,155 [infergrid.router.router] INFO: req_id=r629887155 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:07,872 [infergrid.router.router] INFO: req_id=r629887155 EXIT 200 stream_complete
+2026-04-19 20:18:07,872 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:07 +0000] "POST /v1/completions HTTP/1.1" 200 18412 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:09,401 [infergrid.router.router] INFO: req_id=r629889401 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:10,120 [infergrid.router.router] INFO: req_id=r629889401 EXIT 200 stream_complete
+2026-04-19 20:18:10,120 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:09 +0000] "POST /v1/completions HTTP/1.1" 200 18441 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:11,090 [infergrid.router.router] INFO: req_id=r629891090 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:11,307 [infergrid.router.router] INFO: req_id=r629891307 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:11,812 [infergrid.router.router] INFO: req_id=r629891090 EXIT 200 stream_complete
+2026-04-19 20:18:11,812 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:11 +0000] "POST /v1/completions HTTP/1.1" 200 18365 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:12,043 [infergrid.router.router] INFO: req_id=r629891307 EXIT 200 stream_complete
+2026-04-19 20:18:12,044 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:11 +0000] "POST /v1/completions HTTP/1.1" 200 18375 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:13,069 [infergrid.router.router] INFO: req_id=r629893069 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:13,396 [infergrid.router.router] INFO: req_id=r629893396 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:13,788 [infergrid.router.router] INFO: req_id=r629893069 EXIT 200 stream_complete
+2026-04-19 20:18:13,789 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:13 +0000] "POST /v1/completions HTTP/1.1" 200 18378 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:14,130 [infergrid.router.router] INFO: req_id=r629893396 EXIT 200 stream_complete
+2026-04-19 20:18:14,131 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:13 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:14,611 [infergrid.router.router] INFO: req_id=r629894611 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:15,323 [infergrid.router.router] INFO: req_id=r629894611 EXIT 200 stream_complete
+2026-04-19 20:18:15,323 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:14 +0000] "POST /v1/completions HTTP/1.1" 200 18360 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:16,257 [infergrid.router.router] INFO: req_id=r629896257 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:16,579 [infergrid.router.router] INFO: req_id=r629896579 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:16,978 [infergrid.router.router] INFO: req_id=r629896257 EXIT 200 stream_complete
+2026-04-19 20:18:16,979 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:16 +0000] "POST /v1/completions HTTP/1.1" 200 18314 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:17,309 [infergrid.router.router] INFO: req_id=r629896579 EXIT 200 stream_complete
+2026-04-19 20:18:17,309 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:16 +0000] "POST /v1/completions HTTP/1.1" 200 18395 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:17,875 [infergrid.router.router] INFO: req_id=r629897875 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:17,910 [infergrid.router.router] INFO: req_id=r629897910 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:18,598 [infergrid.router.router] INFO: req_id=r629897875 EXIT 200 stream_complete
+2026-04-19 20:18:18,598 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:17 +0000] "POST /v1/completions HTTP/1.1" 200 18398 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:18,642 [infergrid.router.router] INFO: req_id=r629897910 EXIT 200 stream_complete
+2026-04-19 20:18:18,642 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:17 +0000] "POST /v1/completions HTTP/1.1" 200 18352 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:20,865 [infergrid.router.router] INFO: req_id=r629900865 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:21,426 [infergrid.router.router] INFO: req_id=r629901426 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:21,491 [infergrid.router.router] INFO: req_id=r629901491 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:21,594 [infergrid.router.router] INFO: req_id=r629900865 EXIT 200 stream_complete
+2026-04-19 20:18:21,594 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:20 +0000] "POST /v1/completions HTTP/1.1" 200 18332 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:21,872 [infergrid.router.router] INFO: req_id=r629901872 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:22,170 [infergrid.router.router] INFO: req_id=r629901426 EXIT 200 stream_complete
+2026-04-19 20:18:22,170 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:21 +0000] "POST /v1/completions HTTP/1.1" 200 18386 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:22,237 [infergrid.router.router] INFO: req_id=r629901491 EXIT 200 stream_complete
+2026-04-19 20:18:22,237 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:21 +0000] "POST /v1/completions HTTP/1.1" 200 18368 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:22,391 [infergrid.router.router] INFO: req_id=r629902391 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:22,617 [infergrid.router.router] INFO: req_id=r629901872 EXIT 200 stream_complete
+2026-04-19 20:18:22,617 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:21 +0000] "POST /v1/completions HTTP/1.1" 200 18347 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:23,124 [infergrid.router.router] INFO: req_id=r629902391 EXIT 200 stream_complete
+2026-04-19 20:18:23,124 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:22 +0000] "POST /v1/completions HTTP/1.1" 200 18372 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:23,290 [infergrid.router.router] INFO: req_id=r629903290 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:23,783 [infergrid.router.router] INFO: req_id=r629903783 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:23,807 [infergrid.router.router] INFO: req_id=r629903807 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:24,010 [infergrid.router.router] INFO: req_id=r629903290 EXIT 200 stream_complete
+2026-04-19 20:18:24,010 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:23 +0000] "POST /v1/completions HTTP/1.1" 200 18454 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:24,525 [infergrid.router.router] INFO: req_id=r629903783 EXIT 200 stream_complete
+2026-04-19 20:18:24,526 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:23 +0000] "POST /v1/completions HTTP/1.1" 200 18351 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:24,547 [infergrid.router.router] INFO: req_id=r629903807 EXIT 200 stream_complete
+2026-04-19 20:18:24,547 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:23 +0000] "POST /v1/completions HTTP/1.1" 200 18377 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:25,502 [infergrid.router.router] INFO: req_id=r629905502 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:25,977 [infergrid.router.router] INFO: req_id=r629905977 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:26,221 [infergrid.router.router] INFO: req_id=r629905502 EXIT 200 stream_complete
+2026-04-19 20:18:26,221 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:25 +0000] "POST /v1/completions HTTP/1.1" 200 18388 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:26,706 [infergrid.router.router] INFO: req_id=r629905977 EXIT 200 stream_complete
+2026-04-19 20:18:26,707 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:25 +0000] "POST /v1/completions HTTP/1.1" 200 18358 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:26,877 [infergrid.router.router] INFO: req_id=r629906877 ENTER model=meta-llama/Llama-3.1-8B-Instruct tenant=quiet_user stream=True path=/v1/completions
+2026-04-19 20:18:27,595 [infergrid.router.router] INFO: req_id=r629906877 EXIT 200 stream_complete
+2026-04-19 20:18:27,596 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:26 +0000] "POST /v1/completions HTTP/1.1" 200 18391 "-" "Python/3.11 aiohttp/3.13.5"
+2026-04-19 20:18:28,254 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:20:18:28 +0000] "GET /metrics HTTP/1.1" 200 9400 "-" "curl/7.81.0"

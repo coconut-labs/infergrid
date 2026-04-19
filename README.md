@@ -52,6 +52,11 @@ The "multi-tenant on a small shared box without K8s" cell is empty. That's the g
 pip install -e .          # PyPI placeholder pending; until then, install from source
 infergrid serve --config configs/quickstart_fairness.yaml
 
+# Wait until /health returns 200. The first call returns 503 with a
+# {missing_models: [...]} body until the configured engines finish
+# loading (typically 30-90s for an 8B-class model on A100).
+until curl -fs localhost:8000/health > /dev/null; do sleep 2; done
+
 # Hit it as two tenants on the same model:
 curl localhost:8000/v1/completions -H "X-Tenant-ID: noisy" \
   -d '{"model":"llama31-8b","prompt":"...","max_tokens":64,"stream":true}'
