@@ -26,7 +26,7 @@ InferGrid is a middleware orchestration layer for LLM inference that sits on top
 | Unit tests | 128+ pass (was 124 pre-#29; +4 streaming-admission tests in #29/#32/#33; +1 TCP-fragmentation test in #37) |
 | GPU configurations profiled | 3 (vLLM A100, SGLang A100, vLLM H100) |
 | Live GPU bring-ups | 2 (Gate 0, Gate 0.6 — both on A100-SXM4) |
-| PRs merged | 45 (PRs #1-45 minus #18 closed-superseded) |
+| PRs merged | 48 (PRs #1-48 minus #18 closed-superseded) |
 
 ---
 
@@ -234,7 +234,7 @@ InferGrid is a middleware orchestration layer for LLM inference that sits on top
 ### Gate 2-FAIRNESS — ✅ DONE (2026-04-19, $1.40 actual, CONFIRM with caveat) — the launch-worthy result
 5 arms × A100-SXM4 ($1.89/hr): Arm 0 solo baseline (quiet p50=28.5ms), Arm 1 FIFO contended (**523× starvation: quiet p50=15087ms**), Arm 3 DRR cap=256 (DISCONFIRM: cap never bound), Arm 4 DRR cap=16 (DISCONFIRM: vLLM internal queue dominated, flooder 2821 timeouts), **Arm 5 DRR + rate_limit_rpm=600 (CONFIRM: quiet p50 dropped to 30ms steady-state — 503× improvement; 5179 tenant_rejected on flooder)**. Caveat: full-bench p99 still 5378ms because sliding-window rate limit takes ~30s to engage.
 
-**Hero number for launch post: 523× quiet-tenant TTFT starvation on vanilla vLLM, fixed by ~10 lines of config to InferGrid.** Architectural finding: per-tenant rate limit at BUDGET layer is the right lever; admission-queue priority reordering alone (DRR) is insufficient because vLLM's internal scheduler is tenant-blind. Full writeup: `results/gate2_fairness_20260419/GATE2_FAIRNESS_OUTCOME.md`. Pivot was advisor + god-planner creative scrum.
+**Hero number for launch post (post-PR #47 token-bucket refinement): 523× quiet-tenant TTFT starvation on vanilla vLLM, fixed by ~10 lines of config to InferGrid. Quiet tenant ends up within 1.35× of solo baseline for the full bench — essentially unaware of the flooder.** Architectural finding: per-tenant rate limit at BUDGET layer is the right lever; admission-queue priority reordering alone (DRR) is insufficient because vLLM's internal scheduler is tenant-blind. Also found and fixed a sliding-window warmup defect (PR #47 token bucket replaces it). Full writeup: `results/gate2_fairness_20260419/GATE2_FAIRNESS_OUTCOME.md` + `GATE2_FAIRNESS_SUPPLEMENT_arm5b.md`. Pivot was advisor + god-planner creative scrum.
 
 ### Gate 2-lite — Wk 2 fallback (~$8) — plan B if Gate 2-FAIRNESS DISCONFIRMs
 - [ ] 1× A100-SXM4, 3 arms (InferGrid vs raw uvicorn vs round-robin)
@@ -298,6 +298,9 @@ InferGrid is a middleware orchestration layer for LLM inference that sits on top
 | #43 | scaffold: Gate 2-FAIRNESS bench + configs + runbook + dress rehearsal. benchmark_two_tenant_single_model.py (Poisson per-tenant, X-Tenant-ID propagation), gate2_fairness_{fifo,drr}.yaml, runbook with abort rules, scripts/gate2_fairness_dress_rehearsal.sh (CPU-only mock, OVERALL: PASS). | Merged | Apr 19, 2026 |
 | #44 | config: Arm 4 cap=16 diagnostic yaml — added mid-experiment after Arm 3 DISCONFIRM showed cap=256 didn't bind. Bootstrap re-clones main; configs needed inline must be committed first. | Merged | Apr 19, 2026 |
 | #45 | config: Arm 5 rate_limit_rpm=600 — added after Arm 4 also DISCONFIRMed; advisor-reconciled call to shift fairness lever from admission queue to budget-layer rate limit. | Merged | Apr 19, 2026 |
+| #46 | results: Gate 2-FAIRNESS A100-SXM4 5-arm CONFIRM-with-caveat (~$1.40 spend). Hero: 523× starvation → steady-state baseline. Caveat: full-bench p99=5378ms from 30s sliding-window warmup. | Merged | Apr 19, 2026 |
+| #47 | feat(tenant): replace 60s sliding-window rate-limit with token bucket. Backward-compatible (default burst=rpm). Adds rate_limit_burst: int \| None. 144/144 tests passing (135+9 new). Eliminates Arm 5's warmup transient. | Merged | Apr 19, 2026 |
+| #48 | config: Arm 5b token-bucket validation yaml (rate_limit_burst=10). | Merged | Apr 19, 2026 |
 
 PR #18 closed (conflict-dead, superseded by #19). PR #20 open as DRAFT (Gate 0 launch post, framing-pending-launch-post-pivot per Gate 2-FAIRNESS hero number).
 

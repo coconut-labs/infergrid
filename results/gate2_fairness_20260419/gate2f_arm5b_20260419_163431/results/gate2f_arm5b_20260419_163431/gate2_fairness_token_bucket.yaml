@@ -1,0 +1,44 @@
+# Gate 2-FAIRNESS Arm 5b — DRR + rate_limit_rpm=600 + rate_limit_burst=10
+# (the token-bucket variant of Arm 5; PR #47).
+#
+# IDENTICAL to configs/gate2_fairness_drr_ratelimit.yaml (Arm 5) except
+# tenant_defaults.rate_limit_burst=10. The 10-token burst is 1 second's
+# worth of capacity at the 10 RPS refill rate (rpm=600/60). This engages
+# the rate-limit IMMEDIATELY at t=0 rather than waiting for the 60s
+# sliding window to fill.
+#
+# Hypothesis: Arm 5b's per-window quiet TTFT trace collapses to baseline
+# from t=0, not t=30. Full-bench p99 should drop from 5378ms (Arm 5) to
+# something close to the Arm 0 baseline (~55ms).
+#
+# Pre-committed Arm 5b criterion:
+#   PASS:    quiet_p99 ≤ 300ms (5× Arm 0 baseline) for the full bench
+#            AND per-window p50 stays near baseline (~30-50ms) for ALL
+#            windows including t=0-30.
+#   DISCONFIRM: quiet_p99 still > 1000ms full-bench OR t=0-30 windows
+#               show baseline-inflated behavior.
+
+host: 0.0.0.0
+port: 8000
+gpu_budget_fraction: 0.92
+
+max_concurrent: 256
+admission_queue_size: 2048
+engine_start_timeout_s: 420
+log_level: INFO
+
+tenant_defaults:
+  max_concurrent_requests: 512
+  rate_limit_rpm: 600    # 10 RPS sustained refill rate per tenant
+  rate_limit_burst: 10   # <-- the difference: 1 second's worth of burst
+  priority: 1
+  scheduling: drr
+
+models:
+  - model_id: "meta-llama/Llama-3.1-8B-Instruct"
+    short_name: "llama31-8b"
+    engine: "vllm"
+    dtype: "bfloat16"
+    gpu_memory_utilization: 0.85
+    max_model_len: 4096
+    tensor_parallel_size: 1
