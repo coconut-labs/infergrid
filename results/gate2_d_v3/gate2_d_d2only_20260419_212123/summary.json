@@ -1,0 +1,36 @@
+{
+  "wall_time_s": 300.71,
+  "chat": {
+    "count_ok": 1494,
+    "count_err": 0,
+    "count_oom": 0,
+    "ttft_p50_ms": 84.9,
+    "ttft_p95_ms": 128.7,
+    "ttft_p99_ms": 1160.1,
+    "ttft_max_ms": 2717.5,
+    "total_p99_ms": 4092.7,
+    "tokens_out_mean": 62.3
+  },
+  "rag": {
+    "count_ok": 104,
+    "count_err": 1264,
+    "count_oom": 0,
+    "ttft_p50_ms": 51332.0,
+    "ttft_p95_ms": 97732.9,
+    "ttft_p99_ms": 100330.5,
+    "ttft_max_ms": 100489.8,
+    "total_p99_ms": 119942.4,
+    "tokens_out_mean": 73.3
+  },
+  "bench_args": {
+    "chat_model": "meta-llama/Llama-3.1-8B-Instruct",
+    "rag_model": "Qwen/Qwen2.5-7B-Instruct",
+    "chat_rps": 5.0,
+    "burst_rps": 15.0,
+    "burst_dur_s": 30.0,
+    "idle_s": 60.0,
+    "n_bursts": 3,
+    "duration_s": 300.0,
+    "rag_prompt_tokens": 4096
+  }
+}
