@@ -56,6 +56,8 @@ That's the diff. No code change in the application — tenants are routed by the
 
 The headline number is the end of an arc, not its beginning. We measured the same workload five times before we'd state it.
 
+> **Note on the numbers in this section:** the per-arm bullets below are from the **original 120 s bench on vLLM 0.8.5** (April 2026). The **launch claim** is the v3 paragraph at the end of this section (vLLM 0.19.1, 300 s, n=311). Don't quote bullets in isolation — they reflect the research arc, not the current ship-time measurement.
+
 - **Arm 0 (solo baseline).** Quiet user alone for 240 s, no flooder. p50 = 28.5 ms, p99 = 54.9 ms, n = 262. This is what "fair" looks like.
 - **Arm 1 (vanilla vLLM, no fairness).** Flooder + quiet, FIFO admission, no rate limit. Quiet p50 = 15,087 ms; p99 = 28,716 ms. **523× starvation at p99.** This is the problem statement.
 - **Arm 3 (DRR with cap=256).** Cap never bound (all admits ≤1 ms in Prometheus). DRR was a no-op. Quiet p99 = 31,970 ms. *Falsified: priority reordering at admission doesn't help when admission isn't queueing.*
@@ -67,7 +69,7 @@ The Arm 5 → Arm 5b transition is the one we'd point a hostile reviewer at: sam
 
 **Pre-launch v3 re-run (vLLM 0.19.1, 300 s sustained, dedicated single-arm A100 pods).** Reran Arms 0, 1, 5b on the version users install today, with 3× the sample size. Quiet p99 numbers came back: solo 53.9 ms (n=320), Arm 1 FIFO 1,585 ms (n=321), Arm 5b token-bucket **61.5 ms post-warmup (n=311), within 1.14× of solo**. The lever still does its job — even more cleanly on the newer scheduler. Raw artifacts: `results/gate2_preprint_v3/`. Two latent bugs surfaced and fixed during the re-run as PRs #58 (TOCTOU race in `ensure_model_loaded`) and #59 (`/health` returned 200 OK while engines cold-loading).
 
-**Pre-launch N=6 generalization (Track C, vLLM 0.19.1, 300 s).** Then we asked: does the guarantee scale? Same engine, same flooder, but now 5 quiet tenants instead of 1. Aggregate quiet p99 (post-warmup, n=1,456): **61.0 ms — 1.13× of solo, the same number the 2-tenant case gave us**. Per-tenant range across the 5 quiet tenants: 56-65 ms p99. Worst tenant (`quiet_2`) lands at 1.21× of solo. The token bucket holds across N. Full writeup: `results/gate2_n6_v3/GATE2_N6_OUTCOME.md`.
+**Pre-launch N=6 generalization (Track C, vLLM 0.19.1, 300 s).** Then we asked: does the guarantee scale? Same engine, same flooder, but now 5 quiet tenants instead of 1. Aggregate quiet p99 (post-warmup, n=1,456): **61.0 ms — 1.13× of solo, the same number the 2-tenant case gave us**. Per-tenant range across the 5 quiet tenants: 56-65 ms p99. **Per-tenant p95 across all 5 tenants spans only 1.2 ms (54.2-55.4 ms) — every quiet tenant gets effectively the same service quality, no tenant is systematically disadvantaged.** Worst-tenant p99 ratio: 1.21× of solo (`quiet_2`). The token bucket holds across N. Full writeup: `results/gate2_n6_v3/GATE2_N6_OUTCOME.md`.
 
 Total spend across the full series: **~$17** (original $1.70 + v3 single-arm pods + Track B histogram + Track C N=6 + Track D inconclusive). Raw artifacts in `results/gate2_fairness_20260419/` (original 120 s), `results/gate2_preprint_v3/` (300 s 2-tenant preprint), and `results/gate2_n6_v3/` (300 s 6-tenant generalization).
 
