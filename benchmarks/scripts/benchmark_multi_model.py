@@ -530,15 +530,20 @@ class MultiModelBenchmarkClient:
                         if data_str == "[DONE]":
                             break
 
-                        if first_token_time is None:
-                            first_token_time = time.time()
-
                         try:
                             chunk = json.loads(data_str)
                             choices = chunk.get("choices", [])
                             if choices and choices[0].get("text", ""):
+                                # C2 fix: TTFT is time-to-first-non-empty-content,
+                                # not time-to-first-SSE-frame (which is just the
+                                # network RTT to the server). Empty/role-only
+                                # frames do not count as a token.
+                                if first_token_time is None:
+                                    first_token_time = time.time()
                                 tokens_out += 1
                         except (json.JSONDecodeError, KeyError):
+                            if first_token_time is None:
+                                first_token_time = time.time()
                             tokens_out += 1
 
             except asyncio.TimeoutError:
