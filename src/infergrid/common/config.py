@@ -60,7 +60,13 @@ class TenantDefaults:
     """Default resource budgets for new tenants."""
 
     max_concurrent_requests: int = 64
-    rate_limit_rpm: int = 600  # requests per minute
+    rate_limit_rpm: int = 600  # requests per minute (sustained refill rate)
+    # Token-bucket burst capacity. None defaults to rate_limit_rpm
+    # (sliding-window-equivalent). Set to a small value like rate_limit_rpm/60
+    # for a tight bucket that fires from t=0 with no warmup transient — the
+    # Gate 2-FAIRNESS Arm 5 caveat fix. Recommended for fairness-critical
+    # multi-tenant configs.
+    rate_limit_burst: int | None = None
     max_gpu_memory_gb: float = 40.0
     # Lower = served first (matches AdmissionController + BUCKET_PRIORITY).
     # Default 1 = medium tier. Static priority for tenant tiers; combined
