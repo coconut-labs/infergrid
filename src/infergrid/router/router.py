@@ -481,12 +481,21 @@ class WorkloadRouter:
 
         Releases the admission slot and tenant slot in `finally` so cancellation,
         client disconnect (aiohttp closes the response), and normal completion
-        all converge on a single release path.
+        all converge on a single release path. Also `aclose()`s the inner
+        engine generator so its underlying aiohttp `session.post()` context
+        unwinds eagerly — without this, an aborted client leaves the engine
+        connection open and the engine keeps generating tokens until the
+        inner generator is GC'd.
         """
         try:
             async for chunk in inner:
                 yield chunk
         finally:
+            if hasattr(inner, "aclose"):
+                try:
+                    await inner.aclose()
+                except Exception:
+                    pass
             self.admission_controller.release()
             await self.tenant_manager.release_for_tenant(tenant_id)
 
