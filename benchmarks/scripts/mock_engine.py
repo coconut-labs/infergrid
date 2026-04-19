@@ -32,11 +32,19 @@ logger = logging.getLogger("mock_engine")
 
 
 class MockEngineState:
-    def __init__(self, model: str, hang_after: int, ok_latency: float, stall_s: float):
+    def __init__(
+        self,
+        model: str,
+        hang_after: int,
+        ok_latency: float,
+        stall_s: float,
+        delay_first_content_s: float = 0.0,
+    ):
         self.model = model
         self.hang_after = hang_after
         self.ok_latency = ok_latency
         self.stall_s = stall_s
+        self.delay_first_content_s = delay_first_content_s
         self.request_count = 0
         self.stalled_count = 0
 
@@ -113,6 +121,22 @@ async def handle_completions(request: web.Request) -> web.StreamResponse:
         headers={"Content-Type": "text/event-stream"},
     )
     await resp.prepare(request)
+
+    # Discriminator for real-TTFT: emit an empty-text frame immediately so a
+    # broken harness that times the first SSE frame sees a near-zero TTFT,
+    # then sleep before the first real-content chunk. A correct harness times
+    # the first non-empty `choices[0].text` and reports ~delay_first_content_s.
+    if state.delay_first_content_s > 0:
+        preamble = {
+            "id": f"mock-{rid}",
+            "object": "text_completion.chunk",
+            "created": int(time.time()),
+            "model": state.model,
+            "choices": [{"index": 0, "text": "", "finish_reason": None}],
+        }
+        await resp.write(f"data: {json.dumps(preamble)}\n\n".encode())
+        await asyncio.sleep(state.delay_first_content_s)
+
     for tok_i in range(max(1, max_tokens)):
         chunk = {
             "id": f"mock-{rid}",
@@ -161,6 +185,12 @@ def main() -> None:
         default=float(os.environ.get("MOCK_STALL_S", "10000")),
         help="Seconds to sleep when stalled",
     )
+    p.add_argument(
+        "--delay-first-content-s",
+        type=float,
+        default=float(os.environ.get("MOCK_DELAY_FIRST_CONTENT", "0")),
+        help="On streaming responses, emit an empty-text SSE frame, then sleep this long before the first real-content chunk (real-TTFT discriminator)",
+    )
     p.add_argument("--log-level", default="INFO")
     args = p.parse_args()
 
@@ -174,10 +204,11 @@ def main() -> None:
         hang_after=args.hang_after,
         ok_latency=args.ok_latency_s,
         stall_s=args.stall_s,
+        delay_first_content_s=args.delay_first_content_s,
     )
     logger.info(
-        "mock engine starting: port=%d model=%s hang_after=%d ok_latency=%.2fs stall=%.0fs",
-        args.port, args.model, args.hang_after, args.ok_latency_s, args.stall_s,
+        "mock engine starting: port=%d model=%s hang_after=%d ok_latency=%.2fs stall=%.0fs delay_first_content=%.2fs",
+        args.port, args.model, args.hang_after, args.ok_latency_s, args.stall_s, args.delay_first_content_s,
     )
     web.run_app(make_app(state), host="127.0.0.1", port=args.port, print=None)
 
