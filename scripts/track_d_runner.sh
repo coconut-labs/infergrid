@@ -11,6 +11,27 @@ cd /workspace/infergrid
 : "${HF_TOKEN:?HF_TOKEN env var must be set before invoking this runner}"
 export CUDA_VISIBLE_DEVICES=0
 
+wait_gpu_clear() {
+    # Cross-arm CUDA-context release on vLLM v1 takes 30-90s after pkill.
+    # Without this wait, the next arm's engine init fails because most of
+    # the 80GB is still allocated to the prior engine's lingering kernel
+    # context.
+    local max_wait=180
+    for i in $(seq 1 $((max_wait/3))); do
+        local mem=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1 | tr -d ' ')
+        if [ "$mem" -lt 10000 ]; then
+            echo "  GPU clear at $((i*3))s (used=${mem}MiB)"
+            return 0
+        fi
+        if [ $((i % 5)) -eq 0 ]; then
+            echo "  Still waiting for GPU release: ${mem}MiB used (${i}*3 = $((i*3))s)"
+        fi
+        sleep 3
+    done
+    echo "  GPU still busy after ${max_wait}s — proceeding anyway"
+    return 0
+}
+
 STAMP=$(date -u +%Y%m%d_%H%M%S)
 OUT=/workspace/infergrid/results/gate2_d_$STAMP
 mkdir -p $OUT
@@ -30,7 +51,8 @@ run_arm() {
 
     pkill -9 -f infergrid 2>/dev/null || true
     pkill -9 -f vllm 2>/dev/null || true
-    sleep 5
+    echo "Waiting for GPU memory release..."
+    wait_gpu_clear
 
     nohup infergrid serve --config $cfg > $d/server.log 2>&1 &
     local pid=$!
