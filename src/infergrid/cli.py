@@ -150,6 +150,7 @@ async def _run_server(config: InferGridConfig) -> None:
     default_budget = TenantBudget(
         max_concurrent_requests=td.max_concurrent_requests,
         rate_limit_rpm=td.rate_limit_rpm,
+        rate_limit_burst=td.rate_limit_burst,
         max_gpu_memory_gb=td.max_gpu_memory_gb,
         priority=td.priority,
     )

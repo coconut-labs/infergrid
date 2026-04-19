@@ -19,6 +19,11 @@ class TenantBudget:
 
     max_concurrent_requests: int = 64
     rate_limit_rpm: int = 600
+    # Token-bucket burst capacity (max tokens). None = sliding-window-equivalent
+    # (capacity = rate_limit_rpm). Set to a small value (e.g. rate_limit_rpm/60)
+    # for a tight bucket that engages from t=0 with no warmup transient — the
+    # Gate 2-FAIRNESS lesson. Bucket refills at rate_limit_rpm/60 tokens/sec.
+    rate_limit_burst: int | None = None
     max_gpu_memory_gb: float = 40.0
     priority: int = 1
 
@@ -32,8 +37,6 @@ class TenantUsage:
     token_count_out: int = 0
     gpu_seconds: float = 0.0
     active_requests: int = 0
-    # Sliding window for rate limiting: list of request timestamps
-    _request_timestamps: list[float] = field(default_factory=list)
 
 
 class TenantRecord:
@@ -51,37 +54,54 @@ class TenantRecord:
         self._semaphore = asyncio.Semaphore(budget.max_concurrent_requests)
         self._available = budget.max_concurrent_requests
         self._lock = asyncio.Lock()
+        # Token-bucket rate limit. capacity = burst (default rate_limit_rpm
+        # for sliding-window backward compat); refill_rate = rpm/60.
+        # Replaces the prior 60s-window list-of-timestamps. The window
+        # design had a real cost: at t=0 it allowed `rate_limit_rpm`
+        # bursts before any 429s fired (Gate 2-FAIRNESS Arm 5 caveat —
+        # ~30s warmup transient before quiet tenant saw baseline TTFT).
+        # Token bucket fires immediately when the bucket runs dry.
+        self._token_capacity: float = float(
+            budget.rate_limit_burst
+            if budget.rate_limit_burst is not None
+            else budget.rate_limit_rpm
+        )
+        self._tokens: float = self._token_capacity
+        self._refill_per_sec: float = budget.rate_limit_rpm / 60.0
+        self._last_refill_t: float = time.monotonic()
 
     async def try_acquire(self) -> bool:
         """Try to acquire a request slot without blocking.
 
-        Checks both the concurrency semaphore and the sliding-window
-        rate limit.
+        Checks the token-bucket rate limit AND concurrency cap atomically.
+        A failed concurrency check does NOT consume a token (we won't
+        process the request, so don't penalize the rate budget).
 
         Returns:
             True if the request is allowed, False if it should be rejected.
         """
-        # Check rate limit first (cheap)
         async with self._lock:
+            # Refill tokens up to capacity based on elapsed wall time.
             now = time.monotonic()
-            window_start = now - 60.0
-            # Prune old timestamps
-            self.usage._request_timestamps = [
-                ts for ts in self.usage._request_timestamps
-                if ts > window_start
-            ]
-            if len(self.usage._request_timestamps) >= self.budget.rate_limit_rpm:
+            self._tokens = min(
+                self._token_capacity,
+                self._tokens + (now - self._last_refill_t) * self._refill_per_sec,
+            )
+            self._last_refill_t = now
+
+            if self._tokens < 1.0:
+                return False
+            if self._available <= 0:
                 return False
 
-        # Try concurrency limit (non-blocking)
-        if self._available <= 0:
-            return False
-
-        self._available -= 1
-        await self._semaphore.acquire()
-        async with self._lock:
-            self.usage._request_timestamps.append(time.monotonic())
+            # Both gates pass — consume.
+            self._tokens -= 1.0
+            self._available -= 1
             self.usage.active_requests += 1
+
+        # Acquire the semaphore outside the lock; matches `_available`
+        # so this is non-blocking in practice.
+        await self._semaphore.acquire()
         return True
 
     async def release(self) -> None:
@@ -140,6 +160,7 @@ class TenantRecord:
             "budget": {
                 "max_concurrent_requests": self.budget.max_concurrent_requests,
                 "rate_limit_rpm": self.budget.rate_limit_rpm,
+                "rate_limit_burst": self._token_capacity,
                 "max_gpu_memory_gb": self.budget.max_gpu_memory_gb,
                 "priority": self.budget.priority,
             },
@@ -149,6 +170,7 @@ class TenantRecord:
                 "token_count_out": self.usage.token_count_out,
                 "gpu_seconds": round(self.usage.gpu_seconds, 2),
                 "active_requests": self.usage.active_requests,
+                "rate_limit_tokens_remaining": round(self._tokens, 2),
             },
         }
 
@@ -193,6 +215,7 @@ class TenantManager:
                 budget=budget or TenantBudget(
                     max_concurrent_requests=self._default_budget.max_concurrent_requests,
                     rate_limit_rpm=self._default_budget.rate_limit_rpm,
+                    rate_limit_burst=self._default_budget.rate_limit_burst,
                     max_gpu_memory_gb=self._default_budget.max_gpu_memory_gb,
                     priority=self._default_budget.priority,
                 ),
