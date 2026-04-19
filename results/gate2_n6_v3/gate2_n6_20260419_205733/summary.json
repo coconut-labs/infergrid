@@ -1,0 +1,91 @@
+{
+  "wall_time_s": 301.95,
+  "flooder": {
+    "count_ok": 3009,
+    "count_err": 6460,
+    "ttft_p50_ms": 41.3,
+    "ttft_p95_ms": 56.8,
+    "ttft_p99_ms": 1802.8,
+    "ttft_max_ms": 2928.3,
+    "total_p50_ms": 760.1,
+    "total_p99_ms": 4556.3,
+    "tokens_out_mean": 62.3
+  },
+  "quiet_aggregate": {
+    "count_ok": 1518,
+    "count_err": 0,
+    "ttft_p50_ms": 42.2,
+    "ttft_p95_ms": 58.0,
+    "ttft_p99_ms": 2078.4,
+    "ttft_max_ms": 2878.8,
+    "total_p50_ms": 762.1,
+    "total_p99_ms": 5397.0,
+    "tokens_out_mean": 62.3
+  },
+  "quiet_per_tenant": {
+    "quiet_0": {
+      "count_ok": 321,
+      "count_err": 0,
+      "ttft_p50_ms": 42.2,
+      "ttft_p95_ms": 57.3,
+      "ttft_p99_ms": 998.9,
+      "ttft_max_ms": 2851.5,
+      "total_p50_ms": 762.4,
+      "total_p99_ms": 2070.1,
+      "tokens_out_mean": 62.5
+    },
+    "quiet_1": {
+      "count_ok": 297,
+      "count_err": 0,
+      "ttft_p50_ms": 42.2,
+      "ttft_p95_ms": 59.9,
+      "ttft_p99_ms": 2078.4,
+      "ttft_max_ms": 2877.5,
+      "total_p50_ms": 762.7,
+      "total_p99_ms": 5737.3,
+      "tokens_out_mean": 62.3
+    },
+    "quiet_2": {
+      "count_ok": 298,
+      "count_err": 0,
+      "ttft_p50_ms": 42.5,
+      "ttft_p95_ms": 60.2,
+      "ttft_p99_ms": 2300.8,
+      "ttft_max_ms": 2851.0,
+      "total_p50_ms": 761.8,
+      "total_p99_ms": 6035.0,
+      "tokens_out_mean": 62.0
+    },
+    "quiet_3": {
+      "count_ok": 294,
+      "count_err": 0,
+      "ttft_p50_ms": 41.7,
+      "ttft_p95_ms": 55.4,
+      "ttft_p99_ms": 2222.4,
+      "ttft_max_ms": 2851.2,
+      "total_p50_ms": 762.3,
+      "total_p99_ms": 5146.5,
+      "tokens_out_mean": 62.2
+    },
+    "quiet_4": {
+      "count_ok": 308,
+      "count_err": 0,
+      "ttft_p50_ms": 42.5,
+      "ttft_p95_ms": 58.0,
+      "ttft_p99_ms": 2004.4,
+      "ttft_max_ms": 2878.8,
+      "total_p50_ms": 761.8,
+      "total_p99_ms": 5036.7,
+      "tokens_out_mean": 62.3
+    }
+  },
+  "bench_args": {
+    "flooder_rps": 32.0,
+    "quiet_rps": 1.0,
+    "num_quiet": 5,
+    "duration_s": 300.0,
+    "max_tokens": 64,
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "seed": 42
+  }
+}

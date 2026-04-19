@@ -1,0 +1,228 @@
+# HELP infergrid_requests_total Total number of incoming requests
+# TYPE infergrid_requests_total counter
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_2"} 298.0
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_0"} 321.0
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_3"} 294.0
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_4"} 308.0
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="flooder"} 3009.0
+infergrid_requests_total{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_1"} 297.0
+# HELP infergrid_requests_created Total number of incoming requests
+# TYPE infergrid_requests_created gauge
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_2"} 1.7766323655929875e+09
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_0"} 1.7766323655958812e+09
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_3"} 1.7766323655965068e+09
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_4"} 1.7766323655971127e+09
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="flooder"} 1.7766323656122684e+09
+infergrid_requests_created{model="meta-llama/Llama-3.1-8B-Instruct",status="ok",tenant="quiet_1"} 1.7766323656146188e+09
+# HELP infergrid_request_latency_seconds End-to-end request latency in seconds
+# TYPE infergrid_request_latency_seconds histogram
+infergrid_request_latency_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct"} 0.0
+infergrid_request_latency_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct"} 0.0
+infergrid_request_latency_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct"} 0.0
+infergrid_request_latency_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct"} 0.0
+infergrid_request_latency_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct"} 4411.0
+infergrid_request_latency_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct"} 4444.0
+infergrid_request_latency_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct"} 4481.0
+infergrid_request_latency_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct"} 4527.0
+infergrid_request_latency_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct"} 4527.0
+infergrid_request_latency_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct"} 4527.0
+infergrid_request_latency_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct"} 4527.0
+infergrid_request_latency_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct"} 4527.0
+infergrid_request_latency_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct"} 3826.6583040012047
+# HELP infergrid_request_latency_seconds_created End-to-end request latency in seconds
+# TYPE infergrid_request_latency_seconds_created gauge
+infergrid_request_latency_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct"} 1.7766323655930207e+09
+# HELP infergrid_tokens_generated_total Total output tokens generated
+# TYPE infergrid_tokens_generated_total counter
+infergrid_tokens_generated_total{model="meta-llama/Llama-3.1-8B-Instruct"} 289561.0
+# HELP infergrid_tokens_generated_created Total output tokens generated
+# TYPE infergrid_tokens_generated_created gauge
+infergrid_tokens_generated_created{model="meta-llama/Llama-3.1-8B-Instruct"} 1.7766323655930874e+09
+# HELP infergrid_tokens_input_total Total input tokens processed
+# TYPE infergrid_tokens_input_total counter
+infergrid_tokens_input_total{model="meta-llama/Llama-3.1-8B-Instruct"} 44286.0
+# HELP infergrid_tokens_input_created Total input tokens processed
+# TYPE infergrid_tokens_input_created gauge
+infergrid_tokens_input_created{model="meta-llama/Llama-3.1-8B-Instruct"} 1.7766323655930743e+09
+# HELP infergrid_cache_hits_total Number of KV cache hits
+# TYPE infergrid_cache_hits_total counter
+# HELP infergrid_cache_misses_total Number of KV cache misses
+# TYPE infergrid_cache_misses_total counter
+infergrid_cache_misses_total 0.0
+# HELP infergrid_cache_misses_created Number of KV cache misses
+# TYPE infergrid_cache_misses_created gauge
+infergrid_cache_misses_created 1.776632258791151e+09
+# HELP infergrid_cache_memory_bytes Current cache memory usage in bytes
+# TYPE infergrid_cache_memory_bytes gauge
+# HELP infergrid_models_loaded Number of currently loaded models
+# TYPE infergrid_models_loaded gauge
+infergrid_models_loaded 1.0
+# HELP infergrid_model_evictions_total Total number of model evictions
+# TYPE infergrid_model_evictions_total counter
+infergrid_model_evictions_total 0.0
+# HELP infergrid_model_evictions_created Total number of model evictions
+# TYPE infergrid_model_evictions_created gauge
+infergrid_model_evictions_created 1.7766322587911906e+09
+# HELP infergrid_tenant_requests_total Requests per tenant
+# TYPE infergrid_tenant_requests_total counter
+infergrid_tenant_requests_total{tenant="quiet_2"} 298.0
+infergrid_tenant_requests_total{tenant="quiet_0"} 321.0
+infergrid_tenant_requests_total{tenant="quiet_3"} 294.0
+infergrid_tenant_requests_total{tenant="quiet_4"} 308.0
+infergrid_tenant_requests_total{tenant="flooder"} 3009.0
+infergrid_tenant_requests_total{tenant="quiet_1"} 297.0
+# HELP infergrid_tenant_requests_created Requests per tenant
+# TYPE infergrid_tenant_requests_created gauge
+infergrid_tenant_requests_created{tenant="quiet_2"} 1.776632365593063e+09
+infergrid_tenant_requests_created{tenant="quiet_0"} 1.776632365595901e+09
+infergrid_tenant_requests_created{tenant="quiet_3"} 1.7766323655965233e+09
+infergrid_tenant_requests_created{tenant="quiet_4"} 1.776632365597127e+09
+infergrid_tenant_requests_created{tenant="flooder"} 1.7766323656122844e+09
+infergrid_tenant_requests_created{tenant="quiet_1"} 1.776632365614634e+09
+# HELP infergrid_tenant_requests_rejected_total Requests rejected due to budget limits
+# TYPE infergrid_tenant_requests_rejected_total counter
+infergrid_tenant_requests_rejected_total{reason="budget_exceeded",tenant="flooder"} 6460.0
+# HELP infergrid_tenant_requests_rejected_created Requests rejected due to budget limits
+# TYPE infergrid_tenant_requests_rejected_created gauge
+infergrid_tenant_requests_rejected_created{reason="budget_exceeded",tenant="flooder"} 1.7766323592458773e+09
+# HELP infergrid_tenant_ttft_seconds Time to first token by tenant + model (Prometheus histogram)
+# TYPE infergrid_tenant_ttft_seconds histogram
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 289.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 290.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 290.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 290.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 291.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 291.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 292.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 297.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 298.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 24.83290370926261
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 298.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 299.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 300.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 300.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 300.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 301.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 302.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 306.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 308.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 24.993452195078135
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 285.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 285.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 285.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 286.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 286.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 288.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 290.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 293.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 294.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 21.44231121893972
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 315.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 315.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 315.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 315.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 315.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 316.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 318.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 319.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 321.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 21.064915192313492
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 285.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 286.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 286.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 286.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 287.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 287.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 289.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 296.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 297.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 27.569862897507846
+infergrid_tenant_ttft_seconds_bucket{le="0.025",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 0.0
+infergrid_tenant_ttft_seconds_bucket{le="0.05",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2915.0
+infergrid_tenant_ttft_seconds_bucket{le="0.075",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2931.0
+infergrid_tenant_ttft_seconds_bucket{le="0.1",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2932.0
+infergrid_tenant_ttft_seconds_bucket{le="0.15",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2934.0
+infergrid_tenant_ttft_seconds_bucket{le="0.25",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2939.0
+infergrid_tenant_ttft_seconds_bucket{le="0.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2947.0
+infergrid_tenant_ttft_seconds_bucket{le="1.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2961.0
+infergrid_tenant_ttft_seconds_bucket{le="2.5",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 2993.0
+infergrid_tenant_ttft_seconds_bucket{le="5.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_bucket{le="10.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_bucket{le="30.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_bucket{le="60.0",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_bucket{le="+Inf",model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_count{model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 3009.0
+infergrid_tenant_ttft_seconds_sum{model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 220.54458087589592
+# HELP infergrid_tenant_ttft_seconds_created Time to first token by tenant + model (Prometheus histogram)
+# TYPE infergrid_tenant_ttft_seconds_created gauge
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_2"} 1.776632361819206e+09
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_4"} 1.7766323618194568e+09
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_3"} 1.7766323618195982e+09
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_0"} 1.7766323618197186e+09
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="quiet_1"} 1.7766323618456454e+09
+infergrid_tenant_ttft_seconds_created{model="meta-llama/Llama-3.1-8B-Instruct",tenant="flooder"} 1.776632361845849e+09
+# HELP infergrid_gpu_memory_used_bytes GPU memory used in bytes
+# TYPE infergrid_gpu_memory_used_bytes gauge
+# HELP infergrid_admission_queue_depth Number of requests waiting in the admission queue
+# TYPE infergrid_admission_queue_depth gauge
+infergrid_admission_queue_depth 0.0
+# HELP infergrid_admission_in_flight Number of requests currently being processed by the engine
+# TYPE infergrid_admission_in_flight gauge
+infergrid_admission_in_flight 0.0
+# HELP infergrid_admission_wait_seconds Time spent waiting for admission
+# TYPE infergrid_admission_wait_seconds histogram
+infergrid_admission_wait_seconds_bucket{le="0.001"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.005"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.01"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.05"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.1"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.25"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="0.5"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="1.0"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="5.0"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="10.0"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="30.0"} 4527.0
+infergrid_admission_wait_seconds_bucket{le="+Inf"} 4527.0
+infergrid_admission_wait_seconds_count 4527.0
+infergrid_admission_wait_seconds_sum 0.007615652866661549
+# HELP infergrid_admission_wait_seconds_created Time spent waiting for admission
+# TYPE infergrid_admission_wait_seconds_created gauge
+infergrid_admission_wait_seconds_created 1.7766322587914321e+09
+# HELP infergrid_admission_rejected_total Total requests rejected (queue full or timed out)
+# TYPE infergrid_admission_rejected_total counter
+# HELP infergrid_admission_admitted_total Total requests admitted to the engine
+# TYPE infergrid_admission_admitted_total counter
+infergrid_admission_admitted_total 4527.0
+# HELP infergrid_admission_admitted_created Total requests admitted to the engine
+# TYPE infergrid_admission_admitted_created gauge
+infergrid_admission_admitted_created 1.7766322587914898e+09

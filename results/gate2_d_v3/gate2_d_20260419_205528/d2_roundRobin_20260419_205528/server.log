@@ -1,0 +1,343 @@
+2026-04-19 21:04:43,321 [infergrid.router.admission] INFO: AdmissionController initialized: max_concurrent=9999, queue_size=1
+2026-04-19 21:04:43,322 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model meta-llama/Llama-3.1-8B-Instruct --port 8002 --gpu-memory-utilization 0.4 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 8192
+2026-04-19 21:04:43,322 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log
+2026-04-19 21:05:03,442 [infergrid.router.router] ERROR: Pre-load FAILED for meta-llama/Llama-3.1-8B-Instruct: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log. Last 10KB:
+-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     raise ValueError(
+(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108] ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2371) Process EngineCore:
+(EngineCore pid=2371) Traceback (most recent call last):
+(EngineCore pid=2371)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2371)     self.run()
+(EngineCore pid=2371)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2371)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2371)     raise e
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2371)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2371)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2371)     return func(*args, **kwargs)
+(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2371)     super().__init__(
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2371)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2371)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2371)     return func(*args, **kwargs)
+(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2371)     self._init_executor()
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2371)     self.driver_worker.init_device()
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2371)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2371)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2371)     return func(*args, **kwargs)
+(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2371)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2371)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2371)     raise ValueError(
+(EngineCore pid=2371) ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 21:04:59.221645952 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2166) Traceback (most recent call last):
+(APIServer pid=2166)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2166)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2166)     uvloop.run(run_server(args))
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2166)     return runner.run(wrapper())
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2166)     return self._loop.run_until_complete(task)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2166)     return await main
+(APIServer pid=2166)            ^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2166)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2166)     async with build_async_engine_client(
+(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2166)     return await anext(self.gen)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2166)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2166)     return await anext(self.gen)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2166)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2166)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2166)     return cls(
+(APIServer pid=2166)            ^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2166)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2166)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2166)     return func(*args, **kwargs)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2166)     return AsyncMPClient(*client_args)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2166)     return func(*args, **kwargs)
+(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2166)     super().__init__(
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2166)     with launch_core_engines(
+(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2166)     next(self.gen)
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2166)     wait_for_engine_startup(
+(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2166)     raise RuntimeError(
+(APIServer pid=2166) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 21:05:03,443 [infergrid.engines.base] INFO: Starting vLLM server: python -m vllm.entrypoints.openai.api_server --model Qwen/Qwen2.5-7B-Instruct --port 8003 --gpu-memory-utilization 0.4 --tensor-parallel-size 1 --dtype bfloat16 --max-model-len 8192
+2026-04-19 21:05:03,443 [infergrid.engines.base] INFO: vLLM engine log: /tmp/infergrid_engine_vllm_Qwen_Qwen2.5-7B-Instruct_p8003.log
+2026-04-19 21:05:21,550 [infergrid.router.router] ERROR: Pre-load FAILED for Qwen/Qwen2.5-7B-Instruct: vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_Qwen_Qwen2.5-7B-Instruct_p8003.log. Last 10KB:
+-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.driver_worker.init_device()
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.worker.init_device()  # type: ignore
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     return func(*args, **kwargs)
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     raise ValueError(
+(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108] ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+(EngineCore pid=2813) Process EngineCore:
+(EngineCore pid=2813) Traceback (most recent call last):
+(EngineCore pid=2813)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=2813)     self.run()
+(EngineCore pid=2813)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run
+(EngineCore pid=2813)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core
+(EngineCore pid=2813)     raise e
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core
+(EngineCore pid=2813)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=2813)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2813)     return func(*args, **kwargs)
+(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__
+(EngineCore pid=2813)     super().__init__(
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__
+(EngineCore pid=2813)     self.model_executor = executor_class(vllm_config)
+(EngineCore pid=2813)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2813)     return func(*args, **kwargs)
+(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__
+(EngineCore pid=2813)     self._init_executor()
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+(EngineCore pid=2813)     self.driver_worker.init_device()
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device
+(EngineCore pid=2813)     self.worker.init_device()  # type: ignore
+(EngineCore pid=2813)     ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=2813)     return func(*args, **kwargs)
+(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device
+(EngineCore pid=2813)     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+(EngineCore pid=2813)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory
+(EngineCore pid=2813)     raise ValueError(
+(EngineCore pid=2813) ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W419 21:05:18.345029588 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=2609) Traceback (most recent call last):
+(APIServer pid=2609)   File "<frozen runpy>", line 198, in _run_module_as_main
+(APIServer pid=2609)   File "<frozen runpy>", line 88, in _run_code
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>
+(APIServer pid=2609)     uvloop.run(run_server(args))
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run
+(APIServer pid=2609)     return runner.run(wrapper())
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+(APIServer pid=2609)     return self._loop.run_until_complete(task)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=2609)     return await main
+(APIServer pid=2609)            ^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server
+(APIServer pid=2609)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker
+(APIServer pid=2609)     async with build_async_engine_client(
+(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2609)     return await anext(self.gen)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=2609)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+(APIServer pid=2609)     return await anext(self.gen)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args
+(APIServer pid=2609)     async_llm = AsyncLLM.from_vllm_config(
+(APIServer pid=2609)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config
+(APIServer pid=2609)     return cls(
+(APIServer pid=2609)            ^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__
+(APIServer pid=2609)     self.engine_core = EngineCoreClient.make_async_mp_client(
+(APIServer pid=2609)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2609)     return func(*args, **kwargs)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client
+(APIServer pid=2609)     return AsyncMPClient(*client_args)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(APIServer pid=2609)     return func(*args, **kwargs)
+(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__
+(APIServer pid=2609)     super().__init__(
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+(APIServer pid=2609)     with launch_core_engines(
+(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+(APIServer pid=2609)     next(self.gen)
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+(APIServer pid=2609)     wait_for_engine_startup(
+(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+(APIServer pid=2609)     raise RuntimeError(
+(APIServer pid=2609) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+
+2026-04-19 21:05:21,550 [infergrid.router.router] ERROR: WorkloadRouter started with 0/2 models loaded; failures: [('meta-llama/Llama-3.1-8B-Instruct', 'vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_meta-llama_Llama-3.1-8B-Instruct_p8002.log. Last 10KB:\n-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.driver_worker.init_device()\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.worker.init_device()  # type: ignore\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     return func(*args, **kwargs)\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108]     raise ValueError(\n(EngineCore pid=2371) ERROR 04-19 21:04:58 [core.py:1108] ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.\n(EngineCore pid=2371) Process EngineCore:\n(EngineCore pid=2371) Traceback (most recent call last):\n(EngineCore pid=2371)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap\n(EngineCore pid=2371)     self.run()\n(EngineCore pid=2371)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run\n(EngineCore pid=2371)     self._target(*self._args, **self._kwargs)\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core\n(EngineCore pid=2371)     raise e\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core\n(EngineCore pid=2371)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)\n(EngineCore pid=2371)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2371)     return func(*args, **kwargs)\n(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__\n(EngineCore pid=2371)     super().__init__(\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__\n(EngineCore pid=2371)     self.model_executor = executor_class(vllm_config)\n(EngineCore pid=2371)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2371)     return func(*args, **kwargs)\n(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__\n(EngineCore pid=2371)     self._init_executor()\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor\n(EngineCore pid=2371)     self.driver_worker.init_device()\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device\n(EngineCore pid=2371)     self.worker.init_device()  # type: ignore\n(EngineCore pid=2371)     ^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2371)     return func(*args, **kwargs)\n(EngineCore pid=2371)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device\n(EngineCore pid=2371)     self.requested_memory = request_memory(init_snapshot, self.cache_config)\n(EngineCore pid=2371)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2371)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory\n(EngineCore pid=2371)     raise ValueError(\n(EngineCore pid=2371) ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.\n[rank0]:[W419 21:04:59.221645952 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())\n(APIServer pid=2166) Traceback (most recent call last):\n(APIServer pid=2166)   File "<frozen runpy>", line 198, in _run_module_as_main\n(APIServer pid=2166)   File "<frozen runpy>", line 88, in _run_code\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>\n(APIServer pid=2166)     uvloop.run(run_server(args))\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run\n(APIServer pid=2166)     return runner.run(wrapper())\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run\n(APIServer pid=2166)     return self._loop.run_until_complete(task)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper\n(APIServer pid=2166)     return await main\n(APIServer pid=2166)            ^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server\n(APIServer pid=2166)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker\n(APIServer pid=2166)     async with build_async_engine_client(\n(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__\n(APIServer pid=2166)     return await anext(self.gen)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client\n(APIServer pid=2166)     async with build_async_engine_client_from_engine_args(\n(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__\n(APIServer pid=2166)     return await anext(self.gen)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args\n(APIServer pid=2166)     async_llm = AsyncLLM.from_vllm_config(\n(APIServer pid=2166)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config\n(APIServer pid=2166)     return cls(\n(APIServer pid=2166)            ^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__\n(APIServer pid=2166)     self.engine_core = EngineCoreClient.make_async_mp_client(\n(APIServer pid=2166)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(APIServer pid=2166)     return func(*args, **kwargs)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client\n(APIServer pid=2166)     return AsyncMPClient(*client_args)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(APIServer pid=2166)     return func(*args, **kwargs)\n(APIServer pid=2166)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__\n(APIServer pid=2166)     super().__init__(\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__\n(APIServer pid=2166)     with launch_core_engines(\n(APIServer pid=2166)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__\n(APIServer pid=2166)     next(self.gen)\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines\n(APIServer pid=2166)     wait_for_engine_startup(\n(APIServer pid=2166)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup\n(APIServer pid=2166)     raise RuntimeError(\n(APIServer pid=2166) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}\n'), ('Qwen/Qwen2.5-7B-Instruct', 'vLLM process exited with code 1. Full log: /tmp/infergrid_engine_vllm_Qwen_Qwen2.5-7B-Instruct_p8003.log. Last 10KB:\n-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.driver_worker.init_device()\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.worker.init_device()  # type: ignore\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     ^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     return func(*args, **kwargs)\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     self.requested_memory = request_memory(init_snapshot, self.cache_config)\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108]     raise ValueError(\n(EngineCore pid=2813) ERROR 04-19 21:05:17 [core.py:1108] ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.\n(EngineCore pid=2813) Process EngineCore:\n(EngineCore pid=2813) Traceback (most recent call last):\n(EngineCore pid=2813)   File "/usr/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap\n(EngineCore pid=2813)     self.run()\n(EngineCore pid=2813)   File "/usr/lib/python3.11/multiprocessing/process.py", line 108, in run\n(EngineCore pid=2813)     self._target(*self._args, **self._kwargs)\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1112, in run_engine_core\n(EngineCore pid=2813)     raise e\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 1082, in run_engine_core\n(EngineCore pid=2813)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)\n(EngineCore pid=2813)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2813)     return func(*args, **kwargs)\n(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 848, in __init__\n(EngineCore pid=2813)     super().__init__(\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core.py", line 114, in __init__\n(EngineCore pid=2813)     self.model_executor = executor_class(vllm_config)\n(EngineCore pid=2813)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2813)     return func(*args, **kwargs)\n(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/abstract.py", line 103, in __init__\n(EngineCore pid=2813)     self._init_executor()\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor\n(EngineCore pid=2813)     self.driver_worker.init_device()\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/worker_base.py", line 312, in init_device\n(EngineCore pid=2813)     self.worker.init_device()  # type: ignore\n(EngineCore pid=2813)     ^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(EngineCore pid=2813)     return func(*args, **kwargs)\n(EngineCore pid=2813)            ^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/gpu_worker.py", line 283, in init_device\n(EngineCore pid=2813)     self.requested_memory = request_memory(init_snapshot, self.cache_config)\n(EngineCore pid=2813)                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(EngineCore pid=2813)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/worker/utils.py", line 413, in request_memory\n(EngineCore pid=2813)     raise ValueError(\n(EngineCore pid=2813) ValueError: Free memory on device cuda:0 (14.23/79.25 GiB) on startup is less than desired GPU memory utilization (0.4, 31.7 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.\n[rank0]:[W419 21:05:18.345029588 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())\n(APIServer pid=2609) Traceback (most recent call last):\n(APIServer pid=2609)   File "<frozen runpy>", line 198, in _run_module_as_main\n(APIServer pid=2609)   File "<frozen runpy>", line 88, in _run_code\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 712, in <module>\n(APIServer pid=2609)     uvloop.run(run_server(args))\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 92, in run\n(APIServer pid=2609)     return runner.run(wrapper())\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run\n(APIServer pid=2609)     return self._loop.run_until_complete(task)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/uvloop/__init__.py", line 48, in wrapper\n(APIServer pid=2609)     return await main\n(APIServer pid=2609)            ^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 672, in run_server\n(APIServer pid=2609)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 686, in run_server_worker\n(APIServer pid=2609)     async with build_async_engine_client(\n(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__\n(APIServer pid=2609)     return await anext(self.gen)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client\n(APIServer pid=2609)     async with build_async_engine_client_from_engine_args(\n(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__\n(APIServer pid=2609)     return await anext(self.gen)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py", line 136, in build_async_engine_client_from_engine_args\n(APIServer pid=2609)     async_llm = AsyncLLM.from_vllm_config(\n(APIServer pid=2609)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 225, in from_vllm_config\n(APIServer pid=2609)     return cls(\n(APIServer pid=2609)            ^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py", line 154, in __init__\n(APIServer pid=2609)     self.engine_core = EngineCoreClient.make_async_mp_client(\n(APIServer pid=2609)                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(APIServer pid=2609)     return func(*args, **kwargs)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 130, in make_async_mp_client\n(APIServer pid=2609)     return AsyncMPClient(*client_args)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper\n(APIServer pid=2609)     return func(*args, **kwargs)\n(APIServer pid=2609)            ^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 887, in __init__\n(APIServer pid=2609)     super().__init__(\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__\n(APIServer pid=2609)     with launch_core_engines(\n(APIServer pid=2609)   File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__\n(APIServer pid=2609)     next(self.gen)\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines\n(APIServer pid=2609)     wait_for_engine_startup(\n(APIServer pid=2609)   File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup\n(APIServer pid=2609)     raise RuntimeError(\n(APIServer pid=2609) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}\n')]
+2026-04-19 21:05:21,551 [infergrid] INFO: InferGrid serving on http://0.0.0.0:8000 with 2 model(s)
+2026-04-19 21:05:21,551 [infergrid] INFO:   Models: ['meta-llama/Llama-3.1-8B-Instruct', 'Qwen/Qwen2.5-7B-Instruct']
+2026-04-19 21:05:21,551 [infergrid] INFO:   GPU budget: 92%
+2026-04-19 21:05:23,201 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:28,209 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:33,219 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:38,227 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:43,236 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:48,244 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:53,252 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:05:58,261 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:05:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:03,272 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:08,284 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:13,293 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:18,301 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:23,310 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:28,318 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:33,326 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:38,334 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:43,343 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:48,351 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:53,360 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:06:58,368 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:06:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:03,379 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:08,388 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:13,396 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:18,405 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:23,413 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:28,422 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:33,430 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:38,438 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:43,447 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:48,457 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:53,466 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:07:58,475 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:07:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:03,483 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:08,492 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:13,500 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:18,509 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:23,518 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:28,526 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:33,534 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:38,543 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:43,551 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:48,559 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:53,567 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:08:58,578 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:08:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:03,588 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:08,597 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:13,606 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:18,613 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:23,621 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:28,629 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:33,638 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:38,646 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:43,655 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:48,663 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:53,672 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:09:58,680 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:09:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:03,688 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:08,697 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:13,705 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:18,713 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:23,721 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:28,730 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:33,738 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:38,747 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:43,756 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:48,768 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:53,779 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:10:58,787 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:10:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:03,796 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:08,806 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:13,815 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:18,824 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:23,832 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:28,840 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:33,848 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:38,857 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:43,871 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:48,882 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:53,890 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:11:58,899 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:11:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:03,909 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:03 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:08,917 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:08 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:13,925 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:13 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:18,934 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:18 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:23,942 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:23 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:28,951 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:28 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:33,958 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:33 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:38,967 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:38 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:43,975 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:43 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:48,982 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:48 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:53,990 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:53 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:12:58,998 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:12:58 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:04,006 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:04 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:09,014 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:09 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:14,022 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:14 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:19,031 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:19 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:24,040 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:24 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:29,048 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:29 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:34,056 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:34 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:39,065 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:39 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:44,073 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:44 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:49,085 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:49 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:54,094 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:54 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:13:59,102 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:13:59 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:04,111 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:04 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:09,119 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:09 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:14,128 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:14 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:19,137 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:19 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:24,146 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:24 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:29,155 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:29 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:34,163 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:34 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"
+2026-04-19 21:14:39,172 [aiohttp.access] INFO: 127.0.0.1 [19/Apr/2026:21:14:39 +0000] "GET /health HTTP/1.1" 503 303 "-" "curl/7.81.0"

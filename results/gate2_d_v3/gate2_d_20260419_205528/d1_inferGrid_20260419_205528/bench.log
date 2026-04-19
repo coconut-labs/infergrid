@@ -1,0 +1,12 @@
+2026-04-19 20:59:24,299 [INFO] __main__: Bench: chat=meta-llama/Llama-3.1-8B-Instruct @ 5.0 RPS steady, rag=Qwen/Qwen2.5-7B-Instruct burst 3x (30s at 15.0 RPS, 60s idle), prompt=4096 tok
+2026-04-19 20:59:34,300 [INFO] __main__: RAG burst 1/3 starts (30s of 15 RPS)
+2026-04-19 21:00:04,492 [INFO] __main__: RAG idle 60s
+2026-04-19 21:01:04,494 [INFO] __main__: RAG burst 2/3 starts (30s of 15 RPS)
+2026-04-19 21:01:34,508 [INFO] __main__: RAG idle 60s
+2026-04-19 21:02:34,509 [INFO] __main__: RAG burst 3/3 starts (30s of 15 RPS)
+2026-04-19 21:04:25,012 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_d_20260419_205528/d1_inferGrid_20260419_205528/tenant_chat.csv (1494 rows)
+2026-04-19 21:04:25,033 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_d_20260419_205528/d1_inferGrid_20260419_205528/tenant_rag.csv (1368 rows)
+2026-04-19 21:04:25,034 [INFO] __main__: ============================================================
+2026-04-19 21:04:25,034 [INFO] __main__: CHAT n=1494 err=0 oom=0  ttft_p99=1552.0ms
+2026-04-19 21:04:25,034 [INFO] __main__: RAG  n=104 err=1264 oom=0  ttft_p99=29343.4ms
+2026-04-19 21:04:25,034 [INFO] __main__: ============================================================

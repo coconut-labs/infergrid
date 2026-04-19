@@ -1,0 +1,14 @@
+2026-04-19 20:59:18,967 [INFO] __main__: Bench: 1 flooder @ 32.0 RPS + 5 quiet @ 1.0 RPS each, duration=300s, model=meta-llama/Llama-3.1-8B-Instruct
+2026-04-19 20:59:18,967 [INFO] __main__: TCPConnector limit=555
+2026-04-19 21:04:21,027 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_flooder.csv (9469 rows)
+2026-04-19 21:04:21,030 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_quiet_0.csv (321 rows)
+2026-04-19 21:04:21,033 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_quiet_1.csv (297 rows)
+2026-04-19 21:04:21,036 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_quiet_2.csv (298 rows)
+2026-04-19 21:04:21,039 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_quiet_3.csv (294 rows)
+2026-04-19 21:04:21,042 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/tenant_quiet_4.csv (308 rows)
+2026-04-19 21:04:21,045 [INFO] __main__: Wrote /workspace/infergrid/results/gate2_n6_20260419_205733/summary.json
+2026-04-19 21:04:21,045 [INFO] __main__: ============================================================
+2026-04-19 21:04:21,045 [INFO] __main__: QUIET AGG (n=1518) p50=42.2ms p99=2078.4ms max=2878.8ms
+2026-04-19 21:04:21,045 [INFO] __main__: FLOOD     (n=3009) p50=41.3ms p99=1802.8ms max=2928.3ms
+2026-04-19 21:04:21,045 [INFO] __main__: Per-quiet p99 spread: min=998.9 max=2300.8 ratio=2.30x
+2026-04-19 21:04:21,045 [INFO] __main__: ============================================================
