@@ -51,7 +51,7 @@ The "multi-tenant on a small shared box without K8s" cell is empty. That's the g
 ## Quickstart
 
 ```bash
-pip install -e .          # PyPI placeholder pending; until then, install from source
+pip install infergrid
 infergrid serve --config configs/quickstart_fairness.yaml
 
 # Wait until /health returns 200. The first call returns 503 with a
@@ -132,7 +132,7 @@ pytest tests/unit/        # 144 tests, no GPU required, ~10 s
 | Gate 0.6 — bench harness validation | ✅ Done | Real vLLM end-to-end |
 | Gate 1.5 — single-model admission test | ✅ Done | Falsified the original "scheduling cliff" pitch |
 | Gate 2-FAIRNESS — multi-tenant fairness | ✅ Done | Hero number; this README's lead chart |
-| **Launch** | **Tue 2026-05-12** | HN + r/LocalLLaMA + landing page; ship-gated on PyPI placeholder + Cloudflare Worker |
+| **Launch** | **Tue 2026-05-12** | HN + r/LocalLLaMA + landing page; ship-gated on waitlist backend (Cloudflare Worker) |
 | Gate 2-lite — multi-model contention | Post-launch | InferGrid's other differentiator vs Ollama; never benchmarked |
 | KV cache tiering (LMCache integration) | Post-launch | Phase 3 of original roadmap |
 | Multi-engine routing (vLLM ↔ SGLang) | Post-launch | Phase 1 hinted SGLang 2.2× better at TTFT at c=256 |
