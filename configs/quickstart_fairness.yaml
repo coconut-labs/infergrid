@@ -12,6 +12,10 @@
 # Try it:
 #   infergrid serve --config configs/quickstart_fairness.yaml
 #
+#   # Wait for /health=200 — engines pre-load at startup; /health
+#   # returns 503 with {missing_models: [...]} until they're ready.
+#   until curl -fs localhost:8000/health > /dev/null; do sleep 2; done
+#
 #   curl localhost:8000/v1/completions -H "X-Tenant-ID: noisy" \
 #     -d '{"model":"llama31-8b","prompt":"Hello","max_tokens":64,"stream":true}'
 #   curl localhost:8000/v1/completions -H "X-Tenant-ID: quiet" \
