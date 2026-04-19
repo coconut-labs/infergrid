@@ -54,6 +54,15 @@ These will be re-measured properly in Gate 1 with a corrected harness path
 that times from request submit to first non-zero-token in the streamed
 content (not first SSE frame).
 
+**Status (2026-04-19, PR #28):** harness fix landed.
+`benchmark_multi_model.py` now sets `first_token_time` only when
+`choices[0].text` is non-empty, and `benchmarks/scripts/test_real_ttft.py`
+is a discriminator that fails-loud if anyone moves the assignment back. On
+the local mock-engine reproducer (`--delay-first-content-s 0.5`) the broken
+code reported TTFT = 52.5 ms; the fixed code reports 553.9 ms. Numbers in
+`switch_latency.json` and `gate06_20260419/` predate this fix and are still
+under-counted by ~30 ms (network RTT). Gate 1 onward will be honest TTFT.
+
 ---
 
 ## C3 — Router `avg_latency_s: 0.0102` excludes streaming tail
