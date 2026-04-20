@@ -43,12 +43,19 @@ class SGLangAdapter(EngineAdapter):
             Command as a list of strings.
         """
         cmd = [
-            "python", "-m", "sglang.launch_server",
-            "--model-path", self.model_id,
-            "--port", str(self.port),
-            "--mem-fraction-static", str(self.gpu_memory_utilization),
-            "--tp", str(self.tensor_parallel_size),
-            "--context-length", str(self.max_model_len),
+            "python",
+            "-m",
+            "sglang.launch_server",
+            "--model-path",
+            self.model_id,
+            "--port",
+            str(self.port),
+            "--mem-fraction-static",
+            str(self.gpu_memory_utilization),
+            "--tp",
+            str(self.tensor_parallel_size),
+            "--context-length",
+            str(self.max_model_len),
         ]
         if self.dtype != "auto":
             cmd.extend(["--dtype", self.dtype])

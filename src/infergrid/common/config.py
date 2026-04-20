@@ -45,11 +45,13 @@ class CacheTierConfig:
 class CacheConfig:
     """KV cache tiering configuration."""
 
-    tiers: list[CacheTierConfig] = field(default_factory=lambda: [
-        CacheTierConfig(name="gpu", capacity_gb=40.0, latency_ms=0.01),
-        CacheTierConfig(name="cpu", capacity_gb=128.0, latency_ms=0.5),
-        CacheTierConfig(name="ssd", capacity_gb=512.0, latency_ms=5.0),
-    ])
+    tiers: list[CacheTierConfig] = field(
+        default_factory=lambda: [
+            CacheTierConfig(name="gpu", capacity_gb=40.0, latency_ms=0.01),
+            CacheTierConfig(name="cpu", capacity_gb=128.0, latency_ms=0.5),
+            CacheTierConfig(name="ssd", capacity_gb=512.0, latency_ms=5.0),
+        ]
+    )
     eviction_frequency_weight: float = 0.7
     eviction_recency_weight: float = 0.3
     block_size_tokens: int = 16
@@ -110,25 +112,19 @@ class InferGridConfig:
         with open(path) as f:
             raw: dict[str, Any] = yaml.safe_load(f) or {}
 
-        models = [
-            ModelConfig(**m) for m in raw.get("models", [])
-        ]
+        models = [ModelConfig(**m) for m in raw.get("models", [])]
         cache_raw = raw.get("cache", {})
-        cache_tiers = [
-            CacheTierConfig(**t) for t in cache_raw.get("tiers", [])
-        ]
+        cache_tiers = [CacheTierConfig(**t) for t in cache_raw.get("tiers", [])]
         cache = CacheConfig(
             tiers=cache_tiers if cache_tiers else CacheConfig().tiers,
-            eviction_frequency_weight=cache_raw.get(
-                "eviction_frequency_weight", 0.7
-            ),
-            eviction_recency_weight=cache_raw.get(
-                "eviction_recency_weight", 0.3
-            ),
+            eviction_frequency_weight=cache_raw.get("eviction_frequency_weight", 0.7),
+            eviction_recency_weight=cache_raw.get("eviction_recency_weight", 0.3),
             block_size_tokens=cache_raw.get("block_size_tokens", 16),
         )
         tenant_raw = raw.get("tenant_defaults", {})
-        tenant_defaults = TenantDefaults(**tenant_raw) if tenant_raw else TenantDefaults()
+        tenant_defaults = (
+            TenantDefaults(**tenant_raw) if tenant_raw else TenantDefaults()
+        )
 
         return cls(
             host=raw.get("host", "0.0.0.0"),
@@ -166,9 +162,7 @@ class InferGridConfig:
         Returns:
             Populated InferGridConfig instance.
         """
-        models = [
-            ModelConfig(model_id=mid, engine=engine) for mid in model_ids
-        ]
+        models = [ModelConfig(model_id=mid, engine=engine) for mid in model_ids]
         return cls(
             port=port,
             gpu_budget_fraction=gpu_budget,

@@ -143,6 +143,7 @@ class CacheManager:
         self._lmcache: Any = None
         try:
             import lmcache  # type: ignore[import-untyped]
+
             self._lmcache = lmcache
             logger.info("LMCache detected -- integration available")
         except ImportError:
@@ -239,10 +240,7 @@ class CacheManager:
         Returns:
             Number of blocks freed.
         """
-        to_free = [
-            bid for bid, b in self._blocks.items()
-            if b.request_id == request_id
-        ]
+        to_free = [bid for bid, b in self._blocks.items() if b.request_id == request_id]
         for bid in to_free:
             self.free_block(bid)
         return len(to_free)
@@ -256,10 +254,7 @@ class CacheManager:
         Returns:
             Number of blocks freed.
         """
-        to_free = [
-            bid for bid, b in self._blocks.items()
-            if b.model_id == model_id
-        ]
+        to_free = [bid for bid, b in self._blocks.items() if b.model_id == model_id]
         for bid in to_free:
             self.free_block(bid)
         return len(to_free)
@@ -288,9 +283,13 @@ class CacheManager:
             return False  # not actually a promotion
 
         needed_gb = self._tokens_to_gb(block.num_tokens)
-        if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(target_tier, 0):
+        if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(
+            target_tier, 0
+        ):
             self._evict_from_tier(target_tier, needed_gb)
-            if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(target_tier, 0):
+            if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(
+                target_tier, 0
+            ):
                 return False
 
         self._tier_blocks[block.tier].discard(block_id)
@@ -313,7 +312,9 @@ class CacheManager:
             return False
 
         needed_gb = self._tokens_to_gb(block.num_tokens)
-        if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(target_tier, 0):
+        if self._tier_used_gb(target_tier) + needed_gb > self._capacities.get(
+            target_tier, 0
+        ):
             return False
 
         self._tier_blocks[block.tier].discard(block_id)
@@ -451,7 +452,7 @@ class CacheManager:
 
     def _tokens_to_gb(self, num_tokens: int) -> float:
         """Convert a token count to approximate GB of KV cache."""
-        return (num_tokens * self._bytes_per_token) / (1024 ** 3)
+        return (num_tokens * self._bytes_per_token) / (1024**3)
 
     def _tier_used_gb(self, tier: str) -> float:
         """Compute current usage in GB for a tier."""

@@ -19,15 +19,6 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-# Hard ceiling for any single streaming response. Guards against client-side
-# slow consumers that would otherwise hold an admission slot indefinitely
-# (engine-side stalls are already bounded by EngineAdapter sock_read /
-# total timeouts in engines/base.py). Default 600s = 10 minutes; override
-# via INFERGRID_STREAM_MAX_DURATION_S for tests or specific deployments.
-_STREAM_MAX_DURATION_S: float = float(
-    os.environ.get("INFERGRID_STREAM_MAX_DURATION_S", "600.0")
-)
-
 import aiohttp
 from aiohttp import web
 
@@ -41,6 +32,15 @@ from infergrid.router.admission import AdmissionController, AdmissionTimeoutErro
 from infergrid.tenant.manager import TenantManager
 
 logger = logging.getLogger(__name__)
+
+# Hard ceiling for any single streaming response. Guards against client-side
+# slow consumers that would otherwise hold an admission slot indefinitely
+# (engine-side stalls are already bounded by EngineAdapter sock_read /
+# total timeouts in engines/base.py). Default 600s = 10 minutes; override
+# via INFERGRID_STREAM_MAX_DURATION_S for tests or specific deployments.
+_STREAM_MAX_DURATION_S: float = float(
+    os.environ.get("INFERGRID_STREAM_MAX_DURATION_S", "600.0")
+)
 
 
 # ── Length buckets for multi-queue scheduling ────────────────────────
@@ -95,6 +95,7 @@ def classify_request_length(max_tokens: int, input_tokens: int = 0) -> str:
 
 # ── Per-model tracking ──────────────────────────────────────────────
 
+
 @dataclass
 class ModelState:
     """Runtime state for a loaded model.
@@ -142,6 +143,7 @@ class ModelState:
 
 # ── Priority request queue ──────────────────────────────────────────
 
+
 @dataclass
 class PendingRequest:
     """A request waiting in the scheduling queue."""
@@ -153,7 +155,9 @@ class PendingRequest:
     tenant_id: str
     bucket: str
     enqueue_time: float = field(default_factory=time.monotonic)
-    future: asyncio.Future[Any] = field(default_factory=lambda: asyncio.get_running_loop().create_future())
+    future: asyncio.Future[Any] = field(
+        default_factory=lambda: asyncio.get_running_loop().create_future()
+    )
 
 
 class WorkloadRouter:
@@ -243,9 +247,7 @@ class WorkloadRouter:
             try:
                 await self.load_model(model_cfg)
             except Exception as exc:
-                logger.error(
-                    "Pre-load FAILED for %s: %s", model_cfg.model_id, exc
-                )
+                logger.error("Pre-load FAILED for %s: %s", model_cfg.model_id, exc)
                 load_failures.append((model_cfg.model_id, str(exc)))
 
         if load_failures:
@@ -254,7 +256,9 @@ class WorkloadRouter:
             # never sends real traffic to a half-loaded server.
             logger.error(
                 "WorkloadRouter started with %d/%d models loaded; failures: %s",
-                len(self._models), len(self.config.models), load_failures,
+                len(self._models),
+                len(self.config.models),
+                load_failures,
             )
         else:
             logger.info(
@@ -513,18 +517,22 @@ class WorkloadRouter:
                 tokens_out=tokens_out,
             )
             await self.tenant_manager.record_completion(
-                tenant_id, tokens_in=tokens_in, tokens_out=tokens_out,
+                tenant_id,
+                tokens_in=tokens_in,
+                tokens_out=tokens_out,
                 gpu_seconds=elapsed,
             )
             return result
 
         except BudgetExceededError:
             raise
-        except Exception as exc:
+        except Exception:
             elapsed = time.monotonic() - start_time
             self.metrics.record_request(
-                model=model_id, tenant=tenant_id,
-                status="error", latency_s=elapsed,
+                model=model_id,
+                tenant=tenant_id,
+                status="error",
+                latency_s=elapsed,
             )
             raise
         finally:
@@ -598,7 +606,11 @@ class WorkloadRouter:
         except asyncio.TimeoutError:
             logger.warning(
                 "stream max-duration exceeded model=%s tenant=%s after %.1fs (chunks=%d frames=%d)",
-                model_id, tenant_id, _STREAM_MAX_DURATION_S, chunk_count, sse_frames,
+                model_id,
+                tenant_id,
+                _STREAM_MAX_DURATION_S,
+                chunk_count,
+                sse_frames,
             )
             status = "timeout"
             # Re-raise so the outer handle_request can return 504 to client.
@@ -621,13 +633,17 @@ class WorkloadRouter:
                     tokens_out=sse_frames,
                 )
                 await self.tenant_manager.record_completion(
-                    tenant_id, tokens_in=tokens_in, tokens_out=sse_frames,
+                    tenant_id,
+                    tokens_in=tokens_in,
+                    tokens_out=sse_frames,
                     gpu_seconds=elapsed_real,
                 )
             except Exception as exc:
                 logger.warning(
                     "stream metrics record failed model=%s tenant=%s: %s",
-                    model_id, tenant_id, exc,
+                    model_id,
+                    tenant_id,
+                    exc,
                 )
             self.admission_controller.release()
             await self.tenant_manager.release_for_tenant(tenant_id)
@@ -714,9 +730,7 @@ class WorkloadRouter:
         try:
             payload = await request.json()
         except Exception:
-            return web.json_response(
-                {"error": "invalid JSON body"}, status=400
-            )
+            return web.json_response({"error": "invalid JSON body"}, status=400)
 
         model_id = payload.get("model", "")
         if not model_id:
@@ -735,8 +749,14 @@ class WorkloadRouter:
         req_id = request.headers.get("X-Request-ID") or (
             f"r{int(time.time() * 1000) % 1_000_000_000:09d}"
         )
-        logger.info("req_id=%s ENTER model=%s tenant=%s stream=%s path=%s",
-                    req_id, model_id, tenant_id, stream, path)
+        logger.info(
+            "req_id=%s ENTER model=%s tenant=%s stream=%s path=%s",
+            req_id,
+            model_id,
+            tenant_id,
+            stream,
+            path,
+        )
 
         try:
             result = await self.route_request(
@@ -767,8 +787,11 @@ class WorkloadRouter:
                 except (asyncio.TimeoutError, aiohttp.ServerTimeoutError) as exc:
                     if response is None:
                         # Engine failed before first byte — clean 504.
-                        logger.warning("req_id=%s EXIT 504 engine_timeout_pre_byte detail=%s",
-                                       req_id, exc)
+                        logger.warning(
+                            "req_id=%s EXIT 504 engine_timeout_pre_byte detail=%s",
+                            req_id,
+                            exc,
+                        )
                         return web.json_response(
                             {"error": "engine timeout", "detail": str(exc)},
                             status=504,
@@ -776,7 +799,8 @@ class WorkloadRouter:
                     # Already committed 200 headers; close the stream.
                     logger.warning(
                         "req_id=%s EXIT 200_partial engine_timeout_mid_stream detail=%s",
-                        req_id, exc,
+                        req_id,
+                        exc,
                     )
                     await response.write_eof()
                     return response
@@ -796,8 +820,12 @@ class WorkloadRouter:
             return web.json_response(result)
 
         except AdmissionTimeoutError as exc:
-            logger.warning("req_id=%s EXIT 503 admission_timeout queue=%d in_flight=%d",
-                           req_id, exc.queue_depth, exc.in_flight)
+            logger.warning(
+                "req_id=%s EXIT 503 admission_timeout queue=%d in_flight=%d",
+                req_id,
+                exc.queue_depth,
+                exc.in_flight,
+            )
             return web.json_response(
                 {
                     "error": "server overloaded",
@@ -816,35 +844,33 @@ class WorkloadRouter:
             )
         except BudgetExceededError as exc:
             logger.warning("req_id=%s EXIT 429 budget_exceeded detail=%s", req_id, exc)
-            return web.json_response(
-                {"error": str(exc)}, status=429
-            )
+            return web.json_response({"error": str(exc)}, status=429)
         except ValueError as exc:
             logger.warning("req_id=%s EXIT 404 value_error detail=%s", req_id, exc)
-            return web.json_response(
-                {"error": str(exc)}, status=404
-            )
+            return web.json_response({"error": str(exc)}, status=404)
         except Exception as exc:
             logger.exception("req_id=%s EXIT 500 unhandled: %s", req_id, exc)
-            return web.json_response(
-                {"error": f"internal error: {exc}"}, status=500
-            )
+            return web.json_response({"error": f"internal error: {exc}"}, status=500)
 
     async def handle_models(self, request: web.Request) -> web.Response:
         """Handle GET /v1/models -- list loaded models."""
         models_data = []
         for mid, state in self._models.items():
-            models_data.append({
-                "id": mid,
-                "object": "model",
-                "owned_by": "infergrid",
-                "engine": state.config.engine,
-                "healthy": state.adapter.is_healthy,
-            })
-        return web.json_response({
-            "object": "list",
-            "data": models_data,
-        })
+            models_data.append(
+                {
+                    "id": mid,
+                    "object": "model",
+                    "owned_by": "infergrid",
+                    "engine": state.config.engine,
+                    "healthy": state.adapter.is_healthy,
+                }
+            )
+        return web.json_response(
+            {
+                "object": "list",
+                "data": models_data,
+            }
+        )
 
     async def handle_health(self, request: web.Request) -> web.Response:
         """Handle GET /health.
@@ -861,8 +887,11 @@ class WorkloadRouter:
         missing = sorted(configured - loaded)
         if missing:
             return web.json_response(
-                {"status": "loading", "missing_models": missing,
-                 "loaded_models": sorted(loaded)},
+                {
+                    "status": "loading",
+                    "missing_models": missing,
+                    "loaded_models": sorted(loaded),
+                },
                 status=503,
             )
         return web.json_response({"status": "ok", "loaded_models": sorted(loaded)})
@@ -985,6 +1014,7 @@ class WorkloadRouter:
 
 
 # ── Custom exceptions ───────────────────────────────────────────────
+
 
 class BudgetExceededError(Exception):
     """Raised when a tenant exceeds their request budget."""

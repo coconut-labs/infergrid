@@ -43,13 +43,21 @@ class VLLMAdapter(EngineAdapter):
             Command as a list of strings.
         """
         cmd = [
-            "python", "-m", "vllm.entrypoints.openai.api_server",
-            "--model", self.model_id,
-            "--port", str(self.port),
-            "--gpu-memory-utilization", str(self.gpu_memory_utilization),
-            "--tensor-parallel-size", str(self.tensor_parallel_size),
-            "--dtype", self.dtype,
-            "--max-model-len", str(self.max_model_len),
+            "python",
+            "-m",
+            "vllm.entrypoints.openai.api_server",
+            "--model",
+            self.model_id,
+            "--port",
+            str(self.port),
+            "--gpu-memory-utilization",
+            str(self.gpu_memory_utilization),
+            "--tensor-parallel-size",
+            str(self.tensor_parallel_size),
+            "--dtype",
+            self.dtype,
+            "--max-model-len",
+            str(self.max_model_len),
         ]
         cmd.extend(self.extra_args)
         return cmd

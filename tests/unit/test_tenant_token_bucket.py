@@ -59,9 +59,7 @@ class TestTokenBucketBurst:
     @pytest.mark.asyncio
     async def test_default_burst_allows_full_rpm_burst(self) -> None:
         # burst=None defaults to rpm. Backward-compat with prior sliding-window.
-        budget = TenantBudget(
-            max_concurrent_requests=999, rate_limit_rpm=5
-        )
+        budget = TenantBudget(max_concurrent_requests=999, rate_limit_rpm=5)
         record = TenantRecord("t", budget)
         for _ in range(5):
             assert await record.try_acquire() is True

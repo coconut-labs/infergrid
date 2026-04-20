@@ -1,4 +1,5 @@
 """Tests for per-tenant TTFT histogram in MetricsCollector."""
+
 from __future__ import annotations
 
 from prometheus_client import CollectorRegistry
@@ -12,9 +13,11 @@ def _ttft_count(metrics: MetricsCollector, *, model: str, tenant: str) -> int:
         if fam.name != "infergrid_tenant_ttft_seconds":
             continue
         for sample in fam.samples:
-            if sample.name == "infergrid_tenant_ttft_seconds_count" and \
-                    sample.labels.get("model") == model and \
-                    sample.labels.get("tenant") == tenant:
+            if (
+                sample.name == "infergrid_tenant_ttft_seconds_count"
+                and sample.labels.get("model") == model
+                and sample.labels.get("tenant") == tenant
+            ):
                 return int(sample.value)
     return 0
 

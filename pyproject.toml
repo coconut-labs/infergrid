@@ -65,7 +65,12 @@ line-length = 88
 
 [tool.ruff]
 line-length = 88
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "N", "W"]
+ignore = [
+    "E501",  # line-too-long: accepted debt; fix opportunistically, not in lint gate
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -112,7 +112,19 @@ class AdmissionController:
             self._prom_wait_seconds = Histogram(
                 "infergrid_admission_wait_seconds",
                 "Time spent waiting for admission",
-                buckets=(0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 5.0, 10.0, 30.0),
+                buckets=(
+                    0.001,
+                    0.005,
+                    0.01,
+                    0.05,
+                    0.1,
+                    0.25,
+                    0.5,
+                    1.0,
+                    5.0,
+                    10.0,
+                    30.0,
+                ),
                 registry=registry,
             )
             self._prom_rejected_total = Counter(
@@ -255,7 +267,9 @@ class AdmissionController:
         Returns:
             Dictionary with queue depth, in-flight count, totals, and rates.
         """
-        total_decisions = self._total_admitted + self._total_rejected + self._total_timed_out
+        total_decisions = (
+            self._total_admitted + self._total_rejected + self._total_timed_out
+        )
         admission_rate = (
             self._total_admitted / total_decisions if total_decisions > 0 else 1.0
         )

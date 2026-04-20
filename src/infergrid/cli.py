@@ -19,7 +19,7 @@ import aiohttp
 from aiohttp import web
 
 from infergrid.cache.manager import CacheManager
-from infergrid.common.config import InferGridConfig, ModelConfig
+from infergrid.common.config import InferGridConfig
 from infergrid.common.metrics import MetricsCollector
 from infergrid.router.router import WorkloadRouter
 from infergrid.tenant.manager import TenantManager
@@ -40,9 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", help="Available commands")
 
     # ── serve ──
-    serve_parser = sub.add_parser(
-        "serve", help="Start the InferGrid API server"
-    )
+    serve_parser = sub.add_parser("serve", help="Start the InferGrid API server")
     serve_parser.add_argument(
         "models",
         nargs="*",
@@ -102,9 +100,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # ── models ──
-    models_parser = sub.add_parser(
-        "models", help="List available/loaded models"
-    )
+    models_parser = sub.add_parser("models", help="List available/loaded models")
     models_parser.add_argument(
         "--port",
         type=int,
@@ -146,6 +142,7 @@ async def _run_server(config: InferGridConfig) -> None:
     # default and rejects high-concurrency traffic with 429 even when the
     # config lifts the cap. That blocks Gate 1 (c=256 vs default=64).
     from infergrid.tenant.manager import TenantBudget
+
     td = config.tenant_defaults
     default_budget = TenantBudget(
         max_concurrent_requests=td.max_concurrent_requests,
@@ -193,7 +190,9 @@ async def _run_server(config: InferGridConfig) -> None:
 
     logger.info(
         "InferGrid serving on http://%s:%d with %d model(s)",
-        config.host, config.port, len(config.models),
+        config.host,
+        config.port,
+        len(config.models),
     )
     logger.info("  Models: %s", [m.model_id for m in config.models])
     logger.info("  GPU budget: %.0f%%", config.gpu_budget_fraction * 100)
@@ -258,7 +257,9 @@ def _cmd_status(args: argparse.Namespace) -> None:
         data = asyncio.run(_fetch_json(url))
     except Exception:
         logger.error(
-            "Error connecting to InferGrid at port %d", args.port, exc_info=True,
+            "Error connecting to InferGrid at port %d",
+            args.port,
+            exc_info=True,
         )
         sys.exit(1)
 
@@ -272,7 +273,9 @@ def _cmd_models(args: argparse.Namespace) -> None:
         data = asyncio.run(_fetch_json(url))
     except Exception:
         logger.error(
-            "Error connecting to InferGrid at port %d", args.port, exc_info=True,
+            "Error connecting to InferGrid at port %d",
+            args.port,
+            exc_info=True,
         )
         sys.exit(1)
 

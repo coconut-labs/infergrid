@@ -94,13 +94,13 @@ def generate_metadata_section(model_name: str, metadata: dict[str, Any] | None) 
     lines = [f"## Model: {model_name}", ""]
     if metadata:
         lines.extend([
-            f"- **Hardware:** {metadata.get('gpu', 'TODO')}",
-            f"- **Driver:** {metadata.get('driver', 'TODO')}",
-            f"- **Model ID:** {metadata.get('model', 'TODO')}",
-            f"- **Workload:** {metadata.get('workload', 'TODO')}",
-            f"- **Concurrency sweep:** {metadata.get('concurrency', 'TODO')}",
-            f"- **Requests per level:** {metadata.get('num_requests', 'TODO')}",
-            f"- **Timestamp:** {metadata.get('timestamp', 'TODO')}",
+            f"- **Hardware:** {metadata.get('gpu', 'n/a')}",
+            f"- **Driver:** {metadata.get('driver', 'n/a')}",
+            f"- **Model ID:** {metadata.get('model', 'n/a')}",
+            f"- **Workload:** {metadata.get('workload', 'n/a')}",
+            f"- **Concurrency sweep:** {metadata.get('concurrency', 'n/a')}",
+            f"- **Requests per level:** {metadata.get('num_requests', 'n/a')}",
+            f"- **Timestamp:** {metadata.get('timestamp', 'n/a')}",
         ])
     lines.extend([
         "",

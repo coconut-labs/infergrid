@@ -17,10 +17,8 @@ import asyncio
 import time
 from dataclasses import dataclass, field
 from typing import Any
-from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 
 # ---------------------------------------------------------------------------
 # Stub interfaces matching the expected InferGrid router contract
@@ -90,11 +88,7 @@ class WorkloadRouterStub:
 
     def _gpu_memory_used(self) -> float:
         """Calculate total GPU memory fraction currently in use."""
-        return sum(
-            a.gpu_memory_fraction
-            for a in self.adapters.values()
-            if a.is_loaded
-        )
+        return sum(a.gpu_memory_fraction for a in self.adapters.values() if a.is_loaded)
 
     def _pick_eviction_target(self) -> str | None:
         """Pick a model to evict based on frequency+recency scoring.
@@ -117,9 +111,7 @@ class WorkloadRouterStub:
         now = time.time()
         scores: dict[str, float] = {}
         for mid, _ in loaded:
-            accesses = [
-                (ts, m) for ts, m in self._access_history if m == mid
-            ]
+            accesses = [(ts, m) for ts, m in self._access_history if m == mid]
             frequency = len(accesses)
             recency = (now - accesses[-1][0]) if accesses else float("inf")
             # Lower score = more likely to evict
@@ -129,7 +121,9 @@ class WorkloadRouterStub:
         # Evict the model with the lowest score
         return min(scores, key=scores.get)  # type: ignore[arg-type]
 
-    async def route(self, model_id: str, prompt: str, max_tokens: int = 256) -> dict[str, Any]:
+    async def route(
+        self, model_id: str, prompt: str, max_tokens: int = 256
+    ) -> dict[str, Any]:
         """Route a request to the appropriate model adapter.
 
         If the model is not loaded, triggers loading (and possibly eviction
@@ -211,10 +205,14 @@ class TestRouteToCorrectAdapter:
     async def test_correct_adapter_loaded(self, router: WorkloadRouterStub) -> None:
         await router.route("model-a", "hello")
         assert router.adapters["model-a"].is_loaded
-        assert "model-b" not in router.adapters or not router.adapters["model-b"].is_loaded
+        assert (
+            "model-b" not in router.adapters or not router.adapters["model-b"].is_loaded
+        )
 
     @pytest.mark.asyncio
-    async def test_both_models_loaded_simultaneously(self, router: WorkloadRouterStub) -> None:
+    async def test_both_models_loaded_simultaneously(
+        self, router: WorkloadRouterStub
+    ) -> None:
         await router.route("model-a", "hello")
         await router.route("model-b", "hello")
         # Both fit within budget (0.4 + 0.4 = 0.8 <= 0.85)
@@ -238,13 +236,17 @@ class TestDynamicModelLoading:
         return r
 
     @pytest.mark.asyncio
-    async def test_first_request_triggers_load(self, router: WorkloadRouterStub) -> None:
+    async def test_first_request_triggers_load(
+        self, router: WorkloadRouterStub
+    ) -> None:
         assert router.get_loaded_models() == []
         await router.route("model-a", "hello")
         assert "model-a" in router.get_loaded_models()
 
     @pytest.mark.asyncio
-    async def test_second_model_loads_on_demand(self, router: WorkloadRouterStub) -> None:
+    async def test_second_model_loads_on_demand(
+        self, router: WorkloadRouterStub
+    ) -> None:
         await router.route("model-a", "hello")
         assert router.get_loaded_models() == ["model-a"]
         await router.route("model-b", "hello")
@@ -273,7 +275,9 @@ class TestEvictionOnBudgetExceeded:
         return r
 
     @pytest.mark.asyncio
-    async def test_evicts_when_budget_exceeded(self, tight_router: WorkloadRouterStub) -> None:
+    async def test_evicts_when_budget_exceeded(
+        self, tight_router: WorkloadRouterStub
+    ) -> None:
         await tight_router.route("model-a", "hello")
         assert tight_router.adapters["model-a"].is_loaded
 
@@ -283,7 +287,9 @@ class TestEvictionOnBudgetExceeded:
         assert not tight_router.adapters["model-a"].is_loaded
 
     @pytest.mark.asyncio
-    async def test_evicts_least_scored_model(self, tight_router: WorkloadRouterStub) -> None:
+    async def test_evicts_least_scored_model(
+        self, tight_router: WorkloadRouterStub
+    ) -> None:
         # Access model-a many times to give it a high frequency score
         for _ in range(10):
             await tight_router.route("model-a", "hello")
@@ -324,7 +330,9 @@ class TestInFlightRequestSafety:
         return r
 
     @pytest.mark.asyncio
-    async def test_in_flight_prevents_eviction(self, tight_router: WorkloadRouterStub) -> None:
+    async def test_in_flight_prevents_eviction(
+        self, tight_router: WorkloadRouterStub
+    ) -> None:
         # Pre-load model-a
         await tight_router.route("model-a", "hello")
 
@@ -340,7 +348,9 @@ class TestInFlightRequestSafety:
         assert adapter_a.is_loaded
 
     @pytest.mark.asyncio
-    async def test_in_flight_completes_before_eviction(self, tight_router: WorkloadRouterStub) -> None:
+    async def test_in_flight_completes_before_eviction(
+        self, tight_router: WorkloadRouterStub
+    ) -> None:
         # Pre-load model-a
         await tight_router.route("model-a", "hello")
         adapter_a = tight_router.adapters["model-a"]

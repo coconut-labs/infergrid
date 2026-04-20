@@ -5,6 +5,7 @@ and launch-day demos could send real traffic at a server whose engines
 were still cold, triggering the lazy-load fork-bomb pattern even after
 the per-model lock fix landed.
 """
+
 from __future__ import annotations
 
 from unittest.mock import MagicMock

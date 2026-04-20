@@ -15,7 +15,6 @@ import pytest
 from infergrid.router.admission import AdmissionController
 from infergrid.tenant.manager import TenantBudget, TenantRecord
 
-
 # ---------------------------------------------------------------------------
 # priority_score formula
 # ---------------------------------------------------------------------------
@@ -71,9 +70,7 @@ class TestDRRAdmissionIntegration:
             flooder.usage.active_requests = 2 + i
             score = flooder.priority_score()  # 21, 31, 41, 51, 61
             flooder_tasks.append(
-                asyncio.create_task(
-                    controller.acquire(priority=score, timeout=10.0)
-                )
+                asyncio.create_task(controller.acquire(priority=score, timeout=10.0))
             )
 
         # Give the event loop a chance to enqueue all flooder waiters.
@@ -123,6 +120,7 @@ class TestDRRAdmissionIntegration:
 
         # Enqueue two with identical priority
         order = []
+
         async def waiter(label: str) -> None:
             ok = await controller.acquire(priority=11, timeout=5.0)
             assert ok
@@ -179,10 +177,9 @@ class TestBucketStillTieBreaks:
 
         # alice is the same tenant for both requests, score=11
         order = []
+
         async def waiter(label: str, bucket_p: int) -> None:
-            await controller.acquire(
-                priority=11 * 100 + bucket_p, timeout=5.0
-            )
+            await controller.acquire(priority=11 * 100 + bucket_p, timeout=5.0)
             order.append(label)
 
         long_task = asyncio.create_task(waiter("long", 2))

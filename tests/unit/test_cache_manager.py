@@ -10,8 +10,7 @@ import time
 
 import pytest
 
-from infergrid.cache.manager import CacheBlock, CacheManager, TierStats
-
+from infergrid.cache.manager import CacheBlock, CacheManager
 
 # ---------------------------------------------------------------------------
 # CacheBlock reuse scoring
@@ -24,13 +23,21 @@ class TestCacheBlockScoring:
     def test_frequently_accessed_scores_higher(self) -> None:
         now = time.monotonic()
         frequent = CacheBlock(
-            block_id="b1", model_id="m1", request_id="r1",
-            tier="gpu", num_tokens=16, access_count=100,
+            block_id="b1",
+            model_id="m1",
+            request_id="r1",
+            tier="gpu",
+            num_tokens=16,
+            access_count=100,
             last_access_time=now,
         )
         rare = CacheBlock(
-            block_id="b2", model_id="m1", request_id="r2",
-            tier="gpu", num_tokens=16, access_count=1,
+            block_id="b2",
+            model_id="m1",
+            request_id="r2",
+            tier="gpu",
+            num_tokens=16,
+            access_count=1,
             last_access_time=now,
         )
         assert frequent.reuse_score(now) > rare.reuse_score(now)
@@ -38,13 +45,21 @@ class TestCacheBlockScoring:
     def test_recently_accessed_scores_higher(self) -> None:
         now = time.monotonic()
         recent = CacheBlock(
-            block_id="b1", model_id="m1", request_id="r1",
-            tier="gpu", num_tokens=16, access_count=10,
+            block_id="b1",
+            model_id="m1",
+            request_id="r1",
+            tier="gpu",
+            num_tokens=16,
+            access_count=10,
             last_access_time=now,
         )
         stale = CacheBlock(
-            block_id="b2", model_id="m1", request_id="r2",
-            tier="gpu", num_tokens=16, access_count=10,
+            block_id="b2",
+            model_id="m1",
+            request_id="r2",
+            tier="gpu",
+            num_tokens=16,
+            access_count=10,
             last_access_time=now - 3600,
         )
         assert recent.reuse_score(now) > stale.reuse_score(now)
@@ -53,13 +68,21 @@ class TestCacheBlockScoring:
         """A very frequently accessed block should resist eviction even when stale."""
         now = time.monotonic()
         popular_stale = CacheBlock(
-            block_id="b1", model_id="m1", request_id="r1",
-            tier="gpu", num_tokens=16, access_count=1000,
+            block_id="b1",
+            model_id="m1",
+            request_id="r1",
+            tier="gpu",
+            num_tokens=16,
+            access_count=1000,
             last_access_time=now - 120,  # 2 minutes ago
         )
         rare_recent = CacheBlock(
-            block_id="b2", model_id="m1", request_id="r2",
-            tier="gpu", num_tokens=16, access_count=1,
+            block_id="b2",
+            model_id="m1",
+            request_id="r2",
+            tier="gpu",
+            num_tokens=16,
+            access_count=1,
             last_access_time=now - 1,  # 1 second ago
         )
         assert popular_stale.reuse_score(now) > rare_recent.reuse_score(now)
@@ -67,8 +90,12 @@ class TestCacheBlockScoring:
     def test_score_is_nonnegative(self) -> None:
         now = time.monotonic()
         block = CacheBlock(
-            block_id="b1", model_id="m1", request_id="r1",
-            tier="gpu", num_tokens=16, access_count=0,
+            block_id="b1",
+            model_id="m1",
+            request_id="r1",
+            tier="gpu",
+            num_tokens=16,
+            access_count=0,
             last_access_time=now - 99999,
         )
         assert block.reuse_score(now) >= 0.0
@@ -165,7 +192,9 @@ class TestCacheManagerTiering:
         # Fill up GPU
         blocks = []
         for i in range(100):
-            b = cm.allocate_block(f"b{i}", "model-a", "req-1", num_tokens=16, tier="gpu")
+            b = cm.allocate_block(
+                f"b{i}", "model-a", "req-1", num_tokens=16, tier="gpu"
+            )
             if b is not None:
                 blocks.append(b)
 

@@ -10,13 +10,14 @@ from __future__ import annotations
 import asyncio
 import json
 import sys
-import time
 from pathlib import Path
 
 import pytest
 
 # Add profiling scripts to path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "profiling" / "scripts"))
+sys.path.insert(
+    0, str(Path(__file__).resolve().parent.parent.parent / "profiling" / "scripts")
+)
 
 from profiling_utils import AsyncBenchmarkClient, BenchmarkResults
 

@@ -16,7 +16,6 @@ from infergrid.router.admission import (
     AdmissionTimeoutError,
 )
 
-
 # ---------------------------------------------------------------------------
 # Basic admission / release
 # ---------------------------------------------------------------------------

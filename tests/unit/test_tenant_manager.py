@@ -6,10 +6,7 @@ tenant isolation.
 
 from __future__ import annotations
 
-import pytest
-
 from infergrid.tenant.manager import TenantBudget, TenantManager, TenantRecord
-
 
 # ---------------------------------------------------------------------------
 # TenantBudget
@@ -89,17 +86,13 @@ class TestTenantRecord:
         budget = TenantBudget()
         record = TenantRecord("tenant-1", budget)
 
-        await record.record_completion(
-            tokens_in=100, tokens_out=50, gpu_seconds=1.5
-        )
+        await record.record_completion(tokens_in=100, tokens_out=50, gpu_seconds=1.5)
         assert record.usage.request_count == 1
         assert record.usage.token_count_in == 100
         assert record.usage.token_count_out == 50
         assert abs(record.usage.gpu_seconds - 1.5) < 0.001
 
-        await record.record_completion(
-            tokens_in=200, tokens_out=100, gpu_seconds=2.0
-        )
+        await record.record_completion(tokens_in=200, tokens_out=100, gpu_seconds=2.0)
         assert record.usage.request_count == 2
         assert record.usage.token_count_in == 300
 

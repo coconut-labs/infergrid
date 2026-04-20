@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -212,7 +212,8 @@ class TenantManager:
 
             record = TenantRecord(
                 tenant_id=tenant_id,
-                budget=budget or TenantBudget(
+                budget=budget
+                or TenantBudget(
                     max_concurrent_requests=self._default_budget.max_concurrent_requests,
                     rate_limit_rpm=self._default_budget.rate_limit_rpm,
                     rate_limit_burst=self._default_budget.rate_limit_burst,
@@ -305,7 +306,4 @@ class TenantManager:
         Returns:
             Dictionary mapping tenant IDs to their snapshots.
         """
-        return {
-            tid: record.snapshot()
-            for tid, record in self._tenants.items()
-        }
+        return {tid: record.snapshot() for tid, record in self._tenants.items()}

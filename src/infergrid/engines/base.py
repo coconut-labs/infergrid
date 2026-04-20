@@ -30,6 +30,7 @@ class EngineCircuitOpenError(Exception):
     per-request timeout storm into millisecond-scale errors.
     """
 
+
 # Directory for per-engine subprocess logs. Overridden via INFERGRID_ENGINE_LOG_DIR env.
 _ENGINE_LOG_DIR = os.environ.get("INFERGRID_ENGINE_LOG_DIR") or tempfile.gettempdir()
 
@@ -118,7 +119,8 @@ class EngineAdapter(abc.ABC):
         if os.environ.get("INFERGRID_DEV_SKIP_ENGINE_LAUNCH"):
             logger.info(
                 "%s dev mode: skipping subprocess launch, attaching to localhost:%d",
-                self.engine_name, self.port,
+                self.engine_name,
+                self.port,
             )
             # Wait briefly for the already-running engine to be healthy
             deadline = asyncio.get_event_loop().time() + timeout_s
@@ -127,7 +129,9 @@ class EngineAdapter(abc.ABC):
                     self._healthy = True
                     logger.info(
                         "%s (mock) reachable on port %d for model %s",
-                        self.engine_name, self.port, self.model_id,
+                        self.engine_name,
+                        self.port,
+                        self.model_id,
                     )
                     return
                 await asyncio.sleep(1.0)
@@ -184,7 +188,9 @@ class EngineAdapter(abc.ABC):
                 self._healthy = True
                 logger.info(
                     "%s server ready on port %d for model %s",
-                    self.engine_name, self.port, self.model_id,
+                    self.engine_name,
+                    self.port,
+                    self.model_id,
                 )
                 return
 
@@ -250,8 +256,8 @@ class EngineAdapter(abc.ABC):
     _ENGINE_CONNECT_TIMEOUT_S = 10
     _ENGINE_IDLE_TIMEOUT_S = 30
     # Circuit breaker parameters (R4).
-    _CIRCUIT_THRESHOLD = 3          # consecutive timeouts before opening
-    _CIRCUIT_COOLDOWN_S = 60.0      # seconds the circuit stays open
+    _CIRCUIT_THRESHOLD = 3  # consecutive timeouts before opening
+    _CIRCUIT_COOLDOWN_S = 60.0  # seconds the circuit stays open
 
     def _get_session(self) -> aiohttp.ClientSession:
         """Return the shared session, creating it on first use.
@@ -287,8 +293,10 @@ class EngineAdapter(abc.ABC):
             self._healthy = False
             logger.warning(
                 "%s circuit OPEN for %s: %d consecutive timeouts, cooldown %.0fs",
-                self.engine_name, self.model_id,
-                self._consecutive_timeouts, self._CIRCUIT_COOLDOWN_S,
+                self.engine_name,
+                self.model_id,
+                self._consecutive_timeouts,
+                self._CIRCUIT_COOLDOWN_S,
             )
 
     def _note_success(self) -> None:
@@ -296,7 +304,9 @@ class EngineAdapter(abc.ABC):
         if self._consecutive_timeouts > 0 or self._circuit_open_until:
             logger.info(
                 "%s circuit RESET for %s (was %d consecutive timeouts)",
-                self.engine_name, self.model_id, self._consecutive_timeouts,
+                self.engine_name,
+                self.model_id,
+                self._consecutive_timeouts,
             )
         self._consecutive_timeouts = 0
         self._circuit_open_until = 0.0

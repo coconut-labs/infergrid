@@ -9,6 +9,7 @@ After the fix: concurrent ensure_model_loaded() calls for the same
 model serialize through a per-model asyncio.Lock; exactly one
 load_model() call fires and every waiter gets the same ModelState.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -55,7 +56,9 @@ async def test_ensure_model_loaded_serializes_concurrent_calls(monkeypatch):
     monkeypatch.setattr(router, "load_model", slow_load)
 
     # Fan out 32 concurrent ensure_model_loaded() calls.
-    tasks = [asyncio.create_task(router.ensure_model_loaded("llama31-8b")) for _ in range(32)]
+    tasks = [
+        asyncio.create_task(router.ensure_model_loaded("llama31-8b")) for _ in range(32)
+    ]
 
     # Wait for the first load to start.
     await asyncio.wait_for(load_started.wait(), timeout=1.0)
@@ -69,7 +72,9 @@ async def test_ensure_model_loaded_serializes_concurrent_calls(monkeypatch):
     assert load_call_count == 1, (
         f"expected exactly 1 load_model() call, got {load_call_count} — the race is NOT fixed"
     )
-    assert all(r is results[0] for r in results), "all waiters must receive the same ModelState"
+    assert all(r is results[0] for r in results), (
+        "all waiters must receive the same ModelState"
+    )
 
 
 @pytest.mark.asyncio
@@ -77,8 +82,12 @@ async def test_ensure_model_loaded_lock_is_per_model(monkeypatch):
     """Two different model_ids load concurrently — not serialized by the lock."""
     cfg = InferGridConfig(
         models=[
-            ModelConfig(model_id="llama31-8b", short_name="l", engine="vllm", dtype="bfloat16"),
-            ModelConfig(model_id="qwen25-7b", short_name="q", engine="vllm", dtype="bfloat16"),
+            ModelConfig(
+                model_id="llama31-8b", short_name="l", engine="vllm", dtype="bfloat16"
+            ),
+            ModelConfig(
+                model_id="qwen25-7b", short_name="q", engine="vllm", dtype="bfloat16"
+            ),
         ],
     )
     router = WorkloadRouter(cfg)

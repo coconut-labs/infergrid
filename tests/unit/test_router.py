@@ -16,12 +16,10 @@ import pytest
 import infergrid.router.router as router_module
 from infergrid.common.config import InferGridConfig, ModelConfig
 from infergrid.router.router import (
-    BudgetExceededError,
     ModelState,
     WorkloadRouter,
     classify_request_length,
 )
-
 
 # ---------------------------------------------------------------------------
 # classify_request_length
@@ -183,6 +181,7 @@ class TestWorkloadRouter:
         model_config = ModelConfig(model_id="test-org/model-0", engine="vllm")
         adapter = router._create_adapter(model_config, 8001)
         from infergrid.engines.vllm_adapter.adapter import VLLMAdapter
+
         assert isinstance(adapter, VLLMAdapter)
 
     def test_create_adapter_sglang(self) -> None:
@@ -191,6 +190,7 @@ class TestWorkloadRouter:
         model_config = ModelConfig(model_id="test-org/model-0", engine="sglang")
         adapter = router._create_adapter(model_config, 8002)
         from infergrid.engines.sglang_adapter.adapter import SGLangAdapter
+
         assert isinstance(adapter, SGLangAdapter)
 
     async def test_unknown_model_raises(self) -> None:
@@ -257,7 +257,11 @@ class TestStreamingAdmission:
     """
 
     def _make_router_with_slow_stream(
-        self, *, max_concurrent: int, chunk_count: int = 5, chunk_delay_s: float = 0.05,
+        self,
+        *,
+        max_concurrent: int,
+        chunk_count: int = 5,
+        chunk_delay_s: float = 0.05,
     ) -> WorkloadRouter:
         cfg = InferGridConfig(
             port=9999,
@@ -285,8 +289,10 @@ class TestStreamingAdmission:
 
         # Start one stream and begin iterating
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
-            payload={"stream": True, "max_tokens": 32}, stream=True,
+            model_id="m",
+            path="/v1/completions",
+            payload={"stream": True, "max_tokens": 32},
+            stream=True,
         )
         agen = result.__aiter__()
         first = await agen.__anext__()
@@ -307,12 +313,16 @@ class TestStreamingAdmission:
 
     async def test_streaming_respects_concurrency_cap(self) -> None:
         # cap=2, 3 concurrent streams → one must queue
-        router = self._make_router_with_slow_stream(max_concurrent=2, chunk_count=3, chunk_delay_s=0.04)
+        router = self._make_router_with_slow_stream(
+            max_concurrent=2, chunk_count=3, chunk_delay_s=0.04
+        )
 
         async def consume():
             r = await router.route_request(
-                model_id="m", path="/v1/completions",
-                payload={"stream": True, "max_tokens": 32}, stream=True,
+                model_id="m",
+                path="/v1/completions",
+                payload={"stream": True, "max_tokens": 32},
+                stream=True,
             )
             async for _ in r:
                 pass
@@ -331,12 +341,16 @@ class TestStreamingAdmission:
 
     async def test_slot_released_when_consumer_aborts_midstream(self) -> None:
         router = self._make_router_with_slow_stream(
-            max_concurrent=2, chunk_count=20, chunk_delay_s=0.05,
+            max_concurrent=2,
+            chunk_count=20,
+            chunk_delay_s=0.05,
         )
 
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
-            payload={"stream": True, "max_tokens": 256}, stream=True,
+            model_id="m",
+            path="/v1/completions",
+            payload={"stream": True, "max_tokens": 256},
+            stream=True,
         )
         agen = result.__aiter__()
         await agen.__anext__()
@@ -359,7 +373,9 @@ class TestStreamingAdmission:
         into the wrapper's finally with chunk_count and real elapsed.
         """
         router = self._make_router_with_slow_stream(
-            max_concurrent=4, chunk_count=5, chunk_delay_s=0.04,
+            max_concurrent=4,
+            chunk_count=5,
+            chunk_delay_s=0.04,
         )
 
         tm_calls: list[dict] = []
@@ -370,7 +386,8 @@ class TestStreamingAdmission:
         router.tenant_manager.record_completion = fake_record_completion  # type: ignore[assignment]
 
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
+            model_id="m",
+            path="/v1/completions",
             payload={"prompt": "two words", "stream": True, "max_tokens": 5},
             stream=True,
         )
@@ -379,7 +396,9 @@ class TestStreamingAdmission:
             chunks.append(c)
         # Wrapper iteration is done — finally has run.
 
-        assert len(tm_calls) == 1, f"expected 1 record_completion call, got {len(tm_calls)}"
+        assert len(tm_calls) == 1, (
+            f"expected 1 record_completion call, got {len(tm_calls)}"
+        )
         call = tm_calls[0]
         # Real elapsed: 5 chunks × 40ms ≈ 200ms (≥ 150 ms allows for noise).
         assert call["gpu_seconds"] >= 0.15, (
@@ -405,7 +424,8 @@ class TestStreamingAdmission:
         the number of complete `data:` frames (3 here).
         """
         cfg = InferGridConfig(
-            port=9999, max_concurrent=4,
+            port=9999,
+            max_concurrent=4,
             models=[ModelConfig(model_id="m", engine="vllm")],
         )
         router = WorkloadRouter(config=cfg)
@@ -413,7 +433,7 @@ class TestStreamingAdmission:
         full = (
             b'data: {"choices":[{"text":"hello"}]}\n\n'
             b'data: {"choices":[{"text":"world"}]}\n\n'
-            b'data: [DONE]\n\n'
+            b"data: [DONE]\n\n"
         )
 
         async def byte_at_a_time():
@@ -424,7 +444,9 @@ class TestStreamingAdmission:
 
         adapter = MagicMock()
         adapter.is_healthy = True
-        adapter.forward_request = AsyncMock(side_effect=lambda *a, **kw: byte_at_a_time())
+        adapter.forward_request = AsyncMock(
+            side_effect=lambda *a, **kw: byte_at_a_time()
+        )
         state = ModelState(config=ModelConfig(model_id="m"), adapter=adapter)
         router._models["m"] = state
 
@@ -436,7 +458,8 @@ class TestStreamingAdmission:
         router.tenant_manager.record_completion = fake_record_completion  # type: ignore[assignment]
 
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
+            model_id="m",
+            path="/v1/completions",
             payload={"prompt": "p", "stream": True, "max_tokens": 5},
             stream=True,
         )
@@ -451,18 +474,23 @@ class TestStreamingAdmission:
             "Buffered SSE parser must dedupe across TCP fragments."
         )
 
-    async def test_max_stream_duration_releases_slot(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    async def test_max_stream_duration_releases_slot(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         """Slow-client guard: a stream that exceeds the configured max
         duration must abort and release the admission slot (PR #33)."""
         monkeypatch.setattr(router_module, "_STREAM_MAX_DURATION_S", 0.15)
 
         # 50 chunks × 50 ms = 2.5s — well past the 0.15s fence.
         router = self._make_router_with_slow_stream(
-            max_concurrent=2, chunk_count=50, chunk_delay_s=0.05,
+            max_concurrent=2,
+            chunk_count=50,
+            chunk_delay_s=0.05,
         )
 
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
+            model_id="m",
+            path="/v1/completions",
             payload={"prompt": "p", "stream": True, "max_tokens": 50},
             stream=True,
         )
@@ -485,11 +513,14 @@ class TestStreamingAdmission:
         cooperative and not guaranteed).
         """
         router = self._make_router_with_slow_stream(
-            max_concurrent=2, chunk_count=50, chunk_delay_s=0.05,
+            max_concurrent=2,
+            chunk_count=50,
+            chunk_delay_s=0.05,
         )
 
         result = await router.route_request(
-            model_id="m", path="/v1/completions",
+            model_id="m",
+            path="/v1/completions",
             payload={"prompt": "p", "stream": True, "max_tokens": 50},
             stream=True,
         )

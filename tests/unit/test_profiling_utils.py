@@ -6,17 +6,16 @@ GPUMetricsCollector (with mocked pynvml).
 
 from __future__ import annotations
 
-import time
-from unittest.mock import MagicMock, patch
-
-import numpy as np
-import pytest
-
 import sys
+import time
 from pathlib import Path
 
+import numpy as np
+
 # Add profiling scripts to path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "profiling" / "scripts"))
+sys.path.insert(
+    0, str(Path(__file__).resolve().parent.parent.parent / "profiling" / "scripts")
+)
 
 from profiling_utils import (
     BenchmarkResults,
@@ -25,7 +24,6 @@ from profiling_utils import (
     RequestMetrics,
     TimingContext,
 )
-
 
 # ---------------------------------------------------------------------------
 # RequestGenerator tests
@@ -329,8 +327,12 @@ class TestGPUMetricsCollector:
         df = collector.to_dataframe()
 
         expected_cols = [
-            "timestamp", "gpu_index", "utilization_pct",
-            "memory_used_mb", "memory_total_mb", "power_draw_w",
+            "timestamp",
+            "gpu_index",
+            "utilization_pct",
+            "memory_used_mb",
+            "memory_total_mb",
+            "power_draw_w",
             "sm_clock_mhz",
         ]
         for col in expected_cols:
