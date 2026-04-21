@@ -1,53 +1,101 @@
 # Reproduce the hero number
 
-`infergrid bench reproduce-hero` runs the same 300 s noisy-neighbor
-bench that produced the numbers in the [launch post](launch/gate0_launch_post.md)
-and prints your box's result side-by-side with the published reference.
+`infergrid bench reproduce-hero` runs the same 300-second noisy-neighbor
+bench that produced the numbers in the [launch post](launch/gate0_launch_post.md),
+then prints your box's result side-by-side with the published reference.
 
-## Quick start (local)
+## Quick start (local, server already up)
 
 ```bash
-# Terminal 1 — start the server against the hero config.
+# 1. Start a server in another terminal against the hero config.
 infergrid serve --config configs/gate2_fairness_token_bucket.yaml --port 8000
 
-# Wait for /health (first call is 503 while vLLM JIT-compiles, 30-90 s on A100).
+# 2. Wait for /health to return 200 (first call is 503 while vLLM JIT-compiles).
 until curl -fs http://localhost:8000/health > /dev/null; do sleep 5; done
 
-# Terminal 2 — run the bench.
+# 3. Run the hero bench.
 infergrid bench reproduce-hero
 ```
 
-Finishes in ~5 min. Artifacts land in `./infergrid-reproduce-<timestamp>/`
-(`report.json`, `summary.json`, per-tenant CSVs).
+Finishes in ~5 min. Writes results to `./infergrid-reproduce-<timestamp>/`.
 
 ## Flavors
 
-| Flag | Tenants | Published quiet p99 | Config |
-|---|---|---:|---|
-| `--flavor 2tenant` (default) | 1 flooder + 1 quiet | 61.5 ms (1.14x solo) | `configs/gate2_fairness_token_bucket.yaml` |
-| `--flavor n6`                | 1 flooder + 5 quiet | 61.0 ms (1.13x solo) | `configs/gate2_fairness_token_bucket_n6.yaml` |
-| `--flavor n8`                | 1 flooder + 7 quiet | 50.4 ms (1.05x solo) | `configs/gate21_fairness_n8.yaml` |
+| Flag | Tenants | Published quiet p99 | Ratio vs solo |
+|---|---|---:|---:|
+| `--flavor 2tenant` (default) | 1 flooder + 1 quiet | 61.5 ms | 1.14x |
+| `--flavor n6`                | 1 flooder + 5 quiet | 61.0 ms | 1.13x |
+| `--flavor n8`                | 1 flooder + 7 quiet | 50.4 ms | 1.05x |
 
-## `--pod`: one-command provision + run + teardown
+Each flavor expects its matching YAML on the server side:
+
+- 2tenant: `configs/gate2_fairness_token_bucket.yaml`
+- n6: `configs/gate2_fairness_token_bucket_n6.yaml`
+- n8: `configs/gate21_fairness_n8.yaml`
+
+## Provision a pod for you (`--pod`)
+
+If `RUNPOD_API_KEY` is set, `--pod` spins up a 1x A100 SXM pod, rsyncs
+the results back, and deletes the pod on exit (including on Ctrl-C):
 
 ```bash
-export RUNPOD_API_KEY=<key>
-export HF_TOKEN=<huggingface-token>
-infergrid bench reproduce-hero --pod          # ~25 min wall time
-infergrid bench reproduce-hero --pod --no-delete  # keep pod for post-run inspection
+export RUNPOD_API_KEY=<your key>
+infergrid bench reproduce-hero --pod
 ```
 
-Provisions 1x A100 SXM, runs the bench, tears the pod down on exit
-(including on Ctrl-C). Requires `pip install runpod` (lazy-imported).
+Pass `--no-delete` to keep the pod for post-run inspection.
+
+Total wall time (pod path): ~25 min including pull + warmup + bench + teardown.
+
+## Flags
+
+| Flag | Default | Meaning |
+|---|---|---|
+| `--flavor` | `2tenant` | `2tenant`, `n6`, or `n8` |
+| `--duration-s` | `300` | Bench wall time per flavor |
+| `--base-url` | `http://localhost:8000` | InferGrid server URL |
+| `--pod` | off | Provision a RunPod A100 (requires `RUNPOD_API_KEY`) |
+| `--no-delete` | off | Don't delete the pod after a `--pod` run |
+
+## Report format
+
+`./infergrid-reproduce-<timestamp>/report.json` contains your
+measurement, the reference, and the delta ratio.
+
+```json
+{
+  "schema_version": 1,
+  "flavor": "2tenant",
+  "user_result": {
+    "quiet_aggregate_p99_ms": 61.8,
+    "flooder_p99_ms": 1720.0,
+    "flooder_429_rate": 0.94
+  },
+  "reference": {
+    "tokenbucket_p99_ms": 61.5,
+    "ratio_of_solo": 1.14,
+    "source": "results/gate2_preprint_v3/"
+  }
+}
+```
 
 ## Common errors
 
-- **`nothing listening on localhost:8000`** — server not up. Start with
-  `infergrid serve --config <flavor-config> --port 8000`.
-- **`Model ... not found in /v1/models`** — your config doesn't include
-  `meta-llama/Llama-3.1-8B-Instruct`; use a flavor config above.
-- **`HTTP 503 on /health`** — vLLM still JIT-compiling. Wait 30-90 s.
+- **`nothing listening on localhost:8000`**: server not up. Run
+  `infergrid serve --config <flavor config>` in a second terminal.
+- **`Model ... not found in /v1/models`**: your config doesn't include
+  `meta-llama/Llama-3.1-8B-Instruct`. Use one of the flavor configs
+  above.
+- **`HTTP 503 on /health`**: vLLM is still JIT-compiling (typical on
+  first request; 30-90 s on A100 for Llama-3.1-8B). Wait and re-run.
 
-Expected divergence: GPU not A100-SXM4, or vLLM build not `0.19.1`.
-File an issue with `tenant_*.csv` attached if the published arm is 2x+
-from reference on a matched A100 + `vllm==0.19.1`.
+## When your numbers diverge from published
+
+Expected if:
+
+- GPU differs from A100-SXM4 (the table warns on mismatch).
+- Your engine build is not `vllm==0.19.1` (the hero-validated pin).
+- You ran fewer than 300 s (insufficient samples for stable p99).
+
+File an issue with `tenant_*.csv` attached if the published arm is
+2x+ from reference on an A100 / `vllm==0.19.1`.
