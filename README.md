@@ -86,6 +86,22 @@ infergrid man tenants       # fairness mental model + v3 numbers
 infergrid man topics        # list all bundled help pages
 ```
 
+## Reproduce the hero number
+
+Run the same 300-second noisy-neighbor bench that produced the chart at the top of this README, and print a side-by-side table vs the published numbers. Two modes:
+
+```bash
+# (a) You already have `infergrid serve --config configs/gate2_fairness_token_bucket.yaml` running:
+infergrid bench reproduce-hero
+
+# (b) You want the CLI to provision a 1x A100 pod for you and tear it down afterwards:
+export RUNPOD_API_KEY=<key>
+export HF_TOKEN=<token>
+infergrid bench reproduce-hero --pod
+```
+
+Pick `--flavor 2tenant` (default — the hero), `--flavor n6`, or `--flavor n8`. The command writes `./infergrid-reproduce-<timestamp>/report.json` with your number, the published reference, and the ratio so you can file an issue with concrete data if they diverge. Full doc: [`docs/reproduce_hero.md`](docs/reproduce_hero.md).
+
 ## Telemetry
 
 InferGrid ships with **opt-in, anonymous** install/usage telemetry. The very first time you run any `infergrid` command interactively, you'll see a one-paragraph prompt asking whether to share stats. **The default is no.** If you answer `n` (or just press Enter), nothing is ever transmitted and we never re-prompt. If you answer `y`, each subsequent command sends a seven-field JSON payload — install ID (a locally-minted uuid4), InferGrid version, Python major.minor, OS (`linux`/`darwin`/`win32`), bucketed GPU class (`h100`/`a100`/`rtx4090`/`other`/`none`), the command name (`serve_started` / `doctor_ran`), and a unix timestamp. **Nothing else.** No prompts, no model names, no tenant IDs, no IP capture on the receiver side. The endpoint is a Cloudflare Worker we maintain; source is at [`telemetry-worker/`](telemetry-worker/).

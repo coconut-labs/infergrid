@@ -6,6 +6,7 @@ The entry point for ``pip install infergrid``. Commands:
 * ``infergrid status``
 * ``infergrid models``
 * ``infergrid doctor``
+* ``infergrid bench reproduce-hero``
 * ``infergrid man [topic]``
 * ``infergrid --version``
 
@@ -171,6 +172,29 @@ def build_parser() -> argparse.ArgumentParser:
             "port availability, and whether a newer InferGrid is on PyPI."
         ),
     )
+
+    # ── bench ──
+    bench_parser = sub.add_parser(
+        "bench", help="Benchmark helpers (reproduce the hero number, etc.)",
+        description="Benchmark helpers. See `infergrid bench reproduce-hero --help`.",
+    )
+    bench_sub = bench_parser.add_subparsers(dest="bench_cmd", help="bench subcommand")
+    repro = bench_sub.add_parser(
+        "reproduce-hero",
+        help="Replicate the launch-post hero number against a running server",
+        description="Run the published noisy-neighbor bench and print a "
+                    "side-by-side table vs docs/launch/gate0_launch_post.md.",
+    )
+    repro.add_argument("--flavor", choices=["2tenant", "n6", "n8"], default="2tenant",
+                       help="Bench flavor (default: 2tenant — the hero).")
+    repro.add_argument("--duration-s", type=float, default=None,
+                       help="Bench wall time (default: 300 s).")
+    repro.add_argument("--base-url", default="http://localhost:8000",
+                       help="InferGrid server URL (default: http://localhost:8000).")
+    repro.add_argument("--pod", action="store_true",
+                       help="Provision a 1x A100 pod via RunPod and run against it.")
+    repro.add_argument("--no-delete", action="store_true",
+                       help="With --pod: keep the pod alive after the run.")
 
     # ── man ──
     man_parser = sub.add_parser(
@@ -677,6 +701,20 @@ def _cmd_man(args: argparse.Namespace) -> None:
     _console.print(Markdown(page))
 
 
+# ─────────────────────────────── bench ───────────────────────────────
+
+
+def _cmd_bench(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
+    """Dispatch ``infergrid bench <subcommand>``."""
+    if getattr(args, "bench_cmd", None) == "reproduce-hero":
+        # Lazy import — keeps `infergrid --help` startup fast.
+        from infergrid._bench.hero import run_reproduce_hero
+
+        run_reproduce_hero(args)
+        return
+    parser.parse_args(["bench", "--help"])  # prints help and exits
+
+
 # ─────────────────────────────── main ───────────────────────────────
 
 
@@ -701,6 +739,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         event = {
             "serve": "serve_started",
             "doctor": "doctor_ran",
+            "bench": "bench_reproduce_hero",
         }.get(args.command or "", "install_first_run")
         try:
             _telemetry.maybe_prompt_and_record_event(event=event)
@@ -719,6 +758,8 @@ def main(argv: Sequence[str] | None = None) -> None:
         _cmd_man(args)
     elif args.command == "telemetry":
         _cmd_telemetry(args)
+    elif args.command == "bench":
+        _cmd_bench(args, parser)
     else:
         parser.print_help()
         sys.exit(1)
