@@ -495,3 +495,36 @@ Gate 0/0.5/0.6/1 all ran single-model under varied admission. InferGrid's actual
 - Quickstart polish (install → 2 models → request in <5 min).
 - Launch-post framing: product-led title ("Run two LLMs on one A100 without K8s") with meta-honesty (shadow-review catches) as supporting beat. PR #20 draft needs reframe after Gate 1.5 lands.
 - **Launch target: Tuesday 2026-05-12** (HN timing).
+
+---
+
+## 2026-04-19 → 2026-04-21 — Post-pivot launch polish + PyPI 0.1.2 + LP live
+
+Closes out the Gate 2-FAIRNESS launch sprint: drops the last pre-pivot experiment results, cleans the public surface (README, CLI, PyPI, CI, issue templates), lands the gate-ladder v0.2 scaffolding for the $72 4-gate plan, and ships the launch post. LP + Cloudflare + Resend wired end-to-end.
+
+- PR #65 (452593d) · results: Track C N=6 CONFIRM (1 flooder + 6 quiet, p99 fairness holds) + Track D OOM-under-burst NULL (no OOM, D1 ≈ D2 — cut from launch per pre-committed null rule).
+- PR #66 (1443174) · deprecate `scripts/generate_launch_chart.py` (superseded by v3 chart pipeline); add Track C p95 row to Gate 2-FAIRNESS outcome doc.
+- PR #67 (54f3095) · docs: README + pyproject + quickstart destale — drop pre-PyPI `pip install .` refs, align quickstart numbers to v3 hero, reword CacheManager section to match the actual (not-adaptive) implementation.
+- PR #68 (2ce029f) · release: 0.1.1 — fix `[tool.hatch.build.targets.wheel]` TOML structure bug (blocked wheel build) + version bump.
+- PR #70 (8312b0c) · first CI (GitHub Actions: pytest + ruff on Python 3.11 + 3.12); durable `__version__` via `importlib.metadata.version("infergrid")` (fallback to `"0.0.0+unknown"` for editable installs without egg-info); delete orphaned `scripts/generate_charts.py`; replace literal `"TODO"` token-bucket metric strings with `"n/a"`.
+- PR #71 (f4f448c) · README badges (PyPI / CI / license / Python versions) + 4 YAML issue-form templates (bug / feature / docs / benchmark-regression) + disable Wiki + 10 custom repo labels + 8 topics for discoverability + GitHub Discussions enabled + GH Release v0.1.1 cut.
+- PR #72 (899f523) · CLI 0.1.2 — `infergrid --version`, `infergrid doctor` (env sanity), `infergrid man [topic]` (offline help), interactive `infergrid serve` wizard, rich-table output; fixes stale "adaptive" CacheManager description and lingering "scheduling cliff" reference in help text.
+- PR #73 (4c59682) · gate-ladder v0.2 — 3 new configs (`gate21_fairness_n8.yaml`, `gate24_fairness_mixtral_tp2.yaml`, `gate23_fairness_70b_tp4.yaml`), bump vLLM 0.8.5 → 0.19.1 in `requirements-gpu.txt`, `scripts/gate_pod_bootstrap.sh` adjusted for new vLLM surface + `pyproject.toml` extras; drops 0.8.5-specific compat pins.
+- PR #20 (928d55b) · launch post merged: `docs/launch/gate0_launch_post.md` (2013 words, v3 hero numbers, post-review fixes applied: waitlist CTA wired + 6 path fixes + cost reconciliation $12 → $17).
+- PR #74 (aab59a6) · docs sweep — README LOC/test count refresh (2,872 → 4,100 LOC; 144 → 153 tests), quickstart adds 0.1.2 CLI surface, roadmap replaces vague post-launch bullets with concrete links into the gate ladder, CONTRIBUTING adds ruff gate, `research_roadmap.md` prepends a post-pivot status block.
+
+Out-of-repo shipping (LP side, not in this repo's git history):
+
+- LP live at https://infergrid.org (Vercel project auto-deploys from `coconut-labs/infergrid-root` main).
+- Cloudflare Worker live at `infergrid-waitlist.shrey77-wrk.workers.dev` with D1 binding + Resend API key wired.
+- `FROM_EMAIL` `hello@infergrid.org` domain verified in Resend.
+- Launch email template committed at `landing_page/waitlist-api/templates/launch_announcement.html`.
+- GitHub tracking issue #69 filed for post-launch backlog (~2.8K words; issue, not PR).
+- PyPI `infergrid==0.1.2` live; durable `__version__` fix confirmed via clean-venv round-trip (`pip install infergrid && python -c "import infergrid; print(infergrid.__version__)"` → `0.1.2`).
+
+### Pending / blocked
+
+- **Gate 2.2 harness PR** — blocked on prerequisite harness code: `benchmarks/scripts/benchmark_n_tenant_single_model.py` needs a `--prompt-length-dist` flag wiring `RequestGenerator.generate_mixed_length`.
+- **3 user-side tokens awaiting rotation** — PyPI, Resend, Cloudflare.
+- **4-gate $72 RunPod ladder queued** — 2.1 / 2.4 / 2.3 runnable immediately on the v0.2 configs; 2.2 after harness lands.
+- **Arch-panel feature** — liquid-glass modal triggered from nav, 10 forks decided on defaults; Phase 1 dispatched to a sibling agent.
