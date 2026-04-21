@@ -1,0 +1,48 @@
+# Gate 2.3 — Llama-3.1-70B across 4×A100-SXM4 TP=4, 1 flooder + 3 quiet.
+#
+# Hypothesis: token-bucket fairness transfers from 8B to 70B. The rate-limit
+# lever lives at the InferGrid budget gate, architecturally upstream of the
+# engine's TP-replicated scheduler, so bigger-model TTFT characteristics
+# should shift uniformly (quiet and flooder both get slower) without
+# breaking the per-tenant ratio.
+#
+# Pre-committed PASS:
+#   quiet_p99 (post-warmup) ≤ 2.5× solo_p99(70B)
+#   AND flooder 429 rate > 30% of offered (rate-limit firing correctly).
+#   Solo p99(70B) measured empirically in Arm 0 of the same pod.
+# Pre-committed DISCONFIRM:
+#   quiet_p99 > 4× solo OR flooder 429 rate < 15%
+#   (rate-limit not engaging at 70B scale — new research problem.)
+#
+# KV-cache headroom: 70B bf16 ≈ 140 GB / 4 GPUs = 35 GB/GPU weights.
+# gpu_memory_utilization=0.90 leaves ~37 GB/GPU for KV — max_model_len=2048
+# ensures per-seq KV << per-GPU budget even under 4 concurrent batches.
+#
+# Bench plan (two arms, same warm engine to amortize 70B load):
+#   Arm 0 — --flooder-rps 0 --num-quiet 3  → solo baseline
+#   Arm 1 — --flooder-rps 32 --num-quiet 3 → contended
+
+host: 0.0.0.0
+port: 8000
+gpu_budget_fraction: 0.92
+
+max_concurrent: 256
+admission_queue_size: 2048
+engine_start_timeout_s: 900     # 70B TP=4 load ~8 min on cold pod
+log_level: INFO
+
+tenant_defaults:
+  max_concurrent_requests: 64
+  rate_limit_rpm: 600            # 10 RPS sustained per tenant
+  rate_limit_burst: 10
+  priority: 1
+  scheduling: drr
+
+models:
+  - model_id: "meta-llama/Llama-3.1-70B-Instruct"
+    short_name: "llama31-70b"
+    engine: "vllm"
+    dtype: "bfloat16"
+    gpu_memory_utilization: 0.90
+    max_model_len: 2048          # tight to preserve KV headroom for 4 tenants
+    tensor_parallel_size: 4

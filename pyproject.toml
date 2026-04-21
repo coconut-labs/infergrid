@@ -51,7 +51,7 @@ profiling = [
     "ipykernel~=6.25",
     "transformers>=4.51.1,<5.0",
 ]
-vllm = ["vllm==0.8.5", "numba>=0.60,<0.62", "numpy>=1.24,<2.3"]
+vllm = ["vllm==0.19.1", "numpy>=1.24"]
 sglang = ["sglang~=0.3.0"]
 
 [project.scripts]

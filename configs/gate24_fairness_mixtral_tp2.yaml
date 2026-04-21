@@ -1,0 +1,41 @@
+# Gate 2.4 — Mixtral-8x7B (MoE) on 2×A100-SXM4 TP=2, 1 flooder + 3 quiet.
+#
+# Hypothesis: MoE routing overhead (per-token expert selection, 2-of-8)
+# does not destabilize token-bucket fairness. Unlike dense 70B, Mixtral's
+# TTFT has shape-dependent expert-load variance; the open question is
+# whether flooder + quiet tenants compete differently at the expert-
+# capacity layer than at the admission gate.
+#
+# Pre-committed PASS:
+#   quiet_p99 (post-warmup) ≤ 2× solo_p99(Mixtral)
+#   AND per-tenant p99 spread across the 3 quiets < 1.5×
+#   (no quiet tenant structurally disadvantaged by expert-slot contention.)
+# Pre-committed DISCONFIRM:
+#   quiet_p99 > 3× solo OR per-tenant spread > 2×
+#   (MoE expert contention leaks past the admission gate — real finding;
+#   document the limitation rather than paper over it.)
+
+host: 0.0.0.0
+port: 8000
+gpu_budget_fraction: 0.92
+
+max_concurrent: 256
+admission_queue_size: 2048
+engine_start_timeout_s: 600
+log_level: INFO
+
+tenant_defaults:
+  max_concurrent_requests: 128
+  rate_limit_rpm: 600
+  rate_limit_burst: 10
+  priority: 1
+  scheduling: drr
+
+models:
+  - model_id: "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    short_name: "mixtral-8x7b"
+    engine: "vllm"
+    dtype: "bfloat16"
+    gpu_memory_utilization: 0.88
+    max_model_len: 4096
+    tensor_parallel_size: 2
