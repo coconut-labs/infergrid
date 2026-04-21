@@ -1,6 +1,6 @@
 [project]
 name = "infergrid"
-version = "0.1.1"
+version = "0.1.2"
 description = "Tenant-fair LLM inference orchestration on a single GPU. No Kubernetes."
 readme = "README.md"
 license = {text = "MIT"}
@@ -22,6 +22,7 @@ dependencies = [
     "prometheus-client~=0.19",
     "httpx~=0.25",
     "aiohttp~=3.9",
+    "rich>=13.0,<16.0",
 ]
 
 [project.urls]
