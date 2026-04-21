@@ -38,9 +38,15 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import aiohttp
+
+# Make profiling utils importable for the mixed-length prompt sampler (Gate 2.2).
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_PROFILING_SCRIPTS = _SCRIPT_DIR.parent.parent / "profiling" / "scripts"
+if str(_PROFILING_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_PROFILING_SCRIPTS))
 
 logging.basicConfig(
     level=logging.INFO,
@@ -61,6 +67,110 @@ PROMPTS: list[str] = [
 ]
 
 
+# Gate 2.2: mixed-prompt-length distribution
+# ---------------------------------------------------------------------------
+# Parse and sample callable types: the sampler returns (prompt, requested_len)
+# where requested_len is the sampled input length in tokens (0 for the
+# legacy hardcoded-list path, so Gate 2.1 CSVs keep the same numeric column).
+PromptSampler = Callable[[random.Random], tuple[str, int]]
+
+
+def parse_prompt_length_dist(spec: str) -> list[tuple[int, float]]:
+    """Parse ``--prompt-length-dist`` spec into ``[(length, prob), ...]``.
+
+    Format: ``"64:0.4,512:0.3,2048:0.2,8192:0.1"``.
+
+    Fails fast on:
+      - non-numeric length or probability,
+      - non-positive lengths,
+      - probabilities not summing to ~1.0 (tolerance 0.001).
+    """
+    if not spec or not spec.strip():
+        raise ValueError("--prompt-length-dist is empty")
+    pairs: list[tuple[int, float]] = []
+    for chunk in spec.split(","):
+        piece = chunk.strip()
+        if not piece:
+            continue
+        if ":" not in piece:
+            raise ValueError(
+                f"--prompt-length-dist: bad entry {piece!r}, expected 'LEN:PROB'"
+            )
+        len_str, prob_str = piece.split(":", 1)
+        try:
+            length = int(len_str.strip())
+        except ValueError as exc:
+            raise ValueError(
+                f"--prompt-length-dist: non-numeric length {len_str!r}"
+            ) from exc
+        try:
+            prob = float(prob_str.strip())
+        except ValueError as exc:
+            raise ValueError(
+                f"--prompt-length-dist: non-numeric probability {prob_str!r}"
+            ) from exc
+        if length <= 0:
+            raise ValueError(
+                f"--prompt-length-dist: non-positive length {length}"
+            )
+        if prob < 0:
+            raise ValueError(
+                f"--prompt-length-dist: negative probability {prob} for length {length}"
+            )
+        pairs.append((length, prob))
+    if not pairs:
+        raise ValueError("--prompt-length-dist parsed to empty list")
+    total = sum(p for _, p in pairs)
+    if abs(total - 1.0) > 0.001:
+        raise ValueError(
+            f"--prompt-length-dist: probabilities sum to {total:.4f}, expected 1.0 (tol 0.001)"
+        )
+    return pairs
+
+
+def make_mixed_length_sampler(
+    pairs: list[tuple[int, float]], seed: int
+) -> PromptSampler:
+    """Build a seed-stable sampler that returns (prompt, sampled_length_tokens).
+
+    Reuses ``RequestGenerator.generate_fixed_length`` (from
+    ``profiling/scripts/profiling_utils.py``) to build prompt text. We sample
+    the length here rather than calling ``generate_mixed_length`` so the
+    per-request sampled length can be recorded in the CSV.
+    """
+    from profiling_utils import RequestGenerator
+
+    gen = RequestGenerator(seed=seed)
+    lengths = [length for length, _ in pairs]
+    weights = [prob for _, prob in pairs]
+    # Local rng for sampling the length itself — keeps prompt determinism
+    # independent of the tenant arrival rng stream.
+    length_rng = random.Random(seed)
+
+    def _sample(_unused_arrival_rng: random.Random) -> tuple[str, int]:
+        input_len = length_rng.choices(lengths, weights=weights, k=1)[0]
+        # Output length argument is required by generate_fixed_length but we
+        # do not use it — callers pass --max-tokens on the wire (Poisson model
+        # only changes arrival, --prompt-length-dist only changes content).
+        batch = gen.generate_fixed_length(1, input_len, output_len=64)
+        return batch[0]["prompt"], input_len
+
+    return _sample
+
+
+def make_legacy_sampler() -> PromptSampler:
+    """Gate 2.1 default: uniformly sample from the hardcoded PROMPTS list.
+
+    Uses the tenant's arrival rng directly, matching the pre-Gate-2.2
+    behavior byte-for-byte so existing invocations stay reproducible.
+    """
+
+    def _sample(arrival_rng: random.Random) -> tuple[str, int]:
+        return arrival_rng.choice(PROMPTS), 0
+
+    return _sample
+
+
 @dataclass
 class RequestResult:
     tenant: str
@@ -69,12 +179,17 @@ class RequestResult:
     ttft_ms: float
     total_latency_ms: float
     tokens_out: int
+    # Gate 2.2: sampled input length in tokens when --prompt-length-dist is
+    # used; 0 for the legacy hardcoded-PROMPTS path. Default keeps the
+    # dataclass backward-compatible with existing callers.
+    prompt_tokens: int = 0
     error: str = ""
 
 
 async def send_one(
     session: aiohttp.ClientSession, base_url: str, tenant_id: str,
     request_id: int, model: str, prompt: str, max_tokens: int, timeout_s: float,
+    prompt_tokens: int = 0,
 ) -> RequestResult:
     url = f"{base_url}/v1/completions"
     payload = {"model": model, "prompt": prompt, "max_tokens": max_tokens, "stream": True}
@@ -90,7 +205,8 @@ async def send_one(
                 return RequestResult(
                     tenant=tenant_id, request_id=request_id, submit_time=submit,
                     ttft_ms=0.0, total_latency_ms=(time.time() - submit) * 1000,
-                    tokens_out=0, error=f"HTTP {resp.status}: {body[:180]}",
+                    tokens_out=0, prompt_tokens=prompt_tokens,
+                    error=f"HTTP {resp.status}: {body[:180]}",
                 )
             async for line in resp.content:
                 decoded = line.decode("utf-8").strip()
@@ -119,13 +235,13 @@ async def send_one(
         return RequestResult(
             tenant=tenant_id, request_id=request_id, submit_time=submit,
             ttft_ms=0.0, total_latency_ms=(time.time() - submit) * 1000,
-            tokens_out=0, error="timeout",
+            tokens_out=0, prompt_tokens=prompt_tokens, error="timeout",
         )
     except Exception as exc:
         return RequestResult(
             tenant=tenant_id, request_id=request_id, submit_time=submit,
             ttft_ms=0.0, total_latency_ms=(time.time() - submit) * 1000,
-            tokens_out=0, error=str(exc),
+            tokens_out=0, prompt_tokens=prompt_tokens, error=str(exc),
         )
     end = time.time()
     total_ms = (end - submit) * 1000
@@ -133,6 +249,7 @@ async def send_one(
     return RequestResult(
         tenant=tenant_id, request_id=request_id, submit_time=submit,
         ttft_ms=ttft_ms, total_latency_ms=total_ms, tokens_out=tokens_out,
+        prompt_tokens=prompt_tokens,
     )
 
 
@@ -141,18 +258,20 @@ async def tenant_poisson_loop(
     session: aiohttp.ClientSession, base_url: str, model: str,
     max_tokens: int, timeout_s: float, rng: random.Random,
     results: list[RequestResult],
+    prompt_sampler: PromptSampler | None = None,
 ) -> None:
     if rps <= 0:
         return
+    sampler = prompt_sampler if prompt_sampler is not None else make_legacy_sampler()
     end_time = time.time() + duration_s
     request_id = 0
     in_flight: list[asyncio.Task[RequestResult]] = []
     mean_interarrival = 1.0 / rps
     while time.time() < end_time:
-        prompt = rng.choice(PROMPTS)
+        prompt, sampled_tokens = sampler(rng)
         task = asyncio.create_task(send_one(
             session, base_url, tenant_id, request_id, model, prompt,
-            max_tokens, timeout_s,
+            max_tokens, timeout_s, prompt_tokens=sampled_tokens,
         ))
         in_flight.append(task)
         request_id += 1
@@ -197,6 +316,13 @@ async def main_async(args: argparse.Namespace) -> int:
     outdir = Path(args.output_dir)
     outdir.mkdir(parents=True, exist_ok=True)
 
+    # Parse the optional prompt-length distribution (Gate 2.2). If unset, we
+    # fall through to the hardcoded PROMPTS list and Gate 2.1 behavior.
+    length_pairs: list[tuple[int, float]] | None = None
+    if args.prompt_length_dist:
+        length_pairs = parse_prompt_length_dist(args.prompt_length_dist)
+        logger.info("Mixed-prompt-length distribution: %s", length_pairs)
+
     # 1 flooder + N quiet tenants: budget for total offered concurrency.
     # Each quiet at quiet_rps × 5s avg + flooder at flooder_rps × 5s avg.
     expected_inflight = (args.flooder_rps + args.num_quiet * args.quiet_rps) * 5
@@ -212,6 +338,14 @@ async def main_async(args: argparse.Namespace) -> int:
     flooder_results: list[RequestResult] = []
     quiet_results: list[list[RequestResult]] = [[] for _ in range(args.num_quiet)]
 
+    # Per-tenant prompt samplers. Disjoint seed offset (+100) keeps the prompt
+    # rng stream independent of the arrival rng, so "same --seed → same
+    # prompts" stays stable even if arrival-loop rng usage changes later.
+    def sampler_for(tenant_offset: int) -> PromptSampler | None:
+        if length_pairs is None:
+            return None  # legacy path; tenant_poisson_loop uses make_legacy_sampler
+        return make_mixed_length_sampler(length_pairs, seed=args.seed + 100 + tenant_offset)
+
     start_wall = time.time()
     async with aiohttp.ClientSession(connector=connector) as session:
         coros = [
@@ -219,6 +353,7 @@ async def main_async(args: argparse.Namespace) -> int:
                 "flooder", args.flooder_rps, args.duration_s,
                 session, args.url, args.model, args.max_tokens, args.timeout_s,
                 random.Random(args.seed), flooder_results,
+                prompt_sampler=sampler_for(0),
             ),
         ]
         for i in range(args.num_quiet):
@@ -227,6 +362,7 @@ async def main_async(args: argparse.Namespace) -> int:
                     f"quiet_{i}", args.quiet_rps, args.duration_s,
                     session, args.url, args.model, args.max_tokens, args.timeout_s,
                     random.Random(args.seed + 1 + i), quiet_results[i],
+                    prompt_sampler=sampler_for(1 + i),
                 )
             )
         await asyncio.gather(*coros)
@@ -247,6 +383,32 @@ async def main_async(args: argparse.Namespace) -> int:
     quiet_summaries = {f"quiet_{i}": summarize(quiet_results[i]) for i in range(args.num_quiet)}
     # Aggregate quiet percentiles across all quiet samples (the launch claim).
     all_quiet = [r for sub in quiet_results for r in sub]
+
+    # Gate 2.2: record the actual sampled length distribution per tenant so
+    # a reviewer can verify it matched the requested dist within sampling noise.
+    def length_histogram(results: list[RequestResult]) -> dict[str, int]:
+        hist: dict[str, int] = {}
+        for r in results:
+            if r.prompt_tokens > 0:
+                key = str(r.prompt_tokens)
+                hist[key] = hist.get(key, 0) + 1
+        return hist
+
+    prompt_length_block: dict[str, Any] | None = None
+    if length_pairs is not None:
+        prompt_length_block = {
+            "requested": [
+                {"length": length, "prob": prob} for length, prob in length_pairs
+            ],
+            "sampled_histograms": {
+                "flooder": length_histogram(flooder_results),
+                **{
+                    f"quiet_{i}": length_histogram(quiet_results[i])
+                    for i in range(args.num_quiet)
+                },
+            },
+        }
+
     summary = {
         "wall_time_s": round(wall_s, 2),
         "flooder": summarize(flooder_results),
@@ -256,8 +418,11 @@ async def main_async(args: argparse.Namespace) -> int:
             "flooder_rps": args.flooder_rps, "quiet_rps": args.quiet_rps,
             "num_quiet": args.num_quiet, "duration_s": args.duration_s,
             "max_tokens": args.max_tokens, "model": args.model, "seed": args.seed,
+            "prompt_length_dist": args.prompt_length_dist or "",
         },
     }
+    if prompt_length_block is not None:
+        summary["prompt_length"] = prompt_length_block
     summary_path = outdir / "summary.json"
     with open(summary_path, "w") as fh:
         json.dump(summary, fh, indent=2)
@@ -299,6 +464,16 @@ def main() -> int:
     p.add_argument("--timeout-s", type=float, default=60.0)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output-dir", required=True)
+    p.add_argument(
+        "--prompt-length-dist",
+        default="",
+        help=(
+            "Optional mixed input-length distribution (Gate 2.2), e.g. "
+            "'64:0.4,512:0.3,2048:0.2,8192:0.1'. Probabilities must sum to "
+            "~1.0 (tolerance 0.001). When unset, the hardcoded short-prompt "
+            "list (Gate 2.1 behavior) is used."
+        ),
+    )
     args = p.parse_args()
     return asyncio.run(main_async(args))
 
