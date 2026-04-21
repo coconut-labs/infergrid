@@ -151,18 +151,20 @@ abort_check
 phase_ts 2
 echo "--- Phase 2: python deps ---"
 python3 -m pip install --quiet --upgrade pip || fail "pip upgrade"
-python3 -m pip install --quiet 'vllm==0.8.5' || fail "vllm install"
+python3 -m pip install --quiet 'vllm==0.19.1' || fail "vllm install"
 python3 -m pip install --quiet -r requirements-gpu.txt || fail "requirements-gpu"
 python3 -m pip install --quiet -e . || fail "infergrid editable"
 python3 -m pip install --quiet 'huggingface_hub[cli]' || fail "hf cli"
 
-# ---- Dep verification (Gate-0 lessons 3+4) ----
+# ---- Dep verification ----
+# Gate-0 era pinned transformers<5 and numpy<2.3 for vLLM 0.8.5 compat.
+# Those assertions are removed along with the pin bump to 0.19.1.
+# We still print versions so the bench log captures the resolved tree.
 python3 -c "
 import transformers, numpy, vllm, torch
 print(f'vllm={vllm.__version__} transformers={transformers.__version__} numpy={numpy.__version__} torch={torch.__version__}')
-assert int(transformers.__version__.split('.')[0]) < 5, 'transformers must be < 5'
-assert tuple(int(x) for x in numpy.__version__.split('.')[:2]) < (2, 3), 'numpy must be < 2.3'
-print('PINS OK')" || fail "dep version check"
+assert vllm.__version__.startswith('0.19.'), f'expected vllm 0.19.x, got {vllm.__version__}'
+print('VERSIONS OK')" || fail "dep version check"
 
 # ---- Phase 3: HF login ----
 phase_ts 3

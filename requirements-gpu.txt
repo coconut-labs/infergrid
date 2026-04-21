@@ -3,19 +3,18 @@
 # Tested on: NVIDIA A100-SXM4-80GB, CUDA 12.4, Python 3.11
 
 # === Inference engine ===
-vllm==0.8.5
+# Bumped from 0.8.5 (Gate 0/1 era) to 0.19.1 — the version the Gate
+# 2-FAIRNESS v3 launch numbers are keyed to (see results/CORRECTIONS.md
+# C7). Prior 0.8.5-specific compat pins (transformers<5, numpy<2.3) are
+# lifted; let vLLM 0.19.1's transitive requirements drive the tree.
+vllm==0.19.1
 
 # === Core ML (let vllm pull these — DO NOT pin torch separately) ===
-# torch, torchvision, torchaudio are pulled by vllm as transitive deps
-# Pinning them separately causes conflicts
+# torch, torchvision, torchaudio are pulled by vllm as transitive deps.
+# Pinning them separately causes conflicts.
 
-# === vLLM 0.8.5 compat pins (Gate 0 regression fences) ===
-# transformers>=5.0 removes PreTrainedTokenizerBase.all_special_tokens_extended,
-#   which vllm 0.8.5's tokenizer_group relies on. Pin to the 4.51+ series.
-# numpy>=2.3 breaks numba (numba needs numpy<=2.2 at the time of vllm 0.8.5),
-#   and vllm 0.8.5's spec_decode.ngram_proposer imports numba on import.
-transformers>=4.51.1,<5.0
-numpy>=1.24,<2.3
+transformers>=4.51.1,<6.0
+numpy>=1.24
 
 # === Profiling dependencies ===
 aiohttp>=3.9,<4.0
