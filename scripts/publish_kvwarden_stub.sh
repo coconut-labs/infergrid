@@ -11,6 +11,17 @@
 
 set -euo pipefail
 
+# Prefer python3 on macOS (where `python` often doesn't exist); fall back to python.
+if command -v python3 >/dev/null 2>&1; then
+    PY=python3
+elif command -v python >/dev/null 2>&1; then
+    PY=python
+else
+    echo "[stub] ERROR: neither python3 nor python found on PATH" >&2
+    exit 1
+fi
+echo "[stub] Using $PY ($($PY --version 2>&1))"
+
 STUB_DIR="$(mktemp -d -t kvwarden-stub-XXXXXX)"
 trap 'rm -rf "$STUB_DIR"' EXIT
 
@@ -61,17 +72,13 @@ __version__ = "0.0.1"
 EOF
 
 echo "[stub] Installing build + twine"
-python -m pip install --quiet --upgrade build twine
+"$PY" -m pip install --quiet --upgrade build twine
 
 echo "[stub] Building sdist + wheel"
-python -m build
+"$PY" -m build
 
 echo "[stub] Uploading to PyPI"
-if [ -n "${TWINE_USERNAME:-}" ] && [ -n "${TWINE_PASSWORD:-}" ]; then
-    python -m twine upload dist/*
-else
-    # Interactive prompt — user enters __token__ and the token string.
-    python -m twine upload dist/*
-fi
+# Twine reads TWINE_USERNAME / TWINE_PASSWORD from env if set, otherwise prompts.
+"$PY" -m twine upload dist/*
 
 echo "[stub] Done. Verify at https://pypi.org/project/kvwarden/"
