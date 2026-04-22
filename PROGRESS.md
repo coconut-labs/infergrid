@@ -657,3 +657,45 @@ Post-hoc shadow review surfaced a material framing risk. The 4 gates hold agains
 - **Gate 2.1b (saturation) — $3**: bump flooder_rps to 128 on 1× H100; if FIFO still doesn't starve, bump tenant count to N=16. Decisive for the "works at 70B" hero claim.
 - **Gate 2.2b (max_model_len=8192) — $2**: rerun 2.2 with bigger context window so the 10% 8192-token bucket produces real generations instead of short-circuited empty responses.
 - **Gate 2.4b (saturated MoE) — $6**: rerun 2.4 at `flooder_rps=32+` or on a smaller TP config to force the engine past its knee; isolate whether MoE expert-capacity contention leaks past the admission layer.
+
+---
+
+## 2026-04-21 — Rebranded to KVWarden + Cloudflare migration
+
+**Trigger.** Name-collision audit surfaced `infergrid.net` (Samuel J. Bell, FAIR/Meta postdoc) as a senior commercial user with an identical wordmark in the same market. Under common-law trademark, he has the senior claim. Verdict: RENAME-URGENT before launch. Full audit at [docs/naming/infergrid_name_audit.md](docs/naming/infergrid_name_audit.md).
+
+**New name: `kvwarden`** (PascalCase `KVWarden`, upper `KVWARDEN`). Rationale: literal to the mechanism (KV cache + admission warden), clean across PyPI / npm / all relevant TLDs, zero trademark hits, no phonetic overlap with `infergrid`. Candidate pool + availability matrix in the audit doc.
+
+### What landed on main
+
+- [#96 merged](../../commit/f027b1c) — tree-wide rename, 119 files, 962 replacements (606 lowercase + 287 PascalCase + 69 UPPER), `src/infergrid/` → `src/kvwarden/`, pyproject name + entry points, all configs + tests + docs. Left intentionally untouched: `PROGRESS.md` (historical), `docs/launch/gate0_launch_post.md` (historical narrative), `docs/naming/infergrid_name_audit.md` (is the audit record), `results/**` (historical evidence).
+- [#97 merged](../../commit/7f79f2d) — CI fix. One import broke post-rename (`hero._delta_badge` had moved to `compare._delta_badge` via a cherry-pick). Pre-existing "9 HF failures" briefing was stale — real count was 1 failure + 4 ruff drift items. All green after the fix.
+- [LP repo #2 merged](https://github.com/coconut-labs/infergrid-root/commit/f9871a3) — landing page rename, 16 files, 82 replacements, favicon monogram updated `ig` → `kw`.
+
+### Cloudflare migration (same-day)
+
+- Worker `infergrid-root` now serves KVWarden-branded LP at `kvwarden.org` (Worker Custom Domain binding, AAAA → `100::`).
+- DNS + Resend records for `kvwarden.org`: AAAA (100::), MX send → feedback-smtp.us-east-1.amazonses.com, MX @ → inbound-smtp.us-east-1.amazonaws.com, TXT resend._domainkey (DKIM), TXT send (SPF amazonses), TXT _dmarc (v=DMARC1; p=none;). Resend domain-verification click pending in the dashboard.
+- Worker `infergrid-redirect` deployed and bound as Custom Domain on both `infergrid.org` and `www.infergrid.org` — issues HTTP 301 → `https://kvwarden.org${path}${query}`. Smoke-tested both bare domain and path-preserving cases.
+- Vercel CNAME on `infergrid.org` deleted (was routing the old LP via Vercel; now routed to the redirect Worker via CF).
+- Waitlist Worker `kvwarden-waitlist` deployed at `kvwarden-waitlist.shrey77-wrk.workers.dev`, secrets `RESEND_API_KEY` + `ADMIN_KEY` set via `wrangler secret put`. Smoke test POST `/api/subscribe` returned 200 and wrote to D1; test row cleaned up. 1 real subscriber preserved (`patelshrey77@gmail.com`, original from 2026-04-20).
+- D1 database name could NOT be renamed (CF API returns `success` but doesn't change it). Database stays as `infergrid-waitlist` by name; the binding uses UUID `d78fc056-d575-474e-9401-7db3e636a9dd` so the Worker talks to it correctly. Cosmetic-only mismatch.
+
+### Cosmetic cruft left for future cleanup (not breaking anything)
+
+- Worker names: `infergrid-root`, `infergrid-waitlist`, `infergrid-redirect` all still reference old brand. Renaming Workers requires delete+redeploy with brief downtime; deferring.
+- D1 name: `infergrid-waitlist` (API doesn't support rename).
+- GitHub repos: `coconut-labs/infergrid` + `coconut-labs/infergrid-root` still at old names. Waiting on explicit "go repo rename" from founder — GitHub auto-301s the old URLs indefinitely, no functional impact.
+- Old `infergrid-waitlist` Worker still running in parallel as safety net. Delete after 7 days of no regressions.
+
+### Token + credential hygiene
+
+- `~/.infergrid/creds.md` + `~/.infergrid/secrets.env` capture all pasted values (mode 600, outside any git tree).
+- Rotation plan at [docs/runbooks/token_rotation_20260421.md](docs/runbooks/token_rotation_20260421.md). Founder preference: deprecate all CF tokens post-migration; rotate Resend in place (Worker dependency); keep HF/RunPod/PyPI until next use.
+
+### Launch-plan status (unchanged by rename)
+
+- Gate ladder v0.2 findings, reproduce-hero CLI scaffold, telemetry PR, metrics fixes, SGLang parity, H100 operating envelope — all still valid under `kvwarden`.
+- LP hero numbers (1,585 ms → 61.5 ms under FIFO vs token-bucket on A100+vLLM-0.19.1) unchanged.
+- Launch content drafts at `docs/launch/` (Show HN, Twitter thread, FAQ, one-pager) were swept to the new brand by the rename agent.
+- Outstanding launch-side user homework: buy defensive `.com/.ai/.dev` domains (`.org` already live); reserve PyPI `kvwarden` with a 0.0.1 stub; reserve Twitter/X handles; send courtesy email to Samuel Bell (draft at `docs/naming/email_samuel_bell.md`).
