@@ -546,7 +546,9 @@ def _pypi_latest_version() -> tuple[str | None, str | None]:
         try:
             import certifi
 
-            ctx: ssl.SSLContext | None = ssl.create_default_context(cafile=certifi.where())
+            ctx: ssl.SSLContext | None = ssl.create_default_context(
+                cafile=certifi.where()
+            )
         except ImportError:
             ctx = None
         req = urllib.request.Request(
@@ -567,6 +569,7 @@ def _is_newer(a: str, b: str) -> bool:
     Uses a naive dotted-numeric compare — enough for semver-ish kvwarden
     versions and not worth pulling in ``packaging`` for.
     """
+
     def parts(v: str) -> list[int]:
         out: list[int] = []
         for piece in v.split("."):
@@ -657,7 +660,11 @@ def _cmd_doctor(_args: argparse.Namespace) -> None:
         )
     else:
         checks.append(
-            ("ok", "KVWarden", f"{__version__} installed · PyPI at {latest} (dev build)")
+            (
+                "ok",
+                "KVWarden",
+                f"{__version__} installed · PyPI at {latest} (dev build)",
+            )
         )
 
     # Engines
