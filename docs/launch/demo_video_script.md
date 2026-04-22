@@ -98,7 +98,7 @@ $ kvwarden bench reproduce-hero --help
 **Voiceover:** "kvwarden.org. Repo on github. `pip install kvwarden`."
 **Viewer sees:** a static end-card with the logo, `kvwarden.org`, and the pip command in large monospace.
 
-> **Note:** Variant B's hero-chart overlay is the same image the LP renders — export `landing_page/public/figures/gate2_fairness.svg` (or PNG) and use that as the static overlay. Don't screenshot the LP live (URL bar leaks, font rendering varies).
+> **Note:** Variant B's hero-chart overlay — use `docs/launch/figures/launch_hero_chart.png` from this repo as the static overlay. Don't screenshot the LP live (URL bar leaks, font rendering varies).
 
 ---
 
