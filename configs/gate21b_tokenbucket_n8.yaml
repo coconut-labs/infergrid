@@ -6,7 +6,9 @@
 #   rate_limit_rpm 600 -> 60 (task spec: 1 RPS sustained per tenant; flooder
 #                            sending 128 RPS gets ~99% rejected, so the
 #                            engine sees ~1 RPS from each of 8 tenants)
-#   rate_limit_burst 10 -> unset (defaults to rpm=60 -> 1 token bucket cap)
+#   rate_limit_burst 10 -> unset (defaults to rpm=60 = 60-token capacity,
+#                                refill 1 token/sec. Quiet at 1 RPS Poisson
+#                                stays well within capacity, no quiet 429s.)
 #
 # Cell B measures token-bucket p99 under saturation regime set by Cell A.
 
