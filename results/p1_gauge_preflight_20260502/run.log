@@ -1,0 +1,31 @@
+[21:33:11Z] pubkey loaded: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO7fjKDecmm5dt...
+[21:33:11Z] create_pod request: {"name": "p1-preflight-20260502", "imageName": "vllm/vllm-openai:v0.19.1", "gpuTypeIds": ["NVIDIA A100-SXM4-80GB"], "gpuCount": 1, "cloudType": "COMMUNITY", "interruptible": true, "containerDiskInGb": 80, "ports": ["8001/http", "22/tcp"], "dockerEntrypoint": ["sh", "-c"], "dockerStartCmd": ["vllm serve meta-llama/Llama-3.1-8B-Instruct --gpu-memory-utilization 0.40 --max-model-len 4096 --port 8001 --host 0.0.0.0"], "supportPublicIp": true}
+[21:33:12Z] create OK id=ky3xwz1i1k47d8 costPerHr=$0.79
+[21:33:12Z] pod ky3xwz1i1k47d8 created, hourly=$0.79
+[21:33:13Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:33:23Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:33:34Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:36:39Z] poll status=-1
+[21:36:50Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:37:08Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:37:19Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:37:29Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:37:39Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:37:50Z] poll desiredStatus=RUNNING publicIp= ssh_port=None
+[21:38:09Z] poll desiredStatus=RUNNING publicIp=216.249.100.66 ssh_port=20791
+[21:38:09Z] pod up: ip=216.249.100.66 ssh_port=20791 hourly=$0.79
+[21:38:09Z] elapsed=298s spend=$0.065
+[21:38:09Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:38:20Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:38:31Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:39:01Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:39:12Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:39:22Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:39:32Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:39:42Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:40:01Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:40:11Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:40:21Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:40:31Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:40:50Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused
+[21:41:00Z] ssh not ready yet: ssh: connect to host 216.249.100.66 port 20791: Connection refused

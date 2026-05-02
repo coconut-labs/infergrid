@@ -1,0 +1,32 @@
+2026-05-02 17:49:43,689 [INFO] __main__: Bench: 1 flooder @ 8.0 RPS + 7 quiet @ 1.0 RPS each, duration=60s, model=meta-llama/Llama-3.1-8B-Instruct
+2026-05-02 17:49:43,689 [INFO] __main__: TCPConnector limit=256
+2026-05-02 17:49:44,356 [INFO] __main__: Prefix-overlap enabled: fraction=0.70, shared_prefix_tokens=256
+2026-05-02 17:49:56,763 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:19,645 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:20,030 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:20,435 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:21,312 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:23,353 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:28,501 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:32,378 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:33,226 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:34,478 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:34,693 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:36,192 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:36,534 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:37,972 [INFO] __main__: tenant=flooder exiting bias state (<=100 reqs in 30.0s window)
+2026-05-02 17:50:38,616 [INFO] __main__: tenant=flooder entering bias state (>100 reqs in 30.0s window, multiplier=4.00x)
+2026-05-02 17:50:46,430 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_flooder.csv (246 rows)
+2026-05-02 17:50:46,431 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_0.csv (58 rows)
+2026-05-02 17:50:46,431 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_1.csv (51 rows)
+2026-05-02 17:50:46,432 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_2.csv (64 rows)
+2026-05-02 17:50:46,433 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_3.csv (69 rows)
+2026-05-02 17:50:46,434 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_4.csv (66 rows)
+2026-05-02 17:50:46,435 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_5.csv (64 rows)
+2026-05-02 17:50:46,435 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/tenant_quiet_6.csv (59 rows)
+2026-05-02 17:50:46,436 [INFO] __main__: Wrote results/p1_harness_smoke_20260502/summary.json
+2026-05-02 17:50:46,436 [INFO] __main__: ============================================================
+2026-05-02 17:50:46,436 [INFO] __main__: QUIET AGG (n=431) p50=79.9ms p99=3655.0ms max=3655.6ms
+2026-05-02 17:50:46,436 [INFO] __main__: FLOOD     (n=246) p50=83.9ms p99=3574.6ms max=3660.0ms
+2026-05-02 17:50:46,436 [INFO] __main__: Per-quiet p99 spread: min=3611.2 max=3655.6 ratio=1.01x
+2026-05-02 17:50:46,436 [INFO] __main__: ============================================================
